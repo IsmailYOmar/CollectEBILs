@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Add Category"
+        android:icon="@drawable/ic_add"
+        android:enabled="true"/>
+    <item android:title="Add to Wishlist"
+        android:icon="@drawable/ic_wishlist"
+        android:enabled="true"/>
+    <item android:title="Scan Barcode"
+    android:icon="@drawable/barcode_scanner"
+    android:enabled="true"/>
+    <item android:title="Search"
+    android:icon="@drawable/ic_search"
+    android:enabled="true"/>
+
+</menu>
