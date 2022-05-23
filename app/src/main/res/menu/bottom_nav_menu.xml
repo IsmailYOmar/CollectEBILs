@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="My Collections"
+        android:id="@+id/my_collections"
+        android:enabled="true"
+        android:icon="@drawable/my_collections_icon_selector"
+        />
+    <item android:title="Explore"
+        android:id="@+id/explore"
+        android:enabled="true"
+        android:icon="@drawable/explore_icon_selector"
+        />
+    <item android:title="Marketplace"
+        android:id="@+id/marketplace"
+        android:enabled="true"
+        android:icon="@drawable/marketplace_icon_selector"
+        />
+    <item android:title="My Dashboard"
+        android:id="@+id/dashboard"
+        android:enabled="true"
+        android:icon="@drawable/dashboard_icon_selector"
+        />
+</menu>
