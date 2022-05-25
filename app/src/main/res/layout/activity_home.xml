@@ -13,6 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/lb_my_collections">
+
+        </ImageView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="220dp"
             android:layout_height="60dp"
@@ -68,7 +75,7 @@
                 android:layout_marginBottom="0dp"
                 android:background="@color/yellow"
                 app:itemIconTint="@color/black"
-                app:itemRippleColor="@color/black_3"
+                app:itemRippleColor="@color/black_2"
                 app:itemTextColor="@color/black"
                 app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/bottom_nav_menu" />

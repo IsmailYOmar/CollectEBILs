@@ -9,10 +9,14 @@
     tools:context=".MainActivity">
 
 
-
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/logo_yellow_sqaure_foreground"/>
+        android:layout_width="238dp"
+        android:layout_height="259dp"
+        android:src="@mipmap/logo_yellow_sqaure_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
