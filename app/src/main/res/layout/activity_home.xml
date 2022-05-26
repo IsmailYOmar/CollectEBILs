@@ -11,7 +11,9 @@
     <RelativeLayout
         android:id="@+id/RelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="196dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -19,10 +21,18 @@
             android:src="@drawable/lb_my_collections">
 
         </ImageView>
-        <ImageView
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/highlighter_cross"
+            android:layout_height="600dp"
+            android:layout_alignBottom="@+id/navigation_card"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="155dp"
+            android:layout_marginBottom="106dp">
+
+
+        </ScrollView>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="220dp"
