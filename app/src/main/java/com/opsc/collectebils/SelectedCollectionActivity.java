@@ -24,7 +24,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
 
         addItem.setOnClickListener(view -> {
-            myDialog.setContentView(R.layout.add_item);
+            myDialog.setContentView(R.layout.add_item_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
             Button btnClose;

@@ -34,32 +34,34 @@
         </ScrollView>
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="140dp"
             android:layout_height="60dp"
             android:layout_above="@+id/navigation_card"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="45dp"
-            android:layout_marginBottom="45dp"
-            android:background="@color/yellow"
-            app:cardCornerRadius="20dp">
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="52dp"
+            android:background="@drawable/round_yellow_button">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/pop_up_navigation"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/yellow"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                app:itemIconSize="25dp"
+            <Button
+                android:id="@+id/add_Category"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/ic_add"
                 app:itemIconTint="@color/black"
-                app:itemRippleColor="@color/black_3"
-                app:itemTextColor="@color/black"
-                app:labelVisibilityMode="unlabeled"
-                app:menu="@menu/pop_up_nav_menu">
+                app:itemRippleColor="@color/black_3" />
 
-            </com.google.android.material.bottomnavigation.BottomNavigationView>
-        </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/search"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/ic_search" />
+        </LinearLayout>
 
 
         <androidx.cardview.widget.CardView

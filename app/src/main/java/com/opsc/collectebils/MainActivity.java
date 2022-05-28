@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                startActivity(new Intent(MainActivity.this, SelectedCollectionActivity.class));
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 finish();
             }
         }, secondsDelayed * 1500);
