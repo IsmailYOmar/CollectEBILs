@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.CollectEBILs"
     android:background="@color/white"
     tools:context=".LoginActivity">
 
@@ -33,9 +34,11 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="275dp"
+        android:layout_width="281dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
         android:drawableLeft="@drawable/ic_envelope"
         android:drawablePadding="10dp"
         android:hint="EMAIL"
@@ -47,23 +50,22 @@
 
     <EditText
         android:id="@+id/editText2"
-        android:layout_width="0dp"
+        android:layout_width="281dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/round_edit_text"
         android:drawableLeft="@drawable/ic_lock"
         android:drawablePadding="10dp"
         android:hint="PASSWORD"
         android:padding="10dp"
-        android:background="@drawable/round_edit_text"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintVertical_bias="0.083" />
 
     <Button
 
@@ -86,8 +88,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginStart="62dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginBottom="32dp"
         android:text="Don't have an account?"
         android:textColor="@color/black"
@@ -101,7 +103,7 @@
         android:id="@+id/button2"
         android:layout_width="72dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="95dp"
+        android:layout_marginEnd="56dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/round_button_2"
         android:text="Sign Up"
