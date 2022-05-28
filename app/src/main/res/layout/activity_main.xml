@@ -10,9 +10,9 @@
 
 
     <ImageView
-        android:layout_width="238dp"
-        android:layout_height="259dp"
-        android:src="@mipmap/logo_yellow_sqaure_foreground"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@mipmap/logo_yellow_square_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

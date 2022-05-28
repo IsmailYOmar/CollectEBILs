@@ -14,12 +14,15 @@
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/ic_my_collections_selected.xml" value="0.125" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/ic_user.xml" value="0.242" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/ic_user_selected.xml" value="0.242" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/logo_yellow_sqaure_background.xml" value="0.242" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/marketplace_icon_selector.xml" value="0.125" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/my_collections_.xml" value="0.125" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/my_collections_icon_selector.xml" value="0.242" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/round_button_1.xml" value="0.196" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/round_button_2.xml" value="0.1935" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/round_buttons.xml" value="0.1935" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/round_edit_text.xml" value="0.1935" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/round_yellow_button.xml" value="0.196" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/view_password.xml" value="0.242" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1375" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout-w936dp/activity_login.xml" value="0.12083333333333333" />
@@ -28,9 +31,14 @@
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_main.xml" value="0.3532608695652174" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_register.xml" value="0.6738461538461539" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_selected_colllection.xml" value="0.4785615491009682" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_splash_screen.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/add_item.xml" value="0.5" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/fragment_first.xml" value="0.33" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/fragment_second.xml" value="0.15220179563916203" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3625" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/pop_up_nav_menu.xml" value="0.2359375" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/pop_up_nav_menu_2.xml" value="0.2975630611372381" />
       </map>
     </option>
   </component>

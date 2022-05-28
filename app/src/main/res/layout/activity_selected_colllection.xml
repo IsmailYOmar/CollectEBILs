@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:theme="@style/Theme.CollectEBILs"
-    tools:context=".HomeActivity">
-
+    tools:context=".SelectedCollectionActivity">
     <RelativeLayout
         android:id="@+id/RelativeLayout"
         android:layout_width="match_parent"
@@ -17,49 +15,68 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/lb_my_collections">
-
+            android:layout_height="350dp"
+            android:layout_marginTop="-70dp"
+            android:src="@drawable/speech_bubble">
         </ImageView>
 
-        <ScrollView
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_alignBottom="@+id/navigation_card"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="155dp"
-            android:layout_marginBottom="106dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:gravity="center"
+            android:text="Name"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="60dp"
+            android:textStyle="bold" />
 
-
-        </ScrollView>
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="240dp"
             android:layout_height="60dp"
             android:layout_above="@+id/navigation_card"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="45dp"
-            android:layout_marginBottom="45dp"
-            android:background="@color/yellow"
-            app:cardCornerRadius="20dp">
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="52dp"
+            android:background="@drawable/round_yellow_button">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/pop_up_navigation"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/yellow"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                app:itemIconSize="25dp"
+            <Button
+                android:id="@+id/add_Item"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/ic_add"
                 app:itemIconTint="@color/black"
-                app:itemRippleColor="@color/black_3"
-                app:itemTextColor="@color/black"
-                app:labelVisibilityMode="unlabeled"
-                app:menu="@menu/pop_up_nav_menu">
+                app:itemRippleColor="@color/black_3" />
 
-            </com.google.android.material.bottomnavigation.BottomNavigationView>
-        </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/add_to_wishlist"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/ic_wishlist"
+                android:enabled="true" />
+
+            <Button
+                android:id="@+id/barcode_scanner"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/barcode_scanner" />
+
+            <Button
+                android:id="@+id/search"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/ic_search" />
+        </LinearLayout>
+
 
 
         <androidx.cardview.widget.CardView
@@ -96,7 +113,4 @@
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
