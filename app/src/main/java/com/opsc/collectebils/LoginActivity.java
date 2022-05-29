@@ -11,11 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText email_address, password;
     private Button login_button, redirect_button;
-    /*private FirebaseAuth mAuth;*/
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         email_address = (EditText) findViewById(R.id.email_address);
         password = (EditText) findViewById(R.id.password);
 
-        /*mAuth = FirebaseAuth.getInstance();*/
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -42,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.login_button:
-                /*userLogin();*/
+                userLogin();
                 startActivity(new Intent(LoginActivity.this, MyCollectionsActivity.class));
                 finish();
                 break;
@@ -77,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        /*mAuth.signInWithEmailAndPassword(emailAddress, passwordEnter).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(emailAddress, passwordEnter).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -90,6 +95,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
 
             }
-        });*/
+        });
     }
 }

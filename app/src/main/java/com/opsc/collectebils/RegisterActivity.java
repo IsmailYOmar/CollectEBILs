@@ -11,11 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
-    /*private FirebaseAuth mAuth;*/
+    private FirebaseAuth mAuth;
     private EditText full_name, email_address, password, confirm_password;
     private Button register_button, redirect_button;
 
@@ -24,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-       /* mAuth = FirebaseAuth.getInstance();*/
+        mAuth = FirebaseAuth.getInstance();
 
         register_button = (Button) findViewById(R.id.register_button);
         register_button.setOnClickListener(this);
@@ -46,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.redirect_button:
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 break;
         }
     }
@@ -99,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        /*mAuth.createUserWithEmailAndPassword(emailAddress, passwordEnter)
+        mAuth.createUserWithEmailAndPassword(emailAddress, passwordEnter)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -127,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         }
 
                     }
-                });*/
+                });
     }
 }
 
