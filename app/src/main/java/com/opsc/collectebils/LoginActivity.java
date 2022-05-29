@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login_button:
                 /*userLogin();*/
                 startActivity(new Intent(LoginActivity.this, MyCollectionsActivity.class));
+                finish();
                 break;
         }
     }
