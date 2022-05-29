@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="330dp"
-    android:layout_height="350dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/round_edit_text">
 
@@ -33,6 +33,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:text="Enter the name of the collection you want to create."
+        android:inputType="number"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
@@ -44,23 +45,37 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="52dp"
         android:background="@drawable/round_edit_text"
-        android:hint="Insert Category Name"
+        android:hint="Category Name"
         android:paddingStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <EditText
+        android:id="@+id/editText12"
+        android:layout_width="280dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/round_edit_text"
+        android:hint="How many items do you want to own in this category"
+        android:paddingStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText11" />
 
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/round_button_1"
+        android:padding="10dp"
         android:text="Add Category"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:padding="10dp"
-        android:background="@drawable/round_button_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

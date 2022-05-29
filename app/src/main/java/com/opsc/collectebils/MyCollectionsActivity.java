@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -24,7 +22,7 @@ public class MyCollectionsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_my_collections);
 
         myDialog = new Dialog(this);
         addCategory = findViewById(R.id.add_Category);
@@ -41,6 +39,7 @@ public class MyCollectionsActivity extends AppCompatActivity{
                     myDialog.dismiss();
                 }
             });
+            /* send */
         });
 
         // Initialize and assign variable

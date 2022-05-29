@@ -74,7 +74,8 @@
             android:layout_marginStart="42dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/round_edit_text"
-            android:hint="Year"
+            android:hint="Manufactured Year"
+            android:inputType="date"
             android:paddingStart="15dp" />
 
         <EditText
@@ -85,6 +86,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/round_edit_text"
             android:hint="Purchase Date"
+            android:inputType="date"
             android:paddingStart="15dp" />
 
         <EditText
@@ -95,6 +97,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/round_edit_text"
             android:hint="Purchase Price"
+            android:inputType="numberDecimal"
             android:paddingStart="15dp" />
 
         <Button
