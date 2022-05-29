@@ -57,6 +57,7 @@ public class MarketplaceActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(2).setChecked(true);
     }
 }

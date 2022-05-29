@@ -82,6 +82,7 @@ public class MyCollectionsActivity extends AppCompatActivity{
     @Override
     public void onResume() {
         super.onResume();
+        overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
     }
 }

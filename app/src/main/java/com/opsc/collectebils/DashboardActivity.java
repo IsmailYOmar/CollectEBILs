@@ -58,6 +58,7 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(3).setChecked(true);
     }
 }
