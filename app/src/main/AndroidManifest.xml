@@ -11,22 +11,27 @@
         android:theme="@style/Theme.CollectEBILs">
         <activity
             android:name=".ExploreActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.CollectEBILs"/>
         <activity
             android:name=".MarketplaceActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.CollectEBILs"/>
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.CollectEBILs"/>
         <activity
             android:name=".DashboardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Dashboard"/>
         <activity
             android:name=".MyCollectionsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.CollectEBILs"/>
         <activity
             android:name=".SelectedCollectionActivity"
             android:exported="false"
