@@ -20,6 +20,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     Dialog myDialog;
     Button addItem;
     Button addToWishlist;
+    Button scanBarcode;
     public BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         addItem = findViewById(R.id.add_Item);
         addToWishlist= findViewById(R.id.add_to_wishlist);
-
+        scanBarcode= findViewById(R.id.barcode_scanner);
 
         addItem.setOnClickListener(view -> {
             myDialog.setContentView(R.layout.add_item_window);
@@ -44,8 +45,9 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                 }
             });
         });
+
         addToWishlist.setOnClickListener(view -> {
-            myDialog.setContentView(R.layout.create_a_category_window);
+            myDialog.setContentView(R.layout.add_to_wishlist_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
             Button btnClose;
@@ -57,6 +59,22 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                 }
             });
         });
+
+        scanBarcode.setOnClickListener(view -> {
+            myDialog.setContentView(R.layout.scan_barcode_window);
+            myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            myDialog.show();
+            Button btnClose;
+            btnClose = (Button) myDialog.findViewById(R.id.close_btn);
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    myDialog.dismiss();
+                }
+            });
+        });
+
+
         // Initialize and assign variable
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -79,6 +97,9 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.marketplace:
+                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.dashboard:
                         bottomNavigationView.getMenu().getItem(3).setChecked(true);

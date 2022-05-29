@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginTop="-70dp"
-            android:src="@drawable/speech_bubble">
-        </ImageView>
+            android:src="@drawable/speech_bubble"></ImageView>
 
         <TextView
             android:layout_width="match_parent"
@@ -37,7 +36,7 @@
             android:layout_above="@+id/navigation_card"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="35dp"
-            android:layout_marginBottom="52dp"
+            android:layout_marginBottom="45dp"
             android:background="@drawable/round_yellow_button">
 
             <Button
@@ -87,7 +86,6 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="50dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="-11dp"
             android:background="@color/yellow"

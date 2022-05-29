@@ -37,10 +37,13 @@ public class DashboardActivity extends AppCompatActivity {
                         return true;
                     case R.id.explore:
                         bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                        startActivity(new Intent(getApplicationContext(), SelectedCollectionActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.marketplace:
+                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.dashboard:
                         bottomNavigationView.getMenu().getItem(3).setChecked(true);

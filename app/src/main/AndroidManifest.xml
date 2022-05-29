@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CollectEBILs">
         <activity
+            android:name=".ExploreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MarketplaceActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
@@ -24,7 +30,7 @@
         <activity
             android:name=".SelectedCollectionActivity"
             android:exported="false"
-            android:theme="@style/Theme.CollectEBILs"/>
+            android:theme="@style/Theme.CollectEBILs" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
