@@ -8,9 +8,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -18,6 +23,7 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MyCollectionsActivity extends AppCompatActivity{
     Dialog myDialog;
     Button addCategory;
+
     public  BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +34,42 @@ public class MyCollectionsActivity extends AppCompatActivity{
         addCategory = findViewById(R.id.add_Category);
 
         addCategory.setOnClickListener(view -> {
+
             myDialog.setContentView(R.layout.create_a_category_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
+
+            EditText catNameEditText;
+            EditText goalEditText;
             Button btnClose;
+            Button addCatBtn;
+
             btnClose = (Button) myDialog.findViewById(R.id.close_btn);
+            addCatBtn = (Button) myDialog.findViewById(R.id.addCatBtn);
+            catNameEditText = (EditText) myDialog.findViewById(R.id.catNameEditText);
+            goalEditText = (EditText) myDialog.findViewById(R.id.goalEditText);
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     myDialog.dismiss();
                 }
             });
-            /* send */
+
+            addCatBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String catName = catNameEditText.getText().toString();
+                    String goal = goalEditText.getText().toString();
+                    Toast.makeText(getBaseContext(), catName + " category added" , Toast.LENGTH_SHORT ).show();
+                    myDialog.dismiss();
+                }
+            });
+
         });
+
+
+
+
 
         // Initialize and assign variable
         bottomNavigationView = findViewById(R.id.bottom_navigation);
