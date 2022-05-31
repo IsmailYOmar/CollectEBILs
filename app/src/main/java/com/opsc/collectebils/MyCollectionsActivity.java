@@ -29,7 +29,7 @@ import java.util.List;
 public class MyCollectionsActivity extends AppCompatActivity {
     Dialog myDialog;
     Button addCategory;
-
+    ListView my_collections_list;
     public BottomNavigationView bottomNavigationView;
 
     @Override
@@ -74,11 +74,12 @@ public class MyCollectionsActivity extends AppCompatActivity {
 
         });
 
-        ListView my_collections_list = findViewById(R.id.my_collections_list);
+        my_collections_list = findViewById(R.id.my_collections_list);
 
         List<String> list = new ArrayList<>();
 
         list.add("Action figures");
+        list.add("Comics");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
         my_collections_list.setAdapter(arrayAdapter);
@@ -90,7 +91,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
                //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
 
                Intent i = new Intent(MyCollectionsActivity.this, SelectedCollectionActivity.class);
-               i.putExtra("collectionName",position);
+               i.putExtra("collectionName", list.get(position));
                startActivity(i);
            }
        });
