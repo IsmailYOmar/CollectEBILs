@@ -7,9 +7,29 @@
     android:background="@drawable/dashboard__background"
     tools:context=".DashboardActivity">
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/yellow_button" />
+
+    <TextView
+        android:id="@+id/full_name_view"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="50dp"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="584dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="200dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -20,49 +40,143 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+            <Button
+                android:id="@+id/title1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/yellow_button" />
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_edit_text"
+                android:padding="2dp"
+                android:paddingStart="15dp"
+                android:text="User Details"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/full_name_view"
+                android:id="@+id/layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_edit_text"
+                android:padding="5dp"
+                android:paddingStart="15dp"
+                android:text="Collection Layout"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <Spinner
+                android:id="@+id/collectionLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="-60dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_edit_text"
+                android:padding="5dp"
+                android:paddingStart="15dp"
+                android:spinnerMode="dropdown"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/cloudSync"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_edit_text"
+                android:padding="5dp"
+                android:paddingStart="15dp"
+                android:text="Enable Cloud Sync"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="165dp"
-                android:layout_marginTop="-100dp"
-                android:text="Username"
-                android:textColor="@color/white"
-                android:textSize="30sp" />
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="15dp"
+                android:checked="true" />
 
             <TextView
-                android:id="@+id/title1"
-                android:layout_width="300dp"
-                android:layout_height="30dp"
-                android:text="Email Address:"
+                android:id="@+id/twoFactor"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_edit_text"
+                android:padding="5dp"
+                android:paddingStart="15dp"
+                android:text="Enable Two-Factor Authentication"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="17sp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="100dp"/>
+                android:textSize="18sp"
+                android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/email_address_view"
-                android:layout_width="300dp"
-                android:layout_height="30dp"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                android:layout_marginLeft="20dp"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="15dp"
+                android:checked="true" />
+
+            <Button
+                android:id="@+id/import_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_edit_text"
+                android:padding="2dp"
+                android:paddingStart="15dp"
+                android:text="Import"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/export_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_edit_text"
+                android:padding="2dp"
+                android:paddingStart="15dp"
+                android:text="Export"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/logout_button"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/round_edit_text"
                 android:padding="2dp"

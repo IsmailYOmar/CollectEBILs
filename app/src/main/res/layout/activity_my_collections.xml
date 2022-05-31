@@ -37,6 +37,7 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:smoothScrollbar="true"
+            android:fastScrollEnabled="true"
             tools:listitem="@layout/list_item" />
 
         <LinearLayout

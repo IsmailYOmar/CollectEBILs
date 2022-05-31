@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,6 +37,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        Spinner dropdown = findViewById(R.id.collectionLayout);
+        String[] items = new String[]{"List View", "Thumbnail View"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+
         logout_button = (Button) findViewById(R.id.logout_button);
         logout_button.setOnClickListener(this);
 
@@ -43,7 +50,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         userId = user.getUid();
 
         final TextView full_name_view = (TextView) findViewById(R.id.full_name_view);
-        final TextView email_address_view = (TextView) findViewById(R.id.email_address_view);
+        //final TextView email_address_view = (TextView) findViewById(R.id.email_address_view);
 
         ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -54,8 +61,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     String fullName = userProfile.fullName;
                     String emailAddress = userProfile.emailAddress;
 
-                    full_name_view.setText(userId);
-                    email_address_view.setText(emailAddress);
+                    full_name_view.setText(fullName);
+                    //email_address_view.setText(emailAddress);
                 }
             }
 

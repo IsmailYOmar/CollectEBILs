@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.opsc.collectebils.databinding.ActivitySelectedColllectionBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,8 @@ public class MyCollectionsActivity extends AppCompatActivity {
     Button addCategory;
     ListView my_collections_list;
     public BottomNavigationView bottomNavigationView;
+    ArrayAdapter arrayAdapter;
+    List<String> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,11 @@ public class MyCollectionsActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String catName = catNameEditText.getText().toString();
                     String goal = goalEditText.getText().toString();
+                    list.add(catName);
+
+                    arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+                    my_collections_list.setAdapter(arrayAdapter);
+
                     Toast.makeText(getBaseContext(), catName + " category added", Toast.LENGTH_SHORT).show();
                     myDialog.dismiss();
                 }
@@ -76,12 +82,11 @@ public class MyCollectionsActivity extends AppCompatActivity {
 
         my_collections_list = findViewById(R.id.my_collections_list);
 
-        List<String> list = new ArrayList<>();
 
         list.add("Action figures");
         list.add("Comics");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+        arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
         my_collections_list.setAdapter(arrayAdapter);
 
         my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,7 +120,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
                         return true;
                     case R.id.explore:
                         bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                        startActivity(new Intent(getApplicationContext(), SelectedCollectionActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.marketplace:

@@ -17,6 +17,7 @@
     <style name="Theme.CollectEBILs.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:colorControlActivated">@color/yellow</item>
     </style>
     <style name="Theme.CollectEBILs.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.CollectEBILs.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

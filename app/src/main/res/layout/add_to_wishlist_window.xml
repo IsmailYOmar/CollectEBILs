@@ -26,10 +26,11 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="285dp"
-            android:layout_height="82dp"
+            android:layout_width="330dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="-30dp"
             android:layout_marginTop="-45dp"
-            android:src="@drawable/lb_add_an_item" />
+            android:src="@drawable/lb_add_an_item_wishlist" />
 
         <TextView
             android:id="@+id/textView4"

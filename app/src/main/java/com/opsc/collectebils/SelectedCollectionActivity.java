@@ -122,7 +122,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                         return true;
                     case R.id.explore:
                         bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                        startActivity(new Intent(getApplicationContext(), SelectedCollectionActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.marketplace:
