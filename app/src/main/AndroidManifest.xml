@@ -10,30 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CollectEBILs">
         <activity
-            android:name=".LegoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CurrencyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ComicBooksActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CoinsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BooksActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BoardGamesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ArtActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ActionFiguresActivity"
-            android:exported="false" />
-        <activity
             android:name=".ExploreActivity"
             android:exported="false"
             android:theme="@style/Theme.CollectEBILs" />
