@@ -1,6 +1,7 @@
 package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -19,6 +20,13 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +38,14 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     Button scanBarcode;
     TextView name;
     String catName;
+
+    private FirebaseUser user;
+    private String userId;
+    private DatabaseReference ref;
+
+    ListView my_collections_list;
+    ArrayAdapter arrayAdapter;
+    ArrayList<String> list = new ArrayList<>();
 
     public BottomNavigationView bottomNavigationView;
 
@@ -75,21 +91,60 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             });
         });
 
-        /*ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,list);
+        my_collections_list = findViewById(R.id.my_collections_list);
+        ref= FirebaseDatabase.getInstance().getReference("Categories");
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        userId = user.getUid();
+
+        arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
         my_collections_list.setAdapter(arrayAdapter);
 
-        my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            private Object ActionFiguresActivity;
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String value= snapshot.getValue(Category.class).toString();
+                list.add(value);
+                arrayAdapter.notifyDataSetChanged();
+            }
 
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
-                    // startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) s.class));
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
-                }
-            });
-        */
+
+        my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
+
+                Intent i = new Intent(SelectedCollectionActivity.this, ExploreActivity.class);
+                i.putExtra("collectionName", list.get(position));
+                startActivity(i);
+            }
+        });
+
+
 
         scanBarcode.setOnClickListener(view -> {
             myDialog.setContentView(R.layout.scan_barcode_window);

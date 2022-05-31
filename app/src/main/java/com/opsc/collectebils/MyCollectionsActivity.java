@@ -137,8 +137,6 @@ public class MyCollectionsActivity extends AppCompatActivity {
         assert user != null;
         userId = user.getUid();
 
-        //list.add("Action figures");
-        //list.add("Comics");
 
         arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
         my_collections_list.setAdapter(arrayAdapter);
