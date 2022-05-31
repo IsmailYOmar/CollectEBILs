@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,12 +21,17 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.opsc.collectebils.databinding.ActivitySelectedColllectionBinding;
 
-public class MyCollectionsActivity extends AppCompatActivity{
+import java.util.ArrayList;
+import java.util.List;
+
+public class MyCollectionsActivity extends AppCompatActivity {
     Dialog myDialog;
     Button addCategory;
 
-    public  BottomNavigationView bottomNavigationView;
+    public BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,57 +67,79 @@ public class MyCollectionsActivity extends AppCompatActivity{
                 public void onClick(View view) {
                     String catName = catNameEditText.getText().toString();
                     String goal = goalEditText.getText().toString();
-                    Toast.makeText(getBaseContext(), catName + " category added" , Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getBaseContext(), catName + " category added", Toast.LENGTH_SHORT).show();
                     myDialog.dismiss();
                 }
             });
 
         });
 
+        ListView my_collections_list = findViewById(R.id.my_collections_list);
 
+        List<String> list = new ArrayList<>();
 
+        list.add("Action figures");
 
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+        my_collections_list.setAdapter(arrayAdapter);
 
-        // Initialize and assign variable
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            private Object ActionFiguresActivity;
 
-        // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.my_collections);
-
-        // Perform item selected listener
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.my_collections:
-                        bottomNavigationView.getMenu().getItem(0).setChecked(true);
-                        startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.explore:
-                        bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                        startActivity(new Intent(getApplicationContext(), SelectedCollectionActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.marketplace:
-                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
-                        startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.dashboard:
-                        bottomNavigationView.getMenu().getItem(3).setChecked(true);
-                        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l); */
+
+                Intent i = new Intent(MyCollectionsActivity.this, SelectedCollectionActivity.class);
+                startActivity(i);
+
+
+                // Initialize and assign variable
+                bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+                // Set Home selected
+                bottomNavigationView.setSelectedItemId(R.id.my_collections);
+
+                // Perform item selected listener
+                bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.my_collections:
+                                bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                                startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
+                                overridePendingTransition(0, 0);
+                                return true;
+                            case R.id.explore:
+                                bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                                startActivity(new Intent(getApplicationContext(), SelectedCollectionActivity.class));
+                                overridePendingTransition(0, 0);
+                                return true;
+                            case R.id.marketplace:
+                                bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                                startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
+                                overridePendingTransition(0, 0);
+                                return true;
+                            case R.id.dashboard:
+                                bottomNavigationView.getMenu().getItem(3).setChecked(true);
+                                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                                overridePendingTransition(0, 0);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
             }
+                /*
+                @Override
+                public void onResume () {
+                    super.onResume();
+                    overridePendingTransition(0, 0);
+                    bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                    */
         });
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        overridePendingTransition(0, 0);
-        bottomNavigationView.getMenu().getItem(0).setChecked(true);
-    }
 }
+
+
+

@@ -13,7 +13,7 @@
         tools:layout_editor_absoluteX="196dp"
         tools:layout_editor_absoluteY="16dp">
 
-        <!-- <ImageView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginTop="-70dp"
@@ -24,12 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
             android:gravity="center"
-            android:text="Name"
+            android:text="@string/Selected_Category"
+
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="60dp"
             android:textStyle="bold" />
-            -->
 
 
         <ListView
