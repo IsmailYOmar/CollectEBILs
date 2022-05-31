@@ -11,10 +11,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SelectedCollectionActivity extends AppCompatActivity {
     Dialog myDialog;
@@ -60,7 +66,57 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             });
         });
 
-        scanBarcode.setOnClickListener(view -> {
+        ListView my_collections_list = findViewById(R.id.my_collections_list);
+
+        List<String> list = new ArrayList<>();
+
+        list.add("Action figures");
+        list.add("Art");
+        list.add("Board games");
+        list.add("Books");
+        list.add("Coins");
+        list.add("Comic Books");
+        list.add("Currency");
+        list.add("Lego");
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,list);
+        my_collections_list.setAdapter(arrayAdapter);
+
+        my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            private Object ActionFiguresActivity;
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == 0){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) ActionFiguresActivity.class));
+
+                }else if (i == 1){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) ArtActivity.class));
+
+                }else if (i == 2){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) BoardGamesActivity.class));
+
+                }else if (i == 3){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) BooksActivity.class));
+
+                }else if (i == 4){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) CoinsActivity.class));
+
+                }else if (i == 5){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) ComicBooksActivity.class));
+
+                }else if (i == 6){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) CurrencyActivity.class));
+
+                }else if (i == 7){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) LegoActivity.class));
+
+
+
+
+        };
+
+        /*scanBarcode.setOnClickListener(view -> {
             myDialog.setContentView(R.layout.scan_barcode_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
@@ -72,7 +128,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                     myDialog.dismiss();
                 }
             });
-        });
+        }); */
 
 
         // Initialize and assign variable
@@ -111,10 +167,14 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         overridePendingTransition(0, 0);
-        bottomNavigationView.getMenu().getItem(1).setChecked(true);
-    }
+        bottomNavigationView.getMenu().getItem(1).setChecked(true); */
+
+    });
+
+
+    };
 }
