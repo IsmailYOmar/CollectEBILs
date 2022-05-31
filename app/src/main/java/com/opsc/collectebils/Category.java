@@ -12,4 +12,7 @@ public class Category {
         this.categoryName = categoryName;
         this.goalNumber = goalNumber;
     }
+    public String toString(){
+        return this. categoryName;
+    }
 }

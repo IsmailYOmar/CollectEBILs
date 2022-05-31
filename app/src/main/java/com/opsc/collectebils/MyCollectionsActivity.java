@@ -39,14 +39,16 @@ import java.util.List;
 public class MyCollectionsActivity extends AppCompatActivity {
     Dialog myDialog;
     Button addCategory;
-    ListView my_collections_list;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
+    private DatabaseReference databaseRef;
     private String categoryId;
     public BottomNavigationView bottomNavigationView;
+
+    ListView my_collections_list;
     ArrayAdapter arrayAdapter;
-    List<String> list = new ArrayList<>();
+    ArrayList<String> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +71,14 @@ public class MyCollectionsActivity extends AppCompatActivity {
 
             btnClose = (Button) myDialog.findViewById(R.id.close_btn);
             addCatBtn = (Button) myDialog.findViewById(R.id.addCatBtn);
+
             user = FirebaseAuth.getInstance().getCurrentUser();
             assert user != null;
             userId = user.getUid();
-            ref = FirebaseDatabase.getInstance().getReference("Categories");
+            ref = FirebaseDatabase.getInstance().getReference();
+
+
+
             catNameEditText = (EditText) myDialog.findViewById(R.id.catNameEditText);
             goalEditText = (EditText) myDialog.findViewById(R.id.goalEditText);
             btnClose.setOnClickListener(new View.OnClickListener() {
@@ -125,13 +131,44 @@ public class MyCollectionsActivity extends AppCompatActivity {
         });
 
         my_collections_list = findViewById(R.id.my_collections_list);
+        databaseRef=FirebaseDatabase.getInstance().getReference("Categories");
 
-
-        list.add("Action figures");
-        list.add("Comics");
+        //list.add("Action figures");
+        //list.add("Comics");
 
         arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
         my_collections_list.setAdapter(arrayAdapter);
+
+        databaseRef.orderByChild("userID").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String value= snapshot.getValue(Category.class).toString();
+                list.add(value);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
