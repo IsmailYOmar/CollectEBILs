@@ -7,7 +7,7 @@
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:layout_gravity="center"
-    android:background="@drawable/round_edit_text">
+    android:background="@drawable/popup_background">
 
 
     <ImageView
