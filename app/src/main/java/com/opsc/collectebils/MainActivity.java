@@ -22,23 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*ListView my_collections_list = findViewById(R.id.my_collections_list);
-
-        List<String> list = new ArrayList<>();
-
-        list.add("Action figures");
-        list.add("Art");
-        list.add("Board games");
-        list.add("Books");
-        list.add("Coins");
-        list.add("Comic Books");
-        list.add("Currency");
-        list.add("Lego");
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,list);
-        my_collections_list.setAdapter(arrayAdapter);
-*/
-
         //Splash Screen duration
         int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {

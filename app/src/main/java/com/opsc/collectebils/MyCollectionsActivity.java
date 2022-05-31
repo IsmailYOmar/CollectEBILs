@@ -84,62 +84,60 @@ public class MyCollectionsActivity extends AppCompatActivity {
         my_collections_list.setAdapter(arrayAdapter);
 
         my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            private Object ActionFiguresActivity;
 
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
+
+               Intent i = new Intent(MyCollectionsActivity.this, SelectedCollectionActivity.class);
+               i.putExtra("collectionName",position);
+               startActivity(i);
+           }
+       });
+
+
+        // Initialize and assign variable
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.my_collections);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l); */
-
-                Intent i = new Intent(MyCollectionsActivity.this, SelectedCollectionActivity.class);
-                startActivity(i);
-
-
-                // Initialize and assign variable
-                bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-                // Set Home selected
-                bottomNavigationView.setSelectedItemId(R.id.my_collections);
-
-                // Perform item selected listener
-                bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.my_collections:
-                                bottomNavigationView.getMenu().getItem(0).setChecked(true);
-                                startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
-                                overridePendingTransition(0, 0);
-                                return true;
-                            case R.id.explore:
-                                bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                                startActivity(new Intent(getApplicationContext(), SelectedCollectionActivity.class));
-                                overridePendingTransition(0, 0);
-                                return true;
-                            case R.id.marketplace:
-                                bottomNavigationView.getMenu().getItem(2).setChecked(true);
-                                startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
-                                overridePendingTransition(0, 0);
-                                return true;
-                            case R.id.dashboard:
-                                bottomNavigationView.getMenu().getItem(3).setChecked(true);
-                                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                                overridePendingTransition(0, 0);
-                                return true;
-                        }
-                        return false;
-                    }
-                });
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.my_collections:
+                        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.explore:
+                        bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), SelectedCollectionActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.marketplace:
+                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.dashboard:
+                        bottomNavigationView.getMenu().getItem(3).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
             }
-                /*
-                @Override
-                public void onResume () {
-                    super.onResume();
-                    overridePendingTransition(0, 0);
-                    bottomNavigationView.getMenu().getItem(0).setChecked(true);
-                    */
         });
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        overridePendingTransition(0, 0);
+        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+    }
 }
-
 
 

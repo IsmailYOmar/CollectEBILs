@@ -54,7 +54,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     String fullName = userProfile.fullName;
                     String emailAddress = userProfile.emailAddress;
 
-                    full_name_view.setText(fullName);
+                    full_name_view.setText(userId);
                     email_address_view.setText(emailAddress);
                 }
             }
