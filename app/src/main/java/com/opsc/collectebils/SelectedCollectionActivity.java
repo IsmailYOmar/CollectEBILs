@@ -71,13 +71,13 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         List<String> list = new ArrayList<>();
 
         list.add("Action figures");
-       /* list.add("Art");
+        list.add("Art");
         list.add("Board games");
         list.add("Books");
         list.add("Coins");
         list.add("Comic Books");
         list.add("Currency");
-        list.add("Lego"); */
+        list.add("Lego");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,list);
         my_collections_list.setAdapter(arrayAdapter);
@@ -88,8 +88,28 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == 0){
-                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) MyCollectionsActivity.class));
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) ActionFiguresActivity.class));
 
+                }else if (i == 1){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) ArtActivity.class));
+
+                }else if (i == 2){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) BoardGamesActivity.class));
+
+                }else if (i == 3){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) BooksActivity.class));
+
+                }else if (i == 4){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) CoinsActivity.class));
+
+                }else if (i == 5){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) ComicBooksActivity.class));
+
+                }else if (i == 6){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) CurrencyActivity.class));
+
+                }else if (i == 7){
+                    startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) LegoActivity.class));
 
 
 
