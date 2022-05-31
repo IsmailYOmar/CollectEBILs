@@ -29,6 +29,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     Button addToWishlist;
     Button scanBarcode;
     TextView name;
+    String catName;
 
     public BottomNavigationView bottomNavigationView;
 
@@ -43,7 +44,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         addToWishlist= findViewById(R.id.add_to_wishlist);
         scanBarcode= findViewById(R.id.barcode_scanner);
 
-        name.setText(getIntent().getExtras().getString("collectionName"));
+        catName = getIntent().getExtras().getString("collectionName");
+        name.setText(catName);
 
         addItem.setOnClickListener(view -> {
             myDialog.setContentView(R.layout.add_item_window);

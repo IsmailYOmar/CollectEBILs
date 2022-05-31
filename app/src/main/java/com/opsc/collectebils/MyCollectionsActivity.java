@@ -1,6 +1,7 @@
 package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -19,8 +20,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +40,10 @@ public class MyCollectionsActivity extends AppCompatActivity {
     Dialog myDialog;
     Button addCategory;
     ListView my_collections_list;
+    private FirebaseUser user;
+    private String userId;
+    private DatabaseReference ref;
+    private String categoryId;
     public BottomNavigationView bottomNavigationView;
     ArrayAdapter arrayAdapter;
     List<String> list = new ArrayList<>();
@@ -54,6 +69,10 @@ public class MyCollectionsActivity extends AppCompatActivity {
 
             btnClose = (Button) myDialog.findViewById(R.id.close_btn);
             addCatBtn = (Button) myDialog.findViewById(R.id.addCatBtn);
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            assert user != null;
+            userId = user.getUid();
+            ref = FirebaseDatabase.getInstance().getReference("Categories");
             catNameEditText = (EditText) myDialog.findViewById(R.id.catNameEditText);
             goalEditText = (EditText) myDialog.findViewById(R.id.goalEditText);
             btnClose.setOnClickListener(new View.OnClickListener() {
@@ -68,13 +87,38 @@ public class MyCollectionsActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String catName = catNameEditText.getText().toString();
                     String goal = goalEditText.getText().toString();
-                    list.add(catName);
+
+                    switch (view.getId()) {
+                        case R.id.addCatBtn:
+                            addCategoryData();
+                            break;
+                    }
 
                     arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
                     my_collections_list.setAdapter(arrayAdapter);
+                }
 
-                    Toast.makeText(getBaseContext(), catName + " category added", Toast.LENGTH_SHORT).show();
-                    myDialog.dismiss();
+                private void addCategoryData() {
+                    String userID = userId;
+                    String categoryName = catNameEditText.getText().toString().trim();
+                    String goalNumber = goalEditText.getText().toString().trim();
+
+                    Category cat = new Category(userID, categoryName, goalNumber);
+
+                    ref.push().setValue(cat)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(MyCollectionsActivity.this, "New category added.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+
+                                    }
+                                    else {
+                                        Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                 }
             });
 
