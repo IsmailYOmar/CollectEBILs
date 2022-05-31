@@ -28,6 +28,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     Button addToWishlist;
     Button scanBarcode;
     public BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
         addItem = findViewById(R.id.add_Item);
-        addToWishlist= findViewById(R.id.add_to_wishlist);
-        scanBarcode= findViewById(R.id.barcode_scanner);
+        addToWishlist = findViewById(R.id.add_to_wishlist);
+        scanBarcode = findViewById(R.id.barcode_scanner);
 
         addItem.setOnClickListener(view -> {
             myDialog.setContentView(R.layout.add_item_window);
@@ -78,7 +79,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         list.add("Comic Books");
         list.add("Currency");
         list.add("Lego");
-
+/*
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,list);
         my_collections_list.setAdapter(arrayAdapter);
 
@@ -86,7 +87,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             private Object ActionFiguresActivity;
 
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == 0){
                     startActivity(new Intent(SelectedCollectionActivity.this, (Class<?>) ActionFiguresActivity.class));
 
@@ -114,7 +115,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
 
 
-        };
+        }; */
 
         /*scanBarcode.setOnClickListener(view -> {
             myDialog.setContentView(R.layout.scan_barcode_window);
@@ -172,9 +173,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(1).setChecked(true); */
-
-    });
-
-
-    };
 }
+
+
+
+
