@@ -42,7 +42,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
-    private DatabaseReference databaseRef;
+
     private String categoryId;
     public BottomNavigationView bottomNavigationView;
 
@@ -75,7 +75,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
             user = FirebaseAuth.getInstance().getCurrentUser();
             assert user != null;
             userId = user.getUid();
-            ref = FirebaseDatabase.getInstance().getReference();
+            ref = FirebaseDatabase.getInstance().getReference("Categories");
 
 
 
@@ -131,7 +131,11 @@ public class MyCollectionsActivity extends AppCompatActivity {
         });
 
         my_collections_list = findViewById(R.id.my_collections_list);
-        databaseRef=FirebaseDatabase.getInstance().getReference("Categories");
+        ref=FirebaseDatabase.getInstance().getReference("Categories");
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        userId = user.getUid();
 
         //list.add("Action figures");
         //list.add("Comics");
@@ -139,7 +143,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
         my_collections_list.setAdapter(arrayAdapter);
 
-        databaseRef.orderByChild("userID").addChildEventListener(new ChildEventListener() {
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String value= snapshot.getValue(Category.class).toString();
