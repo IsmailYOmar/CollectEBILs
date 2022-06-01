@@ -31,9 +31,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MyCollectionsActivity extends AppCompatActivity {
@@ -146,6 +149,12 @@ public class MyCollectionsActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String value= snapshot.getValue(Category.class).toString();
                 list.add(value);
+                Collections.sort(list, new Comparator<String>() {
+                    @Override
+                    public int compare(String s, String t1) {
+                        return s.compareToIgnoreCase(t1);
+                    }
+                });
                 arrayAdapter.notifyDataSetChanged();
             }
 
