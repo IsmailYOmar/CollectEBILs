@@ -20,5 +20,5 @@ public class Category {
         this.goalNumber = goalNumber;
     }
     public String toString(){return this. categoryName;}
-    public String getGoalNumber(){return this.categoryName + " Goal to reach: " + this.goalNumber;}
+    public String getGoalNumber(){return this.categoryName + ": " + this.goalNumber+" ";}
 }

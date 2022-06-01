@@ -40,7 +40,7 @@ public class CollectionStatisticsActivity extends AppCompatActivity {
         ref=FirebaseDatabase.getInstance().getReference("Categories");
         my_statistics_list = (ListView) findViewById(R.id.my_statistics_list);
 
-        arrAd = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, arrList);
+        arrAd = new ArrayAdapter(getApplicationContext(), R.layout.list_item2,R.id.name, arrList);
         my_statistics_list.setAdapter(arrAd);
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {

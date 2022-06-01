@@ -223,21 +223,25 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
                         overridePendingTransition(0, 0);
+                        finish();
                         return true;
                     case R.id.explore:
                         bottomNavigationView.getMenu().getItem(1).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
                         overridePendingTransition(0, 0);
+                        finish();
                         return true;
                     case R.id.marketplace:
                         bottomNavigationView.getMenu().getItem(2).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
                         overridePendingTransition(0, 0);
+                        finish();
                         return true;
                     case R.id.dashboard:
                         bottomNavigationView.getMenu().getItem(3).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                         overridePendingTransition(0, 0);
+                        finish();
                         return true;
                 }
                 return true;

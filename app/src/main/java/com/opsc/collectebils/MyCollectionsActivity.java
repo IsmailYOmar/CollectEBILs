@@ -47,6 +47,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
     ListView my_collections_list;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> listOfKey = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +146,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String value= snapshot.getValue(Category.class).toString();
                 list.add(value);
+                listOfKey.add(snapshot.getKey());
                 Collections.sort(list, new Comparator<String>() {
                     @Override
                     public int compare(String s, String t1) {
@@ -185,6 +187,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
 
                Intent i = new Intent(MyCollectionsActivity.this, SelectedCollectionActivity.class);
                i.putExtra("collectionName", list.get(position));
+               i.putExtra("collectionKey",listOfKey.get(position));
                startActivity(i);
            }
        });

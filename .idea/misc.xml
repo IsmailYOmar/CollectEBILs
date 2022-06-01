@@ -3,8 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_collection_statistics.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_dashboard.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_marketplace.xml" value="0.20416666666666666" />
@@ -39,10 +37,11 @@
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/view_password.xml" value="0.242" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1375" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout-w936dp/activity_login.xml" value="0.12083333333333333" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_collection_statistics.xml" value="0.2975630611372381" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_dashboard.xml" value="0.5" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_explore.xml" value="0.25" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_home.xml" value="0.25" />
-        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_item_details.xml" value="0.5617433414043583" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_item_details.xml" value="0.22" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_main.xml" value="0.3532608695652174" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_marketplace.xml" value="0.2975630611372381" />
@@ -59,6 +58,7 @@
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/fragment_first.xml" value="0.33" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/fragment_second.xml" value="0.15220179563916203" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/list_item.xml" value="0.47282608695652173" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/list_item2.xml" value="0.2975630611372381" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/scan_barcode_window.xml" value="0.25" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3625" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/pop_up_nav_menu.xml" value="0.2359375" />
