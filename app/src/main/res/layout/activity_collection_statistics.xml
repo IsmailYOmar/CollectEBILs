@@ -25,7 +25,7 @@
         android:text="Goal to reach:"
         android:textSize="50sp"
         android:textColor="@color/black"
-        android:layout_marginTop="315dp"
+        android:layout_marginTop="320dp"
         app:layout_constraintTop_toTopOf="@+id/my_collections_label2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -41,7 +41,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="vertical">
 
             <ListView
@@ -50,7 +50,6 @@
                 android:layout_height="564dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="2dp"
                 android:divider="@null"
                 android:fastScrollEnabled="true"
                 android:paddingHorizontal="5dp"
