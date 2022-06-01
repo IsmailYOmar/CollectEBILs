@@ -187,7 +187,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                 //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
 
                 Intent i = new Intent(SelectedCollectionActivity.this, ItemDetails.class);
-                i.putExtra("collectionName", list.get(position));
+                i.putExtra("itemName", list.get(position));
+                i.putExtra("collectionName", catName);
                 startActivity(i);
             }
         });
