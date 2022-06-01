@@ -30,8 +30,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private DatabaseReference ref;
     private String userId;
     private Button logout_button;
-
+    private Button collection_statistics;
     public  BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         final TextView full_name_view = (TextView) findViewById(R.id.full_name_view);
         //final TextView email_address_view = (TextView) findViewById(R.id.email_address_view);
+
+        collection_statistics = (Button) findViewById(R.id.collection_statistics);
+        collection_statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCollectionStatisticsActivity();
+            }
+        });
 
         ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -110,6 +119,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 return true;
             }
         });
+    }
+    public void openCollectionStatisticsActivity(){
+        Intent intent = new Intent(this, CollectionStatisticsActivity.class);
+        startActivity(intent);
     }
     @Override
     public void onResume() {

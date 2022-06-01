@@ -14,6 +14,9 @@
             android:exported="false"
             android:theme="@style/Theme.Dashboard"/>
         <activity
+            android:name=".CollectionStatisticsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ExploreActivity"
             android:exported="false"
             android:theme="@style/Theme.CollectEBILs" />
