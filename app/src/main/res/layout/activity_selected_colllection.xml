@@ -19,13 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginTop="-60dp"
+            android:background="@drawable/speech_bubble"
             android:gravity="center"
             android:text="Name"
+            android:paddingBottom="15dp"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="70sp"
-            android:textStyle="bold"
-            android:background="@drawable/speech_bubble"/>
+            android:textStyle="bold" />
 
 
         <ListView
@@ -41,6 +42,7 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:smoothScrollbar="true"
+            android:divider="@null"
             tools:listitem="@layout/list_item" />
 
         <LinearLayout

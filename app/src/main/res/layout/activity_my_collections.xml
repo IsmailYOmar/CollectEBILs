@@ -38,6 +38,7 @@
             android:scrollbars="vertical"
             android:smoothScrollbar="true"
             android:fastScrollEnabled="true"
+            android:divider="@null"
             tools:listitem="@layout/list_item" />
 
         <LinearLayout

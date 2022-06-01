@@ -146,7 +146,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         assert user != null;
         userId = user.getUid();
 
-        arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+        arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
         my_collections_list.setAdapter(arrayAdapter);
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {

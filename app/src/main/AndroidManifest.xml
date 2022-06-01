@@ -35,7 +35,8 @@
         <activity
             android:name=".MyCollectionsActivity"
             android:exported="false"
-            android:theme="@style/Theme.CollectEBILs" />
+            android:theme="@style/Theme.CollectEBILs"
+            />
         <activity
             android:name=".SelectedCollectionActivity"
             android:exported="false"

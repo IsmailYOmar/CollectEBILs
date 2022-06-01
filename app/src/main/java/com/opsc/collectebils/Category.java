@@ -1,7 +1,14 @@
 package com.opsc.collectebils;
 
 public class Category {
-    public String userID, categoryName, goalNumber;
+    public String userID;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public String categoryName;
+    public String goalNumber;
 
     public Category() {
 
