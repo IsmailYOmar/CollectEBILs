@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CollectEBILs">
         <activity
+            android:name=".ItemDetails"
+            android:exported="false"
+            android:theme="@style/Theme.Dashboard"/>
+        <activity
             android:name=".ExploreActivity"
             android:exported="false"
             android:theme="@style/Theme.CollectEBILs" />

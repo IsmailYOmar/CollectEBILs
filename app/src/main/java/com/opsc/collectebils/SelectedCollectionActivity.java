@@ -186,7 +186,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
 
-                Intent i = new Intent(SelectedCollectionActivity.this, ExploreActivity.class);
+                Intent i = new Intent(SelectedCollectionActivity.this, ItemDetails.class);
                 i.putExtra("collectionName", list.get(position));
                 startActivity(i);
             }
