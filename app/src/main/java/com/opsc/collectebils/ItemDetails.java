@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.jar.Attributes;
 
@@ -28,6 +31,7 @@ public class ItemDetails extends AppCompatActivity {
     TextView productionYear;
     TextView purchasePrice;
     TextView purchaseDate;
+    ImageView itemImage;
 
     Items items;
 
@@ -47,6 +51,7 @@ public class ItemDetails extends AppCompatActivity {
         productionYear = findViewById(R.id.itemProductionYear);
         purchasePrice = findViewById(R.id.itemPurchasePrice);
         purchaseDate = findViewById(R.id.itemPurchaseDate);
+        itemImage =findViewById(R.id.itemImage);
 
 
 
@@ -79,6 +84,10 @@ public class ItemDetails extends AppCompatActivity {
                     productionYear.setText(value.getProductionYear());
                     purchasePrice.setText("R "+value.getPurchasePrice());
                     purchaseDate.setText(value.getPurchaseDate());
+                    if(value.getImgUri() != null){
+                        itemImage.setImageURI(Uri.parse(value.getImgUri()));
+                    }
+
                 }
             }
 

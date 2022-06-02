@@ -1,24 +1,35 @@
 package com.opsc.collectebils;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +52,19 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 public class SelectedCollectionActivity extends AppCompatActivity {
@@ -57,20 +77,15 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     String catName;
     String catKey;
 
+    Uri imgUri;
+
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
 
 
-    // Uri indicates, where the image will be picked from
-    private Uri filePath;
-
-    // request code
-    private final int PICK_IMAGE_REQUEST = 22;
-
     // instance for firebase storage and StorageReference
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    public StorageReference storageReference;
 
     ListView my_collections_list;
     ArrayAdapter arrayAdapter;
@@ -86,8 +101,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         name = findViewById(R.id.selected_collection_name);
         myDialog = new Dialog(this);
         addItem = findViewById(R.id.add_Item);
-        addToWishlist= findViewById(R.id.add_to_wishlist);
-        scanBarcode= findViewById(R.id.barcode_scanner);
+        addToWishlist = findViewById(R.id.add_to_wishlist);
+        scanBarcode = findViewById(R.id.barcode_scanner);
 
         catName = getIntent().getExtras().getString("collectionName");
         catKey = getIntent().getExtras().getString("collectionKey");
@@ -98,22 +113,15 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
 
-            Button btnClose;
-            Button btnAdd;
-            Button btnUpload;
-            Button btnCamera;
+            Button btnClose, btnAdd, btnUpload, btnCamera;
 
             btnAdd = (Button) myDialog.findViewById(R.id.btnAdd);
             btnCamera = (Button) myDialog.findViewById(R.id.btnCamera);
             btnUpload = (Button) myDialog.findViewById(R.id.btnUpload);
             btnClose = (Button) myDialog.findViewById(R.id.close_btn);
 
-            EditText enterItemName;
-            EditText enterItemDescription;
-            EditText enterManufacturer;
-            EditText enterProductionYear;
-            EditText enterPurchasePrice;
-            EditText enterPurchaseDate;
+            EditText enterItemName, enterItemDescription, enterManufacturer, enterProductionYear,
+                    enterPurchasePrice, enterPurchaseDate;
 
             enterItemName = (EditText) myDialog.findViewById(R.id.enterItemName);
             enterItemDescription = (EditText) myDialog.findViewById(R.id.enterItemDescription);
@@ -122,12 +130,10 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             enterPurchasePrice = (EditText) myDialog.findViewById(R.id.enterPurchasePrice);
             enterPurchaseDate = (EditText) myDialog.findViewById(R.id.enterPurchaseDate);
 
-
-
-
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     myDialog.dismiss();
                 }
             });
@@ -138,20 +144,37 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                     SelectImage();
                 }
             });
+            btnCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Intent intent = new Intent();
+                        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(intent);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    uploadImage();
+
                     addItemData();
 
-                    arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
+                    arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, R.id.name, list);
                     my_collections_list.setAdapter(arrayAdapter);
                 }
+
                 private void addItemData() {
                     String userID = userId;
                     String categoryName = catName;
-                    String categoryKey = getIntent().getExtras().getString("collectionKey");;
+                    String categoryKey = getIntent().getExtras().getString("collectionKey");
+
                     String itemName = enterItemName.getText().toString().trim();
                     String itemDescription = enterItemDescription.getText().toString().trim();
                     String manufacturer = enterManufacturer.getText().toString().trim();
@@ -159,42 +182,26 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                     String purchasePrice = enterPurchasePrice.getText().toString().trim();
                     String purchaseDate = enterPurchaseDate.getText().toString().trim();
 
-                    Items item = new Items(userID, categoryName, categoryKey,itemName,itemDescription,manufacturer,productionYear,purchasePrice,purchaseDate);
+
+                    uploadImage();
+
+                    Items item = new Items(userID, categoryName, categoryKey, itemName, itemDescription, manufacturer, productionYear, purchasePrice, purchaseDate, imgUri.toString());
 
                     ref.push().setValue(item)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()) {
+                                    if (task.isSuccessful()) {
                                         Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
                                         myDialog.dismiss();
 
-                                    }
-                                    else {
+                                    } else {
                                         Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                 }
-                });
-
-
-            btnCamera.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try
-                    {
-                        Intent intent = new Intent();
-                        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivity(intent);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
             });
-
         });
 
         addToWishlist.setOnClickListener(view -> {
@@ -212,20 +219,22 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         });
 
         my_collections_list = findViewById(R.id.my_collections_list);
-        ref= FirebaseDatabase.getInstance().getReference("Items");
+        ref = FirebaseDatabase.getInstance().getReference("Items");
+        storageReference = FirebaseStorage.getInstance().getReference();
+
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         userId = user.getUid();
 
-        arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
+        arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, R.id.name, list);
         my_collections_list.setAdapter(arrayAdapter);
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Items value= snapshot.getValue(Items.class);
-                if(value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId)) {
+                Items value = snapshot.getValue(Items.class);
+                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId)) {
                     list.add(value.getItemName());
 
                     Collections.sort(list, new Comparator<String>() {
@@ -260,7 +269,6 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         });
 
 
-
         my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -268,15 +276,13 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                 Intent i = new Intent(SelectedCollectionActivity.this, ItemDetails.class);
                 i.putExtra("itemName", list.get(position));
                 i.putExtra("collectionName", catName);
-                i.putExtra("collectionKey",catKey);
+                i.putExtra("collectionKey", catKey);
                 startActivity(i);
 
             }
 
 
         });
-
-
 
 
         scanBarcode.setOnClickListener(view -> {
@@ -335,6 +341,58 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         });
     }
 
+    private void uploadImage() {
+        if(imgUri != null){
+            StorageReference fileRef = storageReference.child(System.currentTimeMillis()+"."+getFileExtension(imgUri));
+            fileRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Toast.makeText(SelectedCollectionActivity.this, "Uploaded.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+    }
+    private String getFileExtension(Uri imgUri){
+
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap typeMap = MimeTypeMap.getSingleton();
+        return typeMap.getExtensionFromMimeType(contentResolver.getType(imgUri));
+    }
+
+    private void SelectImage() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(galleryIntent,2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 2 && resultCode == RESULT_OK && data != null);
+
+        imgUri=data.getData();
+    }
+
 
     @Override
     public void onResume() {
@@ -343,124 +401,5 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
-    // Select Image method
-    private void SelectImage()
-    {
-        // Defining Implicit Intent to mobile gallery
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(
-                Intent.createChooser(
-                        intent,
-                        "Select Image from here..."),
-                PICK_IMAGE_REQUEST);
-    }
-    // Override onActivityResult method
-    @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
-                                    Intent data)
-    {
 
-        super.onActivityResult(requestCode,
-                resultCode,
-                data);
-
-        // checking request code and result code
-        // if request code is PICK_IMAGE_REQUEST and
-        // resultCode is RESULT_OK
-        // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST
-                && resultCode == RESULT_OK
-                && data != null
-                && data.getData() != null) {
-
-
-            // Get the Uri of data
-            filePath = data.getData();
-            try {
-
-                // Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore
-                        .Images
-                        .Media
-                        .getBitmap(
-                                getContentResolver(),
-                                filePath);
-                //imageView.setImageBitmap(bitmap);
-            }
-
-            catch (IOException e) {
-                // Log the exception
-                e.printStackTrace();
-            }
-        }
-    }
-    // UploadImage method
-    private void uploadImage()
-    {
-        if (filePath != null) {
-
-            // Code for showing progressDialog while uploading
-            ProgressDialog progressDialog
-                    = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            // Defining the child of storageReference
-            StorageReference ref = storageReference.child("images" + UUID.randomUUID().toString());
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath)
-                    .addOnSuccessListener(
-                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
-                                @Override
-                                public void onSuccess(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-
-                                    // Image uploaded successfully
-                                    // Dismiss dialog
-                                    progressDialog.dismiss();
-                                    Toast
-                                            .makeText(SelectedCollectionActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT)
-                                            .show();
-                                }
-                            })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-
-                            // Error, Image not uploaded
-                            progressDialog.dismiss();
-                            Toast
-                                    .makeText(SelectedCollectionActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    })
-                    .addOnProgressListener(
-                            new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                                // Progress Listener for loading
-                                // percentage on the dialog box
-                                @Override
-                                public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    double progress
-                                            = (100.0
-                                            * taskSnapshot.getBytesTransferred()
-                                            / taskSnapshot.getTotalByteCount());
-                                    progressDialog.setMessage(
-                                            "Uploaded "
-                                                    + (int)progress + "%");
-                                }
-                            });
-        }
-    }
 }

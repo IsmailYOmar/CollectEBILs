@@ -1,10 +1,12 @@
 package com.opsc.collectebils;
 
+import android.net.Uri;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 public class Items {
+
     public String userID;
 
     public String getUserID() {
@@ -79,14 +81,24 @@ public class Items {
         this.purchaseDate = purchaseDate;
     }
 
+    public String getImgUri() {
+        return imgUri;
+    }
+
+    public void setImgUri(String imgUri) {
+        this.imgUri = imgUri;
+    }
+
     public String categoryName;
     public String categoryKey;
-    public String  itemName;
-    public String  itemDescription;
-    public String  manufacturer;
-    public String  productionYear;
-    public String  purchasePrice;
-    public String  purchaseDate;
+    public String itemName;
+    public String itemDescription;
+    public String manufacturer;
+    public String productionYear;
+    public String purchasePrice;
+    public String purchaseDate;
+    @Nullable
+    public String imgUri;
 
     public Items() {
 
@@ -94,7 +106,7 @@ public class Items {
 
     public Items(String userID, String categoryName, String categoryKey,String  itemName,
                  String  itemDescription ,String manufacturer, String productionYear,
-                 String purchasePrice, String  purchaseDate) {
+                 String purchasePrice, String  purchaseDate, String imgUri) {
             this.userID = userID;
             this.categoryName = categoryName;
             this.categoryKey = categoryKey;
@@ -104,5 +116,6 @@ public class Items {
             this.productionYear = productionYear;
             this.purchasePrice = purchasePrice;
             this.purchaseDate = purchaseDate;
+            this.imgUri = imgUri;
         }
     }
