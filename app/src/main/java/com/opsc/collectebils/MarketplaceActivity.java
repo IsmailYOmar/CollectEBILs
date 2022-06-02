@@ -10,26 +10,31 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MarketplaceActivity extends AppCompatActivity {
+public class MarketplaceActivity extends AppCompatActivity
+{
 
     public BottomNavigationView bottomNavigationView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace);
         // Initialize and assign variable
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.dashboard);
 
         // Perform item selected listener
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.my_collections:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.myCollections:
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
                         overridePendingTransition(0, 0);

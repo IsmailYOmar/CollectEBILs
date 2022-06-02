@@ -1,27 +1,17 @@
 package com.opsc.collectebils;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -29,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,64 +41,50 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.Locale;
-import java.util.UUID;
 
-public class SelectedCollectionActivity extends AppCompatActivity {
+public class SelectedCollectionActivity extends AppCompatActivity
+{
     Dialog myDialog;
     Button addItem;
     Button addToWishlist;
     Button scanBarcode;
     TextView name;
-
     String catName;
     String catKey;
-
     Uri imgUri;
-
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
-
     public String imageUrl ;
     public String fileName;
     // instance for firebase storage and StorageReference
     public StorageReference storageReference;
-
-    ListView my_collections_list;
+    ListView collectionsList;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
     Items items;
     public BottomNavigationView bottomNavigationView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_colllection);
 
-        name = findViewById(R.id.selected_collection_name);
+        name = findViewById(R.id.selectedCollectionName);
         myDialog = new Dialog(this);
-        addItem = findViewById(R.id.add_Item);
-        addToWishlist = findViewById(R.id.add_to_wishlist);
-        scanBarcode = findViewById(R.id.barcode_scanner);
-
+        addItem = findViewById(R.id.addItem);
+        addToWishlist = findViewById(R.id.addToWishlist);
+        scanBarcode = findViewById(R.id.barcodeScanner);
         catName = getIntent().getExtras().getString("collectionName");
         catKey = getIntent().getExtras().getString("collectionKey");
         name.setText(catName);
 
-        addItem.setOnClickListener(view -> {
+        addItem.setOnClickListener(view ->
+        {
             myDialog.setContentView(R.layout.add_item_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
@@ -119,7 +94,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             btnAdd = (Button) myDialog.findViewById(R.id.btnAdd);
             btnCamera = (Button) myDialog.findViewById(R.id.btnCamera);
             btnUpload = (Button) myDialog.findViewById(R.id.btnUpload);
-            btnClose = (Button) myDialog.findViewById(R.id.close_btn);
+            btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
 
             EditText enterItemName, enterItemDescription, enterManufacturer, enterProductionYear,
                     enterPurchasePrice, enterPurchaseDate;
@@ -131,42 +106,52 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             enterPurchasePrice = (EditText) myDialog.findViewById(R.id.enterPurchasePrice);
             enterPurchaseDate = (EditText) myDialog.findViewById(R.id.enterPurchaseDate);
 
-            btnClose.setOnClickListener(new View.OnClickListener() {
+            btnClose.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
 
                     myDialog.dismiss();
                 }
             });
 
-            btnUpload.setOnClickListener(new View.OnClickListener() {
+            btnUpload.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     SelectImage();
                 }
             });
-            btnCamera.setOnClickListener(new View.OnClickListener() {
+            btnCamera.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
-                    try {
+                public void onClick(View view)
+                {
+                    try
+                    {
                         Intent intent = new Intent();
                         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivity(intent);
                     }
-                    catch (Exception e) {
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                 }
             });
 
-            btnAdd.setOnClickListener(new View.OnClickListener() {
+            btnAdd.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
 
                     addItemData();
 
                     arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, R.id.name, list);
-                    my_collections_list.setAdapter(arrayAdapter);
+                    collectionsList.setAdapter(arrayAdapter);
                 }
 
                 private void addItemData() {
@@ -189,14 +174,20 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                     Items item = new Items(userID, categoryName, categoryKey, itemName, itemDescription, manufacturer, productionYear, purchasePrice, purchaseDate,imageFileName );
 
                     ref.push().setValue(item)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            .addOnCompleteListener(new OnCompleteListener<Void>()
+                            {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
+                                    if (task.isSuccessful())
+                                    {
                                         Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
                                         myDialog.dismiss();
 
-                                    } else {
+                                    }
+
+                                    else
+                                    {
                                         Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                                     }
                                 }
@@ -205,42 +196,46 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             });
         });
 
-        addToWishlist.setOnClickListener(view -> {
+        addToWishlist.setOnClickListener(view ->
+        {
             myDialog.setContentView(R.layout.add_to_wishlist_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
             Button btnClose;
-            btnClose = (Button) myDialog.findViewById(R.id.close_btn);
-            btnClose.setOnClickListener(new View.OnClickListener() {
+            btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
+            btnClose.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     myDialog.dismiss();
                 }
             });
         });
 
-        my_collections_list = findViewById(R.id.my_collections_list);
+        collectionsList= findViewById(R.id.collectionsList);
         ref = FirebaseDatabase.getInstance().getReference("Items");
         storageReference = FirebaseStorage.getInstance().getReference("Images");
-
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         userId = user.getUid();
-
         arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, R.id.name, list);
-        my_collections_list.setAdapter(arrayAdapter);
+        collectionsList.setAdapter(arrayAdapter);
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
                 Items value = snapshot.getValue(Items.class);
-                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId)) {
+                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId))
+                {
                     list.add(value.getItemName());
 
-                    Collections.sort(list, new Comparator<String>() {
+                    Collections.sort(list, new Comparator<String>()
+                    {
                         @Override
-                        public int compare(String s, String t1) {
+                        public int compare(String s, String t1)
+                        {
                             return s.compareToIgnoreCase(t1);
                         }
                     });
@@ -249,31 +244,37 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot)
+            {
 
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error)
+            {
 
             }
         });
 
 
-        my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        collectionsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
 
                 Intent i = new Intent(SelectedCollectionActivity.this, ItemDetails.class);
                 i.putExtra("itemName", list.get(position));
@@ -287,15 +288,18 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         });
 
 
-        scanBarcode.setOnClickListener(view -> {
+        scanBarcode.setOnClickListener(view ->
+        {
             myDialog.setContentView(R.layout.scan_barcode_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
             Button btnClose;
-            btnClose = (Button) myDialog.findViewById(R.id.close_btn);
-            btnClose.setOnClickListener(new View.OnClickListener() {
+            btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
+            btnClose.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     myDialog.dismiss();
                 }
             });
@@ -303,17 +307,20 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
 
         // Initialize and assign variable
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.explore);
 
         // Perform item selected listener
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.my_collections:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.myCollections:
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
                         overridePendingTransition(0, 0);
@@ -343,44 +350,54 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadImage() {
-        if(imgUri != null){
+    private void uploadImage()
+    {
+        if(imgUri != null)
+        {
             fileName = System.currentTimeMillis()+"."+getFileExtension(imgUri);
             StorageReference fileRef = storageReference.child(fileName);
-            fileRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            fileRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+            {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                {
                     Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
-                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                    {
                         @Override
-                        public void onSuccess(Uri uri) {
-
+                        public void onSuccess(Uri uri)
+                        {
                             Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
+            {
                 @Override
-                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot)
+                {
 
                 }
-            }).addOnFailureListener(new OnFailureListener() {
+            }).addOnFailureListener(new OnFailureListener()
+            {
                 @Override
-                public void onFailure(@NonNull Exception e) {
+                public void onFailure(@NonNull Exception e)
+                {
                     Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                 }
             });
         }
 
     }
-    private String getFileExtension(Uri imgUri){
-
+    private String getFileExtension(Uri imgUri)
+    {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap typeMap = MimeTypeMap.getSingleton();
         return typeMap.getExtensionFromMimeType(contentResolver.getType(imgUri));
     }
 
-    private void SelectImage() {
+    private void SelectImage()
+    {
         Intent galleryIntent = new Intent();
         galleryIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         galleryIntent.setType("image/*");
@@ -390,7 +407,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 2 && resultCode == RESULT_OK && data != null)
@@ -400,7 +418,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         //startActivity(new Intent(getApplicationContext(),MyCollectionsActivity.class));
         overridePendingTransition(0, 0);

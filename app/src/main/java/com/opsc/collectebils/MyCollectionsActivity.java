@@ -34,32 +34,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MyCollectionsActivity extends AppCompatActivity {
+public class MyCollectionsActivity extends AppCompatActivity
+{
     Dialog myDialog;
     Button addCategory;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
-
     public BottomNavigationView bottomNavigationView;
-
-    ListView my_collections_list;
+    ListView collectionsList;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
     ArrayList<String> listOfKey = new ArrayList<>();
-
     int j = 0;
     ArrayList<Integer> sortingMethodReturns = new ArrayList<Integer>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collections);
 
         myDialog = new Dialog(this);
-        addCategory = findViewById(R.id.add_Category);
+        addCategory = findViewById(R.id.addCategory);
 
-        addCategory.setOnClickListener(view -> {
+        addCategory.setOnClickListener(view ->
+        {
 
             myDialog.setContentView(R.layout.create_a_category_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -70,7 +70,7 @@ public class MyCollectionsActivity extends AppCompatActivity {
             Button btnClose;
             Button addCatBtn;
 
-            btnClose = (Button) myDialog.findViewById(R.id.close_btn);
+            btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
             addCatBtn = (Button) myDialog.findViewById(R.id.addCatBtn);
 
             user = FirebaseAuth.getInstance().getCurrentUser();
@@ -81,31 +81,37 @@ public class MyCollectionsActivity extends AppCompatActivity {
 
             catNameEditText = (EditText) myDialog.findViewById(R.id.catNameEditText);
             goalEditText = (EditText) myDialog.findViewById(R.id.goalEditText);
-            btnClose.setOnClickListener(new View.OnClickListener() {
+            btnClose.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     myDialog.dismiss();
                 }
             });
 
-            addCatBtn.setOnClickListener(new View.OnClickListener() {
+            addCatBtn.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     String catName = catNameEditText.getText().toString();
                     String goal = goalEditText.getText().toString();
 
-                    switch (view.getId()) {
+                    switch (view.getId())
+                    {
                         case R.id.addCatBtn:
                             addCategoryData();
                             break;
                     }
 
                     arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
-                    my_collections_list.setAdapter(arrayAdapter);
+                    collectionsList.setAdapter(arrayAdapter);
 
                 }
 
-                private void addCategoryData() {
+                private void addCategoryData()
+                {
                     String userID = userId;
                     String categoryName = catNameEditText.getText().toString().trim();
                     String goalNumber = goalEditText.getText().toString().trim();
@@ -113,15 +119,19 @@ public class MyCollectionsActivity extends AppCompatActivity {
                     Category cat = new Category(userID, categoryName, goalNumber);
 
                     ref.push().setValue(cat)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            .addOnCompleteListener(new OnCompleteListener<Void>()
+                            {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()) {
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
+                                    if(task.isSuccessful())
+                                    {
                                         Toast.makeText(MyCollectionsActivity.this, "New category added.", Toast.LENGTH_LONG).show();
                                         myDialog.dismiss();
-
                                     }
-                                    else {
+
+                                    else
+                                    {
                                         Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                                     }
                                 }
@@ -131,28 +141,29 @@ public class MyCollectionsActivity extends AppCompatActivity {
 
         });
 
-        my_collections_list = findViewById(R.id.my_collections_list);
+        collectionsList = findViewById(R.id.collectionsList);
         ref=FirebaseDatabase.getInstance().getReference("Categories");
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         userId = user.getUid();
-
-
         arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
-        my_collections_list.setAdapter(arrayAdapter);
+        collectionsList.setAdapter(arrayAdapter);
 
-        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
+        {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
                 String value= snapshot.getValue(Category.class).toString();
                 list.add(value);
                 listOfKey.add(snapshot.getKey());
 
-                Collections.sort(list, new Comparator<String>() {
+                Collections.sort(list, new Comparator<String>()
+                {
 
                     @Override
-                    public int compare(String lhs, String rhs) {
+                    public int compare(String lhs, String rhs)
+                    {
                         // TODO Auto-generated method stub
                         int returning = lhs.compareTo(rhs);
                         sortingMethodReturns.add(returning);
@@ -162,10 +173,12 @@ public class MyCollectionsActivity extends AppCompatActivity {
                 });
                 // now sort the list B according to the changes made with the order of
                 // items in listA
-                Collections.sort(listOfKey, new Comparator<String>() {
+                Collections.sort(listOfKey, new Comparator<String>()
+                {
 
                     @Override
-                    public int compare(String lhs, String rhs) {
+                    public int compare(String lhs, String rhs)
+                    {
                         // TODO Auto-generated method stub
 
                         // comparator method will sort the second list also according to
@@ -181,32 +194,38 @@ public class MyCollectionsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot)
+            {
 
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error)
+            {
 
             }
         });
 
 
 
-        my_collections_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        collectionsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
 
            @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+           {
                //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
 
                Intent i = new Intent(MyCollectionsActivity.this, SelectedCollectionActivity.class);
@@ -216,21 +235,21 @@ public class MyCollectionsActivity extends AppCompatActivity {
            }
 
        });
-
-
-
         // Initialize and assign variable
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.my_collections);
+        bottomNavigationView.setSelectedItemId(R.id.myCollections);
 
         // Perform item selected listener
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.my_collections:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.myCollections:
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
                         overridePendingTransition(0, 0);
@@ -256,14 +275,16 @@ public class MyCollectionsActivity extends AppCompatActivity {
         });
     }
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         super.onBackPressed();
         finish();
         moveTaskToBack(true);

@@ -2,11 +2,9 @@ package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.TintableCheckedTextView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,22 +27,23 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private FirebaseUser user;
     private DatabaseReference ref;
     private String userId;
-    private Button logout_button;
-    private Button collection_statistics;
+    private Button logoutButton;
+    private Button collectionStatistics;
     public  BottomNavigationView bottomNavigationView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Spinner dropdown = findViewById(R.id.collectionLayout);
+        Spinner dropDown = findViewById(R.id.collectionLayout);
         String[] items = new String[]{"List View", "Thumbnail View"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+        dropDown.setAdapter(adapter);
 
-        logout_button = (Button) findViewById(R.id.logout_button);
-        logout_button.setOnClickListener(this);
+        logoutButton = (Button) findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(this);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference("Users");
@@ -53,17 +52,21 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         final TextView full_name_view = (TextView) findViewById(R.id.full_name_view);
         //final TextView email_address_view = (TextView) findViewById(R.id.email_address_view);
 
-        collection_statistics = (Button) findViewById(R.id.collection_statistics);
-        collection_statistics.setOnClickListener(new View.OnClickListener() {
+        collectionStatistics = (Button) findViewById(R.id.collection_statistics);
+        collectionStatistics.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 openCollectionStatisticsActivity();
             }
         });
 
-        ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener()
+        {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
                 User userProfile = snapshot.getValue(User.class);
 
                 if(userProfile != null) {
@@ -76,23 +79,27 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error)
+            {
 
             }
         });
 
         // Initialize and assign variable
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.dashboard);
 
         // Perform item selected listener
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.my_collections:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.myCollections:
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
                         overridePendingTransition(0, 0);
@@ -121,27 +128,32 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
-    public void openCollectionStatisticsActivity(){
+    public void openCollectionStatisticsActivity()
+    {
         Intent intent = new Intent(this, CollectionStatisticsActivity.class);
         startActivity(intent);
     }
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(3).setChecked(true);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.logout_button:
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.logoutButton:
                 LogoutUser();
                 break;
         }
     }
 
-    private void LogoutUser() {
+    private void LogoutUser()
+    {
         FirebaseAuth.getInstance().signOut();
         Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

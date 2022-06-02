@@ -10,27 +10,32 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class ExploreActivity extends AppCompatActivity {
+public class ExploreActivity extends AppCompatActivity
+{
 
     public BottomNavigationView bottomNavigationView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore);
 
         // Initialize and assign variable
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.my_collections);
+        bottomNavigationView.setSelectedItemId(R.id.myCollections);
 
         // Perform item selected listener
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.my_collections:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.myCollections:
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
                         overridePendingTransition(0, 0);
@@ -60,7 +65,8 @@ public class ExploreActivity extends AppCompatActivity {
         });
     }
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);

@@ -19,116 +19,135 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     private FirebaseAuth mAuth;
-    private EditText full_name, email_address, password, confirm_password;
-    private Button register_button, redirect_button;
+    private EditText fullName, emailAddress, password, confirmPassword;
+    private Button registerButton, redirectButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
 
-        register_button = (Button) findViewById(R.id.register_button);
-        register_button.setOnClickListener(this);
-
-        redirect_button = (Button) findViewById(R.id.redirect_button);
-        redirect_button.setOnClickListener(this);
-
-        full_name = (EditText) findViewById(R.id.full_name);
-        email_address = (EditText) findViewById(R.id.email_address);
+        registerButton = (Button) findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(this);
+        redirectButton = (Button) findViewById(R.id.redirectButton);
+        redirectButton.setOnClickListener(this);
+        fullName = (EditText) findViewById(R.id.fullName);
+        emailAddress = (EditText) findViewById(R.id.emailAddress);
         password = (EditText) findViewById(R.id.password);
-        confirm_password = (EditText) findViewById(R.id.confirm_password);
+        confirmPassword = (EditText) findViewById(R.id.confirmPassword);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.register_button:
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.registerButton:
                 registerUser();
                 break;
 
-            case R.id.redirect_button:
+            case R.id.redirectButton:
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 break;
         }
     }
 
-    private void registerUser() {
-        String fullName = full_name.getText().toString().trim();
-        String emailAddress = email_address.getText().toString().trim();
+    private void registerUser()
+    {
+        String fullNameEnter = fullName.getText().toString().trim();
+        String emailAddressEnter = emailAddress.getText().toString().trim();
         String passwordEnter = password.getText().toString().trim();
-        String confirmPassword = confirm_password.getText().toString().trim();
+        String confirmPasswordEnter = confirmPassword.getText().toString().trim();
 
-        if(fullName.isEmpty()) {
-            full_name.setError("All fields are required.");
-            full_name.requestFocus();
+        if(fullNameEnter.isEmpty())
+        {
+            fullName.setError("All fields are required.");
+            fullName.requestFocus();
             return;
         }
 
-        if(emailAddress.isEmpty()) {
-            email_address.setError("All fields are required.");
-            email_address.requestFocus();
+        if(emailAddressEnter.isEmpty())
+        {
+            emailAddress.setError("All fields are required.");
+            emailAddress.requestFocus();
             return;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-            email_address.setError("Please enter valid email.");
-            email_address.requestFocus();
+        if(!Patterns.EMAIL_ADDRESS.matcher(emailAddressEnter).matches())
+        {
+            emailAddress.setError("Please enter valid email.");
+            emailAddress.requestFocus();
             return;
         }
 
-        if(passwordEnter.isEmpty()) {
+        if(passwordEnter.isEmpty())
+        {
             password.setError("All fields are required.");
             password.requestFocus();
             return;
         }
 
-        if(passwordEnter.length()<8) {
+        if(passwordEnter.length()<8)
+        {
             password.setError("Password cannot be less than 8 characters.");
             password.requestFocus();
             return;
         }
 
-        if(confirmPassword.isEmpty()) {
-            confirm_password.setError("All fields are required.");
-            confirm_password.requestFocus();
+        if(confirmPasswordEnter.isEmpty())
+        {
+            confirmPassword.setError("All fields are required.");
+            confirmPassword.requestFocus();
             return;
         }
 
-        if(!confirmPassword.equals(passwordEnter)) {
-            confirm_password.setError("Passwords do not match.");
-            confirm_password.requestFocus();
+        if(!confirmPassword.equals(passwordEnter))
+        {
+            confirmPassword.setError("Passwords do not match.");
+            confirmPassword.requestFocus();
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(emailAddress, passwordEnter)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(emailAddressEnter, passwordEnter)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
                         if(task.isSuccessful()) {
-                            User user = new User(fullName, emailAddress, passwordEnter);
+                            User user = new User(fullNameEnter, emailAddressEnter, passwordEnter);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>()
+                                    {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
 
-                                    if(task.isSuccessful()) {
+                                    if(task.isSuccessful())
+                                    {
                                         Toast.makeText(RegisterActivity.this, "User has been registered.", Toast.LENGTH_LONG).show();
                                     }
-                                    else {
+
+                                    else
+                                    {
                                         Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
                                     }
 
                                 }
                             });
                         }
-                        else {
+
+                        else
+                        {
                             Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
                         }
 

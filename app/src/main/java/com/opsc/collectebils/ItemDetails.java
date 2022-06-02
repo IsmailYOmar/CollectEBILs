@@ -26,7 +26,8 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 
-public class ItemDetails extends AppCompatActivity {
+public class ItemDetails extends AppCompatActivity
+{
 
     TextView categoryName;
     TextView itemName;
@@ -36,8 +37,6 @@ public class ItemDetails extends AppCompatActivity {
     TextView purchasePrice;
     TextView purchaseDate;
     ImageView itemImage;
-
-
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
@@ -45,7 +44,8 @@ public class ItemDetails extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_details);
 
@@ -64,10 +64,10 @@ public class ItemDetails extends AppCompatActivity {
 
     }
 
-    public void GetItemDetails() {
+    public void GetItemDetails()
+    {
 
         ref = FirebaseDatabase.getInstance().getReference("Items");
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         userId = user.getUid();
@@ -77,11 +77,14 @@ public class ItemDetails extends AppCompatActivity {
         String itemName = getIntent().getExtras().getString("itemName");
 
 
-        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
+        {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
                 Items value = snapshot.getValue(Items.class);
-                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) && value.getItemName().equals(itemName)) {
+                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) && value.getItemName().equals(itemName))
+                {
                     itemDescription.setText(value.getItemDescription());
 
                     manufacturer.setText(value.getManufacturer());
@@ -93,18 +96,21 @@ public class ItemDetails extends AppCompatActivity {
                     storageReference =FirebaseStorage.getInstance().getReference().
                             child("Images/"+value.getImgFileName());
 
-                    try {
+                    try
+                    {
                         File tempFile = File.createTempFile("temp","jpg");
-                        storageReference.getFile(tempFile)
-                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        storageReference.getFile(tempFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>()
+                                {
                             @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot)
+                            {
 
                                 Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
                                 itemImage.setImageBitmap(bitmap);
                             }
                         });
-                    } catch (IOException e) {
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
 
@@ -113,22 +119,26 @@ public class ItemDetails extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot)
+            {
 
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error)
+            {
 
             }
         });

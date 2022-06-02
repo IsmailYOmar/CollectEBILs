@@ -20,17 +20,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class CollectionStatisticsActivity extends AppCompatActivity {
+public class CollectionStatisticsActivity extends AppCompatActivity
+{
 
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
-    ListView my_statistics_list;
+    ListView statisticsList;
     ArrayAdapter arrAd;
     ArrayList<String> arrList = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_statistics);
 
@@ -38,19 +40,23 @@ public class CollectionStatisticsActivity extends AppCompatActivity {
         assert user != null;
         userId = user.getUid();
         ref=FirebaseDatabase.getInstance().getReference("Categories");
-        my_statistics_list = (ListView) findViewById(R.id.my_statistics_list);
+        statisticsList = (ListView) findViewById(R.id.statisticsList);
 
         arrAd = new ArrayAdapter(getApplicationContext(), R.layout.list_item2,R.id.name, arrList);
-        my_statistics_list.setAdapter(arrAd);
+        statisticsList.setAdapter(arrAd);
 
-        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
+        {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
                 String val2 = snapshot.getValue(Category.class).returnGoalNumber();
                 arrList.add(val2);
-                Collections.sort(arrList, new Comparator<String>() {
+                Collections.sort(arrList, new Comparator<String>()
+                {
                     @Override
-                    public int compare(String s, String t1) {
+                    public int compare(String s, String t1)
+                    {
                         return s.compareToIgnoreCase(t1);
                     }
                 });
@@ -58,22 +64,26 @@ public class CollectionStatisticsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot)
+            {
 
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error)
+            {
 
             }
         });

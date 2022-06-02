@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="My Collections"
-        android:id="@+id/my_collections"
+    <item
+        android:id="@+id/myCollections"
         android:enabled="true"
         android:icon="@drawable/my_collections_icon_selector"
-        />
+        android:title="My Collections" />
     <item android:title="Explore"
         android:id="@+id/explore"
         android:enabled="true"

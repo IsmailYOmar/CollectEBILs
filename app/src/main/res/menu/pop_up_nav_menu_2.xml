@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Add Item"
-        android:id="@+id/add_Item"
+        android:id="@+id/addItem"
         android:icon="@drawable/ic_add"
         android:enabled="true" />
     <item android:title="Add to Wishlist"
