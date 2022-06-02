@@ -1,8 +1,5 @@
 package com.opsc.collectebils;
 
-import android.net.Uri;
-import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 
 public class Items {
@@ -81,12 +78,12 @@ public class Items {
         this.purchaseDate = purchaseDate;
     }
 
-    public String getImgUri() {
-        return imgUri;
+    public String getImgFileName() {
+        return imgFileName;
     }
 
-    public void setImgUri(String imgUri) {
-        this.imgUri = imgUri;
+    public void setImgFileName(String imgFileName) {
+        this.imgFileName = imgFileName;
     }
 
     public String categoryName;
@@ -98,7 +95,7 @@ public class Items {
     public String purchasePrice;
     public String purchaseDate;
     @Nullable
-    public String imgUri;
+    public String imgFileName;
 
     public Items() {
 
@@ -106,7 +103,7 @@ public class Items {
 
     public Items(String userID, String categoryName, String categoryKey,String  itemName,
                  String  itemDescription ,String manufacturer, String productionYear,
-                 String purchasePrice, String  purchaseDate, String imgUri) {
+                 String purchasePrice, String  purchaseDate, String imgFileName) {
             this.userID = userID;
             this.categoryName = categoryName;
             this.categoryKey = categoryKey;
@@ -116,6 +113,6 @@ public class Items {
             this.productionYear = productionYear;
             this.purchasePrice = purchasePrice;
             this.purchaseDate = purchaseDate;
-            this.imgUri = imgUri;
+            this.imgFileName = imgFileName;
         }
     }

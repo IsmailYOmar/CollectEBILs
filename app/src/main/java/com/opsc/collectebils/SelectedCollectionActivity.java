@@ -83,14 +83,15 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     private String userId;
     private DatabaseReference ref;
 
-
+    public String imageUrl ;
+    public String fileName;
     // instance for firebase storage and StorageReference
     public StorageReference storageReference;
 
     ListView my_collections_list;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
-
+    Items items;
     public BottomNavigationView bottomNavigationView;
 
     @Override
@@ -150,8 +151,6 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                     try {
                         Intent intent = new Intent();
                         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(intent);
                     }
                     catch (Exception e) {
@@ -185,7 +184,9 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
                     uploadImage();
 
-                    Items item = new Items(userID, categoryName, categoryKey, itemName, itemDescription, manufacturer, productionYear, purchasePrice, purchaseDate, imgUri.toString());
+                    String imageFileName = fileName;
+
+                    Items item = new Items(userID, categoryName, categoryKey, itemName, itemDescription, manufacturer, productionYear, purchasePrice, purchaseDate,imageFileName );
 
                     ref.push().setValue(item)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -220,7 +221,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
         my_collections_list = findViewById(R.id.my_collections_list);
         ref = FirebaseDatabase.getInstance().getReference("Items");
-        storageReference = FirebaseStorage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference("Images");
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -344,14 +345,17 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
     private void uploadImage() {
         if(imgUri != null){
-            StorageReference fileRef = storageReference.child(System.currentTimeMillis()+"."+getFileExtension(imgUri));
+            fileName = System.currentTimeMillis()+"."+getFileExtension(imgUri);
+            StorageReference fileRef = storageReference.child(fileName);
             fileRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
                     fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Toast.makeText(SelectedCollectionActivity.this, "Uploaded.", Toast.LENGTH_LONG).show();
+
+                            Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -378,7 +382,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
     private void SelectImage() {
         Intent galleryIntent = new Intent();
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         galleryIntent.setType("image/*");
         galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -389,9 +393,9 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 2 && resultCode == RESULT_OK && data != null);
-
+        if(requestCode == 2 && resultCode == RESULT_OK && data != null)
         imgUri=data.getData();
+
     }
 
 

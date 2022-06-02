@@ -79,7 +79,6 @@ public class MyCollectionsActivity extends AppCompatActivity {
             ref = FirebaseDatabase.getInstance().getReference("Categories");
 
 
-
             catNameEditText = (EditText) myDialog.findViewById(R.id.catNameEditText);
             goalEditText = (EditText) myDialog.findViewById(R.id.goalEditText);
             btnClose.setOnClickListener(new View.OnClickListener() {

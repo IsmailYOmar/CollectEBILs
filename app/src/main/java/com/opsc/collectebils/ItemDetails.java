@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -17,10 +19,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.net.URI;
-import java.util.Date;
-import java.util.jar.Attributes;
+import java.io.File;
+import java.io.IOException;
 
 public class ItemDetails extends AppCompatActivity {
 
@@ -33,11 +37,12 @@ public class ItemDetails extends AppCompatActivity {
     TextView purchaseDate;
     ImageView itemImage;
 
-    Items items;
 
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
+    public  StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +58,6 @@ public class ItemDetails extends AppCompatActivity {
         purchaseDate = findViewById(R.id.itemPurchaseDate);
         itemImage =findViewById(R.id.itemImage);
 
-
-
         itemName.setText(getIntent().getExtras().getString("itemName"));
         categoryName.setText(getIntent().getExtras().getString("collectionName"));
         GetItemDetails();
@@ -63,7 +66,7 @@ public class ItemDetails extends AppCompatActivity {
 
     public void GetItemDetails() {
 
-        ref= FirebaseDatabase.getInstance().getReference("Items");
+        ref = FirebaseDatabase.getInstance().getReference("Items");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -77,16 +80,34 @@ public class ItemDetails extends AppCompatActivity {
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Items value= snapshot.getValue(Items.class);
-                if(value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) && value.getItemName().equals(itemName) ){
-                    itemDescription.setText(value.getItemDescription());;
+                Items value = snapshot.getValue(Items.class);
+                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) && value.getItemName().equals(itemName)) {
+                    itemDescription.setText(value.getItemDescription());
+
                     manufacturer.setText(value.getManufacturer());
                     productionYear.setText(value.getProductionYear());
-                    purchasePrice.setText("R "+value.getPurchasePrice());
+                    purchasePrice.setText("R " + value.getPurchasePrice());
                     purchaseDate.setText(value.getPurchaseDate());
-                    if(value.getImgUri() != null){
-                        itemImage.setImageURI(Uri.parse(value.getImgUri()));
+
+
+                    storageReference =FirebaseStorage.getInstance().getReference().
+                            child("Images/"+value.getImgFileName());
+
+                    try {
+                        File tempFile = File.createTempFile("temp","jpg");
+                        storageReference.getFile(tempFile)
+                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                                Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
+                                itemImage.setImageBitmap(bitmap);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
 
                 }
             }
@@ -111,5 +132,10 @@ public class ItemDetails extends AppCompatActivity {
 
             }
         });
+
+
+
+
     }
+
 }
