@@ -147,12 +147,12 @@ public class MyCollectionsActivity extends AppCompatActivity {
                 String value= snapshot.getValue(Category.class).toString();
                 list.add(value);
                 listOfKey.add(snapshot.getKey());
-                Collections.sort(list, new Comparator<String>() {
+                /*Collections.sort(list, new Comparator<String>() {
                     @Override
                     public int compare(String s, String t1) {
                         return s.compareToIgnoreCase(t1);
                     }
-                });
+                });*/
                 arrayAdapter.notifyDataSetChanged();
             }
 

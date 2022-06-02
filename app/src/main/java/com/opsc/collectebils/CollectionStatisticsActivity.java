@@ -46,7 +46,7 @@ public class CollectionStatisticsActivity extends AppCompatActivity {
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String val2 = snapshot.getValue(Category.class).getGoalNumber();
+                String val2 = snapshot.getValue(Category.class).returnGoalNumber();
                 arrList.add(val2);
                 Collections.sort(arrList, new Comparator<String>() {
                     @Override

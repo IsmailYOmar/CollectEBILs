@@ -3,8 +3,8 @@
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/popup_background">
 
     <LinearLayout
@@ -38,7 +38,7 @@
             android:textColor="@color/black" />
 
         <EditText
-            android:id="@+id/catEditText"
+            android:id="@+id/enterItemName"
             android:layout_width="250dp"
             android:layout_height="48dp"
             android:layout_marginStart="42dp"
@@ -48,7 +48,7 @@
             android:paddingStart="15dp" />
 
         <EditText
-            android:id="@+id/editText9"
+            android:id="@+id/enterItemDescription"
             android:layout_width="250dp"
             android:layout_height="88dp"
             android:layout_marginStart="42dp"
@@ -58,7 +58,7 @@
             android:paddingStart="15dp" />
 
         <EditText
-            android:id="@+id/editText8"
+            android:id="@+id/enterManufacturer"
             android:layout_width="250dp"
             android:layout_height="48dp"
             android:layout_marginStart="42dp"
@@ -68,7 +68,7 @@
             android:paddingStart="15dp" />
 
         <EditText
-            android:id="@+id/editText10"
+            android:id="@+id/enterProductionYear"
             android:layout_width="250dp"
             android:layout_height="48dp"
             android:layout_marginStart="42dp"
@@ -79,7 +79,7 @@
             android:paddingStart="15dp" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/enterPurchaseDate"
             android:layout_width="250dp"
             android:layout_height="48dp"
             android:layout_marginStart="42dp"
@@ -90,7 +90,7 @@
             android:paddingStart="15dp" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/enterPurchasePrice"
             android:layout_width="250dp"
             android:layout_height="48dp"
             android:layout_marginStart="42dp"

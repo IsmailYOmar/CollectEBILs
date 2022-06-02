@@ -18,12 +18,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +51,9 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     Button addToWishlist;
     Button scanBarcode;
     TextView name;
+
     String catName;
+    String catKey;
 
     private FirebaseUser user;
     private String userId;
@@ -83,22 +88,40 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         scanBarcode= findViewById(R.id.barcode_scanner);
 
         catName = getIntent().getExtras().getString("collectionName");
+        catKey = getIntent().getExtras().getString("collectionKey");
         name.setText(catName);
 
         addItem.setOnClickListener(view -> {
             myDialog.setContentView(R.layout.add_item_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
+
             Button btnClose;
             Button btnAdd;
             Button btnUpload;
             Button btnCamera;
 
-
             btnAdd = (Button) myDialog.findViewById(R.id.btnAdd);
             btnCamera = (Button) myDialog.findViewById(R.id.btnCamera);
             btnUpload = (Button) myDialog.findViewById(R.id.btnUpload);
             btnClose = (Button) myDialog.findViewById(R.id.close_btn);
+
+            EditText enterItemName;
+            EditText enterItemDescription;
+            EditText enterManufacturer;
+            EditText enterProductionYear;
+            EditText enterPurchasePrice;
+            EditText enterPurchaseDate;
+
+            enterItemName = (EditText) myDialog.findViewById(R.id.enterItemName);
+            enterItemDescription = (EditText) myDialog.findViewById(R.id.enterItemDescription);
+            enterManufacturer = (EditText) myDialog.findViewById(R.id.enterManufacturer);
+            enterProductionYear = (EditText) myDialog.findViewById(R.id.enterProductionYear);
+            enterPurchasePrice = (EditText) myDialog.findViewById(R.id.enterPurchasePrice);
+            enterPurchaseDate = (EditText) myDialog.findViewById(R.id.enterPurchaseDate);
+
+
+
 
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -118,6 +141,55 @@ public class SelectedCollectionActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     uploadImage();
+                    addItemData();
+
+                    arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
+                    my_collections_list.setAdapter(arrayAdapter);
+                }
+                private void addItemData() {
+                    String userID = userId;
+                    String categoryName = catName;
+                    String categoryKey = getIntent().getExtras().getString("collectionKey");;
+                    String itemName = enterItemName.getText().toString().trim();
+                    String itemDescription = enterItemDescription.getText().toString().trim();
+                    String manufacturer = enterManufacturer.getText().toString().trim();
+                    String productionYear = enterProductionYear.getText().toString().trim();
+                    String purchasePrice = enterPurchasePrice.getText().toString().trim();
+                    String purchaseDate = enterPurchaseDate.getText().toString().trim();
+
+                    Items item = new Items(userID, categoryName, categoryKey,itemName,itemDescription,manufacturer,productionYear,purchasePrice,purchaseDate);
+
+                    ref.push().setValue(item)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+
+                                    }
+                                    else {
+                                        Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                }
+                });
+
+
+            btnCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try
+                    {
+                        Intent intent = new Intent();
+                        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -138,7 +210,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         });
 
         my_collections_list = findViewById(R.id.my_collections_list);
-        ref= FirebaseDatabase.getInstance().getReference("Categories");
+        ref= FirebaseDatabase.getInstance().getReference("Items");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -150,8 +222,10 @@ public class SelectedCollectionActivity extends AppCompatActivity {
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String value= snapshot.getValue(Category.class).toString();
-                list.add(value);
+                Items value= snapshot.getValue(Items.class);
+                if(value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId)){
+                    list.add(value.getItemName());
+                }
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -182,14 +256,17 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
-
                 Intent i = new Intent(SelectedCollectionActivity.this, ItemDetails.class);
                 i.putExtra("itemName", list.get(position));
                 i.putExtra("collectionName", catName);
+                i.putExtra("collectionKey",catKey);
                 startActivity(i);
+
             }
+
+
         });
+
 
 
 
@@ -248,6 +325,8 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             }
         });
     }
+
+
     @Override
     public void onResume() {
         super.onResume();
