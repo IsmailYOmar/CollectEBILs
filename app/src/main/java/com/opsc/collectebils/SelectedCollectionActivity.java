@@ -43,6 +43,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class SelectedCollectionActivity extends AppCompatActivity {
@@ -223,8 +225,15 @@ public class SelectedCollectionActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Items value= snapshot.getValue(Items.class);
-                if(value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId)){
+                if(value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId)) {
                     list.add(value.getItemName());
+
+                    Collections.sort(list, new Comparator<String>() {
+                        @Override
+                        public int compare(String s, String t1) {
+                            return s.compareToIgnoreCase(t1);
+                        }
+                    });
                 }
                 arrayAdapter.notifyDataSetChanged();
             }

@@ -66,14 +66,14 @@ public class ItemDetails extends AppCompatActivity {
 
         String catName = getIntent().getExtras().getString("collectionName");
         String catKey = getIntent().getExtras().getString("collectionKey");
-        String itemName = getIntent().getExtras().getString("collectionKey");
+        String itemName = getIntent().getExtras().getString("itemName");
 
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Items value= snapshot.getValue(Items.class);
-                if(value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) ){
+                if(value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) && value.getItemName().equals(itemName) ){
                     itemDescription.setText(value.getItemDescription());;
                     manufacturer.setText(value.getManufacturer());
                     productionYear.setText(value.getProductionYear());

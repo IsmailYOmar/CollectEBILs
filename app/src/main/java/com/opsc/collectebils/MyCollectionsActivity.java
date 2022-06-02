@@ -41,13 +41,15 @@ public class MyCollectionsActivity extends AppCompatActivity {
     private String userId;
     private DatabaseReference ref;
 
-    private String categoryId;
     public BottomNavigationView bottomNavigationView;
 
     ListView my_collections_list;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
     ArrayList<String> listOfKey = new ArrayList<>();
+
+    int j = 0;
+    ArrayList<Integer> sortingMethodReturns = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,12 +149,35 @@ public class MyCollectionsActivity extends AppCompatActivity {
                 String value= snapshot.getValue(Category.class).toString();
                 list.add(value);
                 listOfKey.add(snapshot.getKey());
-                /*Collections.sort(list, new Comparator<String>() {
+
+                Collections.sort(list, new Comparator<String>() {
+
                     @Override
-                    public int compare(String s, String t1) {
-                        return s.compareToIgnoreCase(t1);
+                    public int compare(String lhs, String rhs) {
+                        // TODO Auto-generated method stub
+                        int returning = lhs.compareTo(rhs);
+                        sortingMethodReturns.add(returning);
+                        return returning;
                     }
-                });*/
+
+                });
+                // now sort the list B according to the changes made with the order of
+                // items in listA
+                Collections.sort(listOfKey, new Comparator<String>() {
+
+                    @Override
+                    public int compare(String lhs, String rhs) {
+                        // TODO Auto-generated method stub
+
+                        // comparator method will sort the second list also according to
+                        // the changes made with list a
+                        int returning = sortingMethodReturns.get(j);
+                        j++;
+                        return returning;
+                    }
+
+                });
+
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -190,7 +215,9 @@ public class MyCollectionsActivity extends AppCompatActivity {
                i.putExtra("collectionKey",listOfKey.get(position));
                startActivity(i);
            }
+
        });
+
 
 
         // Initialize and assign variable
