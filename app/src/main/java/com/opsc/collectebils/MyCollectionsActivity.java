@@ -262,6 +262,13 @@ public class MyCollectionsActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        moveTaskToBack(true);
+    }
 }
 
 

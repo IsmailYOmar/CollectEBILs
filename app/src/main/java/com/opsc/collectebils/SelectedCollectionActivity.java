@@ -273,6 +273,7 @@ public class SelectedCollectionActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent i = new Intent(SelectedCollectionActivity.this, ItemDetails.class);
                 i.putExtra("itemName", list.get(position));
                 i.putExtra("collectionName", catName);
@@ -397,9 +398,9 @@ public class SelectedCollectionActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        //startActivity(new Intent(getApplicationContext(),MyCollectionsActivity.class));
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
     }
-
 
 }

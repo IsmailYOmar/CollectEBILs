@@ -33,6 +33,7 @@ public class MarketplaceActivity extends AppCompatActivity {
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
                         overridePendingTransition(0, 0);
+                        finish();
                         return true;
                     case R.id.explore:
                         bottomNavigationView.getMenu().getItem(1).setChecked(true);
@@ -62,5 +63,6 @@ public class MarketplaceActivity extends AppCompatActivity {
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(2).setChecked(true);
+
     }
 }
