@@ -17,6 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener
@@ -25,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private FirebaseAuth mAuth;
     private EditText fullName, emailAddress, password, confirmPassword;
     private Button registerButton, redirectButton;
+    private String salt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,6 +46,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         emailAddress = (EditText) findViewById(R.id.emailAddress);
         password = (EditText) findViewById(R.id.password);
         confirmPassword = (EditText) findViewById(R.id.confirmPassword);
+
+        try {
+            salt = getSalt();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -59,12 +69,59 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public String getSalt() throws NoSuchAlgorithmException {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt.toString();
+    }
+
+    public String getSHA1SecureEmail(EditText emailAddress, String salt) {
+        String secureEmail = emailAddress.getText().toString().trim();
+        String genEmail = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(salt.getBytes());
+            byte [] bytes = md.digest(secureEmail.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16)
+                        .substring(1));
+            }
+            genEmail = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return genEmail;
+    }
+
+    public String getSHA1SecurePassword(EditText confirmPassword, String salt) {
+        String securePassword = confirmPassword.getText().toString().trim();
+        String genPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(salt.getBytes());
+            byte [] bytes = md.digest(securePassword.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16)
+                        .substring(1));
+            }
+            genPassword = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return genPassword;
+    }
+
     private void registerUser()
     {
         String fullNameEnter = fullName.getText().toString().trim();
         String emailAddressEnter = emailAddress.getText().toString().trim();
         String passwordEnter = password.getText().toString().trim();
         String confirmPasswordEnter = confirmPassword.getText().toString().trim();
+        String hashedPassword = getSHA1SecurePassword(confirmPassword, salt);
+        String hashedEmail = getSHA1SecureEmail(emailAddress, salt);
 
         if(fullNameEnter.isEmpty())
         {
@@ -122,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
                         if(task.isSuccessful()) {
-                            User user = new User(fullNameEnter, emailAddressEnter, passwordEnter);
+                            User user = new User(fullNameEnter, hashedEmail, hashedPassword);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
