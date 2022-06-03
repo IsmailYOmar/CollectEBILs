@@ -239,8 +239,6 @@ public class SelectedCollectionActivity extends AppCompatActivity
                     double purchasePrice;
                     String purchaseDate = enterPurchaseDate.getText().toString().trim();
 
-                    uploadImage();
-
                     String imageFileName = fileName;
 
                     if(itemName.isEmpty()) {
