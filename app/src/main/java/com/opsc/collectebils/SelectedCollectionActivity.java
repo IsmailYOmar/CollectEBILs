@@ -3,24 +3,17 @@ package com.opsc.collectebils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -50,14 +43,10 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 public class SelectedCollectionActivity extends AppCompatActivity
 {
@@ -69,19 +58,17 @@ public class SelectedCollectionActivity extends AppCompatActivity
     String catName;
     String catKey;
     Uri imgUri;
-    String currentPhotoPath;
-
-
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
-
+    public String imageUrl ;
     public String fileName;
     // instance for firebase storage and StorageReference
     public StorageReference storageReference;
     ListView collectionsList;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
+    Items items;
     public BottomNavigationView bottomNavigationView;
 
     @Override
@@ -122,6 +109,62 @@ public class SelectedCollectionActivity extends AppCompatActivity
             enterPurchasePrice = (EditText) myDialog.findViewById(R.id.enterPurchasePrice);
             enterPurchaseDate = (EditText) myDialog.findViewById(R.id.enterPurchaseDate);
 
+            enterPurchaseDate.addTextChangedListener(new TextWatcher() {
+                private String current = "";
+                private String ddmmyyyy = "DDMMYYYY";
+                private Calendar cal = Calendar.getInstance();
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                    if (!s.toString().equals(current)) {
+                        String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+                        String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+
+                        int cl = clean.length();
+                        int sel = cl;
+                        for (i = 2; i <= cl && i < 6; i += 2) {
+                            sel++;
+                        }
+                        if (clean.equals(cleanC)) sel--;
+
+                        if (clean.length() < 8){
+                            clean = clean + ddmmyyyy.substring(clean.length());
+                        }else{
+                            int day  = Integer.parseInt(clean.substring(0,2));
+                            int mon  = Integer.parseInt(clean.substring(2,4));
+                            int year = Integer.parseInt(clean.substring(4,8));
+
+                            mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
+                            cal.set(Calendar.MONTH, mon-1);
+                            year = (year<1900)?1900:(year>2100)?2100:year;
+                            cal.set(Calendar.YEAR, year);
+
+                            day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
+                            clean = String.format("%02d%02d%02d",day, mon, year);
+                        }
+
+                        clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                                clean.substring(2, 4),
+                                clean.substring(4, 8));
+
+                        sel = sel < 0 ? 0 : sel;
+                        current = clean;
+                        enterPurchaseDate.setText(current);
+                        enterPurchaseDate.setSelection(sel < current.length() ? sel : current.length());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
             btnClose.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -137,12 +180,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
-                    if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
-                        SelectImage();
-                    }else {
-                        SelectImage();
-                    }
+                    SelectImage();
                 }
             });
             btnCamera.setOnClickListener(new View.OnClickListener()
@@ -150,11 +188,15 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
-                    if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.CAMERA}, 101);
-                        TakeImage();
-                    }else {
-                        TakeImage();
+                    try
+                    {
+                        Intent intent = new Intent();
+                        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
                     }
                 }
             });
@@ -179,12 +221,97 @@ public class SelectedCollectionActivity extends AppCompatActivity
                     String itemName = enterItemName.getText().toString().trim();
                     String itemDescription = enterItemDescription.getText().toString().trim();
                     String manufacturer = enterManufacturer.getText().toString().trim();
-                    String productionYear = enterProductionYear.getText().toString().trim();
-                    String purchasePrice = enterPurchasePrice.getText().toString().trim();
+                    int productionYear;
+                    double purchasePrice;
                     String purchaseDate = enterPurchaseDate.getText().toString().trim();
 
+                    uploadImage();
 
                     String imageFileName = fileName;
+
+                    if(itemName.isEmpty()) {
+                        enterItemName.setError("All fields are required.");
+                        enterItemName.requestFocus();
+                        return;
+                    }
+
+                    if(itemName.length()>150) {
+                        enterItemName.setError("The item name is too long.");
+                        enterItemName.requestFocus();
+                        return;
+                    }
+
+                    if(itemDescription.isEmpty()) {
+                        enterItemDescription.setError("All fields are required.");
+                        enterItemDescription.requestFocus();
+                        return;
+                    }
+
+                    if(itemDescription.length()>350) {
+                        enterItemDescription.setError("The description is too long.");
+                        enterItemDescription.requestFocus();
+                        return;
+                    }
+
+                    if(manufacturer.isEmpty()) {
+                        enterManufacturer.setError("All fields are required.");
+                        enterManufacturer.requestFocus();
+                        return;
+                    }
+
+                    if(manufacturer.length()>100) {
+                        enterManufacturer.setError("The manufacturer name is too long.");
+                        enterManufacturer.requestFocus();
+                        return;
+                    }
+
+                    try {
+                        productionYear = Integer.parseInt(enterProductionYear.getText().toString().trim());
+                    }
+                    catch (NumberFormatException e) {
+                        enterProductionYear.setError("All fields are required.");
+                        enterProductionYear.requestFocus();
+                        return;
+                    }
+
+                    if(productionYear == 0) {
+                        enterProductionYear.setError("The year cannot be 0.");
+                        enterProductionYear.requestFocus();
+                        return;
+                    }
+
+                    if(productionYear < 0) {
+                        enterProductionYear.setError("The year cannot be less than 0.");
+                        enterProductionYear.requestFocus();
+                        return;
+                    }
+
+                    if (productionYear > 2022) {
+                        enterProductionYear.setError("The year is too far ahead.");
+                        enterProductionYear.requestFocus();
+                        return;
+                    }
+
+                    try {
+                        purchasePrice = Double.parseDouble(enterPurchasePrice.getText().toString().trim());
+                    }
+                    catch (NumberFormatException e) {
+                        enterPurchasePrice.setError("All fields are required.");
+                        enterPurchasePrice.requestFocus();
+                        return;
+                    }
+
+                    if (purchasePrice < 0) {
+                        enterPurchasePrice.setError("The price cannot be less than 0.");
+                        enterPurchasePrice.requestFocus();
+                        return;
+                    }
+
+                    if (purchaseDate.isEmpty()) {
+                        enterPurchaseDate.setError("All fields are required.");
+                        enterPurchaseDate.requestFocus();
+                        return;
+                    }
 
                     Items item = new Items(userID, categoryName, categoryKey, itemName, itemDescription, manufacturer, productionYear, purchasePrice, purchaseDate,imageFileName );
 
@@ -198,7 +325,6 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                     {
                                         Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
                                         myDialog.dismiss();
-
                                     }
 
                                     else
@@ -403,7 +529,6 @@ public class SelectedCollectionActivity extends AppCompatActivity
             });
         }
 
-
     }
     private String getFileExtension(Uri imgUri)
     {
@@ -415,32 +540,11 @@ public class SelectedCollectionActivity extends AppCompatActivity
     private void SelectImage()
     {
         Intent galleryIntent = new Intent();
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         galleryIntent.setType("image/*");
         galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(galleryIntent,2);
-    }
-    private void TakeImage() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.opsc.collectebils.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, 111);
-            }
-        }
     }
 
     @Override
@@ -448,78 +552,11 @@ public class SelectedCollectionActivity extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 2 && resultCode == RESULT_OK && data != null) {
-            imgUri = data.getData();
-            uploadImage();
-        }
-        if(requestCode == 111 && resultCode == RESULT_OK ) {
-            File f = new File(currentPhotoPath);
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            imgUri = Uri.fromFile(f);
-            mediaScanIntent.setData(imgUri);
-            this.sendBroadcast(mediaScanIntent);
-
-            uploadImage(f.getName(),imgUri);
-
-        }
-    }
-    private void uploadImage(String name,Uri imgUri)
-    {
-        if(imgUri != null)
-        {
-            fileName = name;
-            StorageReference fileRef = storageReference.child(fileName);
-            fileRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-            {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                {
-                    Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
-                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-                    {
-                        @Override
-                        public void onSuccess(Uri uri)
-                        {
-                            Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
-            {
-                @Override
-                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot)
-                {
-
-                }
-            }).addOnFailureListener(new OnFailureListener()
-            {
-                @Override
-                public void onFailure(@NonNull Exception e)
-                {
-                    Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-
+        if(requestCode == 2 && resultCode == RESULT_OK && data != null)
+        imgUri=data.getData();
 
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
 
     @Override
     public void onResume()
