@@ -3,14 +3,20 @@ package com.opsc.collectebils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,10 +49,14 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 public class SelectedCollectionActivity extends AppCompatActivity
 {
@@ -58,6 +68,9 @@ public class SelectedCollectionActivity extends AppCompatActivity
     String catName;
     String catKey;
     Uri imgUri;
+    String currentPhotoPath;
+
+
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
@@ -180,7 +193,12 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
-                    SelectImage();
+                    if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
+                        SelectImage();
+                    }else {
+                        SelectImage();
+                    }
                 }
             });
             btnCamera.setOnClickListener(new View.OnClickListener()
@@ -188,15 +206,11 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
-                    try
-                    {
-                        Intent intent = new Intent();
-                        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivity(intent);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
+                    if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.CAMERA}, 101);
+                        TakeImage();
+                    }else {
+                        TakeImage();
                     }
                 }
             });
@@ -540,11 +554,32 @@ public class SelectedCollectionActivity extends AppCompatActivity
     private void SelectImage()
     {
         Intent galleryIntent = new Intent();
-        galleryIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(galleryIntent,2);
+    }
+    private void TakeImage() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.opsc.collectebils.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, 111);
+            }
+        }
     }
 
     @Override
@@ -552,11 +587,78 @@ public class SelectedCollectionActivity extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 2 && resultCode == RESULT_OK && data != null)
-        imgUri=data.getData();
+        if(requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            imgUri = data.getData();
+            uploadImage();
+        }
+        if(requestCode == 111 && resultCode == RESULT_OK ) {
+            File f = new File(currentPhotoPath);
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            imgUri = Uri.fromFile(f);
+            mediaScanIntent.setData(imgUri);
+            this.sendBroadcast(mediaScanIntent);
+
+            uploadImage(f.getName(),imgUri);
+
+        }
+    }
+    private void uploadImage(String name,Uri imgUri)
+    {
+        if(imgUri != null)
+        {
+            fileName = name;
+            StorageReference fileRef = storageReference.child(fileName);
+            fileRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+            {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                {
+                    Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                    {
+                        @Override
+                        public void onSuccess(Uri uri)
+                        {
+                            Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
+            {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot)
+                {
+
+                }
+            }).addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
 
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 
     @Override
     public void onResume()

@@ -22,7 +22,7 @@ import java.util.Comparator;
 
 public class CollectionStatisticsActivity extends AppCompatActivity
 {
-
+    Items items;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
