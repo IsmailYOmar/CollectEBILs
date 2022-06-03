@@ -92,8 +92,8 @@ public class ItemDetails extends AppCompatActivity
                     //set text views == data in Items object
                     itemDescription.setText(value.getItemDescription());
                     manufacturer.setText(value.getManufacturer());
-                    productionYear.setText(value.getProductionYear());
-                    purchasePrice.setText("R " + value.getPurchasePrice());
+                    productionYear.setText(String.valueOf(value.getProductionYear()));
+                    purchasePrice.setText("R " + value.getPurchasePrice() + "0");
                     purchaseDate.setText(value.getPurchaseDate());
 
                     //use image file name from Items object in Firebase storage reference query

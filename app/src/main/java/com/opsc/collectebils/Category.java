@@ -4,7 +4,7 @@ public class Category
 {
     public String userID;
     public String categoryName;
-    public String goalNumber;
+    public int goalNumber;
 
     public Category()
     {
@@ -15,7 +15,7 @@ public class Category
         return categoryName;
     }
 
-    public Category(String userID, String categoryName, String goalNumber)
+    public Category(String userID, String categoryName, int goalNumber)
     {
         this.userID = userID;
         this.categoryName = categoryName;

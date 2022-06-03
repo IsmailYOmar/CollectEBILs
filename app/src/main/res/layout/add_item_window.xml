@@ -55,7 +55,8 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/round_edit_text"
             android:hint="Description"
-            android:paddingStart="15dp" />
+            android:paddingStart="15dp"
+            android:inputType="textMultiLine" />
 
         <EditText
             android:id="@+id/enterManufacturer"
@@ -85,7 +86,7 @@
             android:layout_marginStart="42dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/round_edit_text"
-            android:hint="Purchase Date"
+            android:hint="Purchase Date (DD/MM/YYYY)"
             android:inputType="date"
             android:paddingStart="15dp" />
 

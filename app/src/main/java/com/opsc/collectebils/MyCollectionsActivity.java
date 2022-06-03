@@ -118,7 +118,46 @@ public class MyCollectionsActivity extends AppCompatActivity
                     // add data entered to firebase
                     String userID = userId;
                     String categoryName = catNameEditText.getText().toString().trim();
-                    String goalNumber = goalEditText.getText().toString().trim();
+                    int goalNumber;
+
+                    if(categoryName.isEmpty()) {
+                        catNameEditText.setError("All fields are required.");
+                        catNameEditText.requestFocus();
+                        return;
+                    }
+
+                    if(categoryName.length()>150) {
+                        catNameEditText.setError("The category name is too long.");
+                        catNameEditText.requestFocus();
+                        return;
+                    }
+
+                    try {
+                        goalNumber = Integer.parseInt(goalEditText.getText().toString().trim());
+                    }
+                    catch(NumberFormatException e) {
+                        goalEditText.setError("All fields are required.");
+                        goalEditText.requestFocus();
+                        return;
+                    }
+
+                    if(goalNumber == 0) {
+                        goalEditText.setError("The number cannot equal 0.");
+                        goalEditText.requestFocus();
+                        return;
+                    }
+
+                    if(goalNumber < 0) {
+                        goalEditText.setError("The number cannot be less than 0.");
+                        goalEditText.requestFocus();
+                        return;
+                    }
+
+                    if(goalNumber > 10000) {
+                        goalEditText.setError("The number of items is too large.");
+                        goalEditText.requestFocus();
+                        return;
+                    }
 
                     Category cat = new Category(userID, categoryName, goalNumber);
 

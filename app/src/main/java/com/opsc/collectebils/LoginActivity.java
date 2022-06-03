@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText emailAddress, password;
     private Button loginButton, redirectButton;
+    // Establishes a Firebase connection variable
     private FirebaseAuth mAuth;
 
     @Override
@@ -30,9 +31,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Initializes the Firebase connection variable
         mAuth = FirebaseAuth.getInstance();
 
+        // Operation that checks if the user of the app is signed in or not
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // If statement that keeps the logged in user logged in
         if (user != null)
         {
             // User is signed in
@@ -60,23 +64,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v)
     {
+        // Establishes a switch case to allow the function of 2 buttons
         switch (v.getId())
         {
+            // Initializes a case the button that will link to the register page
             case R.id.redirectButton:
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
 
+            // Initializes a case for the login button and its method
             case R.id.loginButton:
                 userLogin();
                 break;
         }
     }
 
+    // The method that will create a user in Firebase
     private void userLogin()
     {
         String emailAddressEnter = emailAddress.getText().toString().trim();
         String passwordEnter = password.getText().toString().trim();
 
+        // Line 90 - 112
+        // A series of if statements that will validate the user's input
         if(emailAddressEnter.isEmpty()) {
             emailAddress.setError("All fields are required.");
             emailAddress.requestFocus();
@@ -101,11 +111,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+        // Logs in the user using the input specified
         mAuth.signInWithEmailAndPassword(emailAddressEnter, passwordEnter).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+            // Method that checks if the operation is successful
             @Override
             public void onComplete(@NonNull Task<AuthResult> task)
             {
 
+                // If statement that stores user information to the Firebase realtime database
+                // Only if previous operation is successful
                 if(task.isSuccessful())
                 {
 

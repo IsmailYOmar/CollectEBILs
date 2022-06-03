@@ -66,22 +66,22 @@ public class Items {
         this.manufacturer = manufacturer;
     }
 
-    public String getProductionYear()
+    public int getProductionYear()
     {
         return productionYear;
     }
 
-    public void setProductionYear(String productionYear)
+    public void setProductionYear(int productionYear)
     {
         this.productionYear = productionYear;
     }
 
-    public String getPurchasePrice()
+    public double getPurchasePrice()
     {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(String purchasePrice)
+    public void setPurchasePrice(double purchasePrice)
     {
         this.purchasePrice = purchasePrice;
     }
@@ -111,8 +111,8 @@ public class Items {
     public String itemName;
     public String itemDescription;
     public String manufacturer;
-    public String productionYear;
-    public String purchasePrice;
+    public int productionYear;
+    public double purchasePrice;
     public String purchaseDate;
     @Nullable
     public String imgFileName;
@@ -123,8 +123,8 @@ public class Items {
     }
 
     public Items(String userID, String categoryName, String categoryKey,String  itemName,
-                 String  itemDescription ,String manufacturer, String productionYear,
-                 String purchasePrice, String  purchaseDate, String imgFileName)
+                 String  itemDescription ,String manufacturer, int productionYear,
+                 double purchasePrice, String  purchaseDate, String imgFileName)
     {
             this.userID = userID;
             this.categoryName = categoryName;
