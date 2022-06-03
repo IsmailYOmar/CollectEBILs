@@ -95,8 +95,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return genEmail;
     }
 
-    public String getSHA1SecurePassword(EditText confirmPassword, String salt) {
-        String securePassword = confirmPassword.getText().toString().trim();
+    public String getSHA1SecurePassword(EditText password, String salt) {
+        String securePassword = password.getText().toString().trim();
         String genPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
@@ -120,8 +120,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String emailAddressEnter = emailAddress.getText().toString().trim();
         String passwordEnter = password.getText().toString().trim();
         String confirmPasswordEnter = confirmPassword.getText().toString().trim();
-        String hashedPassword = getSHA1SecurePassword(confirmPassword, salt);
-        String hashedEmail = getSHA1SecureEmail(emailAddress, salt);
 
         if(fullNameEnter.isEmpty())
         {
@@ -165,12 +163,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        if(!confirmPassword.equals(passwordEnter))
+        if(!confirmPasswordEnter.equals(passwordEnter))
         {
             confirmPassword.setError("Passwords do not match.");
             confirmPassword.requestFocus();
             return;
         }
+
+        String hashedPassword = getSHA1SecurePassword(password, salt);
+        String hashedEmail = getSHA1SecureEmail(emailAddress, salt);
 
         mAuth.createUserWithEmailAndPassword(emailAddressEnter, passwordEnter)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>()
@@ -192,6 +193,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     if(task.isSuccessful())
                                     {
                                         Toast.makeText(RegisterActivity.this, "User has been registered.", Toast.LENGTH_LONG).show();
+
+                                        Intent i = new Intent(RegisterActivity.this, MyCollectionsActivity.class);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(i);
+                                        RegisterActivity.this.finish();
                                     }
 
                                     else
