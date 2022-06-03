@@ -34,7 +34,7 @@ public class ExploreActivity extends AppCompatActivity
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
             {
                 switch (item.getItemId())
-                {
+                {//nav menu styling and intents to change activity
                     case R.id.myCollections:
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
@@ -66,7 +66,7 @@ public class ExploreActivity extends AppCompatActivity
     }
     @Override
     public void onResume()
-    {
+    {//override page animation on page resume
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);

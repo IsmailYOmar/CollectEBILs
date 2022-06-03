@@ -36,6 +36,7 @@ public class CollectionStatisticsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_statistics);
 
+        // get current user and create firebase instance
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         userId = user.getUid();
@@ -46,10 +47,11 @@ public class CollectionStatisticsActivity extends AppCompatActivity
         statisticsList.setAdapter(arrAd);
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
-        {
+        {//retrieve collection name and collection goal
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
             {
+                //save query result to list view
                 String val2 = snapshot.getValue(Category.class).returnGoalNumber();
                 arrList.add(val2);
                 Collections.sort(arrList, new Comparator<String>()

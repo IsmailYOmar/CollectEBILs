@@ -139,6 +139,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 {
                     if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                         ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
+                        SelectImage();
                     }else {
                         SelectImage();
                     }
@@ -151,6 +152,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 {
                     if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                         ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.CAMERA}, 101);
+                        TakeImage();
                     }else {
                         TakeImage();
                     }

@@ -31,7 +31,7 @@ public class MarketplaceActivity extends AppCompatActivity
         {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
+            {//nav menu styling and intents to change activity
                 switch (item.getItemId())
                 {
                     case R.id.myCollections:
@@ -65,6 +65,7 @@ public class MarketplaceActivity extends AppCompatActivity
     }
     @Override
     public void onResume() {
+        //override page animation on page resume
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(2).setChecked(true);

@@ -45,6 +45,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         logoutButton = (Button) findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(this);
 
+        // get current user and create firebase instance
         user = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference("Users");
         userId = user.getUid();
@@ -63,7 +64,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         });
 
         ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener()
-        {
+        {// get users Full Name from FireBase and Display in  TextView
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
             {
@@ -98,7 +99,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
             {
                 switch (item.getItemId())
-                {
+                {//nav menu styling and intents to change activity
                     case R.id.myCollections:
                         bottomNavigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
@@ -129,13 +130,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         });
     }
     public void openCollectionStatisticsActivity()
-    {
+    { // Open activity to display users collection statistics
         Intent intent = new Intent(this, CollectionStatisticsActivity.class);
         startActivity(intent);
     }
     @Override
     public void onResume()
-    {
+    {//override page animation on page resume
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(3).setChecked(true);
@@ -153,7 +154,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void LogoutUser()
-    {
+    {//log out user from Firebase
         FirebaseAuth.getInstance().signOut();
         Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +69,7 @@ public class ItemDetails extends AppCompatActivity
     public void GetItemDetails()
     {
 
+        //get current user and create firebase instance
         ref = FirebaseDatabase.getInstance().getReference("Items");
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -82,29 +85,30 @@ public class ItemDetails extends AppCompatActivity
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
             {
+                //save firebase query result to object of Items class
                 Items value = snapshot.getValue(Items.class);
                 if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) && value.getItemName().equals(itemName))
                 {
+                    //set text views == data in Items object
                     itemDescription.setText(value.getItemDescription());
-
                     manufacturer.setText(value.getManufacturer());
                     productionYear.setText(value.getProductionYear());
                     purchasePrice.setText("R " + value.getPurchasePrice());
                     purchaseDate.setText(value.getPurchaseDate());
 
-
+                    //use image file name from Items object in Firebase storage reference query
                     storageReference =FirebaseStorage.getInstance().getReference().
                             child("Images/"+value.getImgFileName());
-
                     try
                     {
+                        //save query result into temp file
                         File tempFile = File.createTempFile("temp","jpg");
                         storageReference.getFile(tempFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>()
                                 {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot)
                             {
-
+                                //set imageview to result of Firebase storage query
                                 Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
                                 itemImage.setImageBitmap(bitmap);
                             }
@@ -113,7 +117,6 @@ public class ItemDetails extends AppCompatActivity
                     {
                         e.printStackTrace();
                     }
-
 
                 }
             }

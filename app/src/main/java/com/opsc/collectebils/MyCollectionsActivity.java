@@ -60,7 +60,7 @@ public class MyCollectionsActivity extends AppCompatActivity
 
         addCategory.setOnClickListener(view ->
         {
-
+            //open Dialog window
             myDialog.setContentView(R.layout.create_a_category_window);
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
@@ -73,6 +73,7 @@ public class MyCollectionsActivity extends AppCompatActivity
             btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
             addCatBtn = (Button) myDialog.findViewById(R.id.addCatBtn);
 
+            // get current user and create firebase instance
             user = FirebaseAuth.getInstance().getCurrentUser();
             assert user != null;
             userId = user.getUid();
@@ -83,6 +84,7 @@ public class MyCollectionsActivity extends AppCompatActivity
             goalEditText = (EditText) myDialog.findViewById(R.id.goalEditText);
             btnClose.setOnClickListener(new View.OnClickListener()
             {
+                //close popup window on button press
                 @Override
                 public void onClick(View view)
                 {
@@ -91,7 +93,7 @@ public class MyCollectionsActivity extends AppCompatActivity
             });
 
             addCatBtn.setOnClickListener(new View.OnClickListener()
-            {
+            {// on button press call method to add to firebase
                 @Override
                 public void onClick(View view)
                 {
@@ -105,6 +107,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                             break;
                     }
 
+                    //update listview
                     arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
                     collectionsList.setAdapter(arrayAdapter);
 
@@ -112,6 +115,7 @@ public class MyCollectionsActivity extends AppCompatActivity
 
                 private void addCategoryData()
                 {
+                    // add data entered to firebase
                     String userID = userId;
                     String categoryName = catNameEditText.getText().toString().trim();
                     String goalNumber = goalEditText.getText().toString().trim();
@@ -141,6 +145,7 @@ public class MyCollectionsActivity extends AppCompatActivity
 
         });
 
+        // pull data from firebase and display in listview
         collectionsList = findViewById(R.id.collectionsList);
         ref=FirebaseDatabase.getInstance().getReference("Categories");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -160,11 +165,9 @@ public class MyCollectionsActivity extends AppCompatActivity
 
                 Collections.sort(list, new Comparator<String>()
                 {
-
                     @Override
                     public int compare(String lhs, String rhs)
                     {
-                        // TODO Auto-generated method stub
                         int returning = lhs.compareTo(rhs);
                         sortingMethodReturns.add(returning);
                         return returning;
@@ -175,12 +178,9 @@ public class MyCollectionsActivity extends AppCompatActivity
                 // items in listA
                 Collections.sort(listOfKey, new Comparator<String>()
                 {
-
                     @Override
                     public int compare(String lhs, String rhs)
                     {
-                        // TODO Auto-generated method stub
-
                         // comparator method will sort the second list also according to
                         // the changes made with list a
                         int returning = sortingMethodReturns.get(j);
@@ -246,7 +246,7 @@ public class MyCollectionsActivity extends AppCompatActivity
         {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
+            { //nav menu styling and intents to change activity
                 switch (item.getItemId())
                 {
                     case R.id.myCollections:
@@ -276,7 +276,7 @@ public class MyCollectionsActivity extends AppCompatActivity
     }
     @Override
     public void onResume()
-    {
+    {//override page animation on page resume
         super.onResume();
         overridePendingTransition(0, 0);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
@@ -284,7 +284,7 @@ public class MyCollectionsActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed()
-    {
+    {//close app on back press
         super.onBackPressed();
         finish();
         moveTaskToBack(true);
