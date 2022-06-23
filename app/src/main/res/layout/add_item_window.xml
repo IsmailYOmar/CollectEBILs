@@ -35,7 +35,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="Enter the details of the item you would like to create."
-            android:textColor="@color/black" />
+            android:textColor="?attr/colorOnPrimary" />
 
         <EditText
             android:id="@+id/enterItemName"
@@ -45,6 +45,8 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/round_edit_text"
             android:hint="Item Name"
+            android:textColorHint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:paddingStart="15dp" />
 
         <EditText
@@ -56,6 +58,8 @@
             android:background="@drawable/round_edit_text"
             android:hint="Description"
             android:paddingStart="15dp"
+            android:textColorHint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:inputType="textMultiLine" />
 
         <EditText
@@ -66,6 +70,8 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/round_edit_text"
             android:hint="Manufacturer"
+            android:textColorHint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:paddingStart="15dp" />
 
         <EditText
@@ -76,6 +82,8 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/round_edit_text"
             android:hint="Manufactured Year"
+            android:textColorHint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:inputType="date"
             android:paddingStart="15dp" />
 
@@ -87,6 +95,8 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/round_edit_text"
             android:hint="Purchase Date"
+            android:textColorHint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:inputType="date"
             android:paddingStart="15dp" />
 
@@ -98,6 +108,8 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/round_edit_text"
             android:hint="Purchase Price"
+            android:textColorHint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:inputType="numberDecimal"
             android:paddingStart="15dp" />
 
@@ -117,7 +129,7 @@
             android:layout_marginTop="-35dp"
             android:layout_marginBottom="16dp"
             android:text="Upload image from gallery"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="16dp" />
 
         <Button
@@ -136,7 +148,7 @@
             android:layout_marginTop="-35dp"
             android:layout_marginBottom="16dp"
             android:text="Upload image from camera"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="16dp" />
 
         <Button

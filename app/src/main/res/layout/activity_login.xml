@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorPrimary"
     android:theme="@style/Theme.CollectEBILs"
     tools:context=".LoginActivity">
 
@@ -24,7 +24,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="0dp"
         android:text="Please login to continue"
-        android:textColor="@color/black_3"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -40,6 +40,8 @@
         android:drawablePadding="10dp"
         android:hint="EMAIL"
         android:padding="10dp"
+        android:textColor="?attr/colorOnPrimary"
+        android:textColorHint="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -53,6 +55,8 @@
         android:drawableLeft="@drawable/ic_lock"
         android:drawablePadding="10dp"
         android:hint="PASSWORD"
+        android:textColorHint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary"
         android:inputType="textPassword"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +85,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
         android:text="Don't have an account?"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toStartOf="@+id/redirectButton"
@@ -98,7 +102,7 @@
         android:background="@drawable/round_button_2"
         android:text="Sign Up"
         android:textAllCaps="false"
-        android:textColor="@color/yellow"
+        android:textColor="?attr/colorSecondaryVariant"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"

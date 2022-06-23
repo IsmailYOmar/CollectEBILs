@@ -34,7 +34,7 @@
         android:layout_marginTop="12dp"
         android:lines="2"
         android:text="Enter the name of the collection you want to create."
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +49,8 @@
         android:background="@drawable/round_edit_text"
         android:hint="Category Name"
         android:paddingStart="15dp"
+        android:textColorHint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -61,6 +63,8 @@
         android:background="@drawable/round_edit_text"
         android:hint="Specify number of items"
         android:paddingStart="15dp"
+        android:textColorHint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/catNameEditText" />

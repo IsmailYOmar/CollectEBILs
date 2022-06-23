@@ -2,16 +2,23 @@
     <!-- Base application theme. -->
     <style name="Theme.CollectEBILs" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black_3</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/white</item>
-        <item name="colorSecondaryVariant">@color/white</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorSecondaryVariant">@color/black_3</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="23">?attr/colorSecondary</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:statusBarColor" tools:targetApi="23">@color/black</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.CollectEBILs.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:colorControlActivated">@color/yellow</item>
+    </style>
+    <style name="Theme.CollectEBILs.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.CollectEBILs.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

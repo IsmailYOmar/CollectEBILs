@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.CollectEBILs">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             android:layout_marginHorizontal="15dp"
             android:padding="18dp"
             android:textAllCaps="true"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:drawableRight="@drawable/ic_angle_right_yellow"
             android:background="@drawable/round_edit_text"/>
 

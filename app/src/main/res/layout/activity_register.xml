@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorPrimary"
     tools:context=".RegisterActivity">
 
 
@@ -15,6 +15,7 @@
         android:layout_marginTop="-35dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/lb_create_account"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
@@ -25,7 +26,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="-25dp"
         android:text="Please create an account to continue"
-        android:textColor="@color/black_3"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -40,6 +41,8 @@
         android:drawableLeft="@drawable/ic_user"
         android:drawablePadding="10dp"
         android:hint="FULL NAME"
+        android:textColor="?attr/colorOnPrimary"
+        android:textColorHint="?attr/colorOnPrimary"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -54,6 +57,8 @@
         android:drawableLeft="@drawable/ic_envelope"
         android:drawablePadding="10dp"
         android:hint="EMAIL"
+        android:textColor="?attr/colorOnPrimary"
+        android:textColorHint="?attr/colorOnPrimary"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -69,6 +74,8 @@
         android:drawableLeft="@drawable/ic_lock"
         android:drawablePadding="10dp"
         android:hint="PASSWORD"
+        android:textColor="?attr/colorOnPrimary"
+        android:textColorHint="?attr/colorOnPrimary"
         android:inputType="textPassword"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,6 +91,8 @@
         android:drawableLeft="@drawable/ic_lock"
         android:drawablePadding="10dp"
         android:hint="CONFIRM PASSWORD"
+        android:textColor="?attr/colorOnPrimary"
+        android:textColorHint="?attr/colorOnPrimary"
         android:inputType="textPassword"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +124,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:text="Already have an account?"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toStartOf="@+id/redirectButton"
@@ -133,7 +142,7 @@
         android:background="@drawable/round_button_2"
         android:text="Login"
         android:textAllCaps="false"
-        android:textColor="@color/yellow"
+        android:textColor="?attr/colorSecondaryVariant"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"

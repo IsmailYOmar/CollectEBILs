@@ -637,8 +637,6 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 }
             });
         }
-
-
     }
 
     private File createImageFile() throws IOException {

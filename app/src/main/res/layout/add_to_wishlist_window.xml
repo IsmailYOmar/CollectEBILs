@@ -39,7 +39,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="Enter the name of the item you would like have in this collection."
-            android:textColor="@color/black" />
+            android:textColor="?attr/colorOnPrimary"  />
 
         <EditText
             android:id="@+id/catEditText"
@@ -49,7 +49,9 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/round_edit_text"
             android:hint="Item Name"
-            android:paddingStart="15dp" />
+            android:paddingStart="15dp"
+            android:textColorHint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary"/>
 
         <Button
             android:id="@+id/button5"
@@ -67,8 +69,7 @@
             android:layout_marginTop="-25dp"
             android:layout_marginBottom="16dp"
             android:text="Upload a image of the item"
-            android:textColor="@color/black"
-            android:textSize="16dp" />
+            android:textColor="?attr/colorOnPrimary"  />
 
         <Button
             android:layout_width="wrap_content"
