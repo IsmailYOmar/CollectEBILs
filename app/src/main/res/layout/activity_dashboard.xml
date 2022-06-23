@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dashboard__background"
+    android:background="@drawable/dashboard_background"
     tools:context=".DashboardActivity">
 
     <ImageView
@@ -29,7 +29,7 @@
         android:layout_height="564dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="192dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -53,7 +53,7 @@
                 android:text="User Details"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 
@@ -71,7 +71,7 @@
                 android:text="Collection Statistics "
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 
@@ -88,7 +88,7 @@
                 android:text="Collection Layout"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 
@@ -112,7 +112,7 @@
                     android:spinnerMode="dropdown"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="18sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -130,7 +130,7 @@
                 android:text="Enable Cloud Sync"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 
@@ -155,7 +155,7 @@
                 android:text="Enable Two-Factor Authentication"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 
@@ -178,6 +178,7 @@
                 android:padding="2dp"
                 android:paddingStart="15dp"
                 android:text="Import"
+                android:textColor="?attr/colorOnPrimary"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
@@ -193,6 +194,7 @@
                 android:padding="2dp"
                 android:paddingStart="15dp"
                 android:text="Export"
+                android:textColor="?attr/colorOnPrimary"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
@@ -209,6 +211,7 @@
                 android:padding="2dp"
                 android:paddingStart="15dp"
                 android:text="Logout"
+                android:textColor="?attr/colorOnPrimary"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textSize="18sp" />

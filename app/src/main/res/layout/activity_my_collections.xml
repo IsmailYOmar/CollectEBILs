@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="-30dp"
-            android:src="@drawable/lb_my_collections">
+            android:src="@drawable/lb_my_collections"
+            app:tint="?attr/colorSecondary">
 
         </ImageView>
 

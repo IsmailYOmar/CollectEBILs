@@ -18,7 +18,8 @@
         android:layout_marginTop="-20dp"
         android:src="@drawable/lb_bar_code_scanner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorSecondary"/>
 
     <Button
         android:id="@+id/closeBtn"

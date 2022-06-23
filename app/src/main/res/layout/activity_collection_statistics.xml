@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:src="@drawable/lb_collections_statistics"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorSecondary">
 
     </ImageView>
 
@@ -36,7 +37,8 @@
         android:layout_height="464dp"
         android:orientation="vertical"
         android:layout_marginTop="70dp"
-        app:layout_constraintTop_toTopOf="@+id/textView6">
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"

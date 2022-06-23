@@ -15,7 +15,9 @@
         android:layout_marginEnd="24dp"
         android:src="@drawable/lb_login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorSecondary"
+        ></ImageView>
 
     <TextView
         android:id="@+id/textView"

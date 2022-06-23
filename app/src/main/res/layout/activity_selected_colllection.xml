@@ -26,7 +26,8 @@
             android:textAllCaps="true"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="70sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <ScrollView
             android:layout_width="match_parent"

@@ -21,4 +21,14 @@
     </style>
     <style name="Theme.CollectEBILs.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.CollectEBILs.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <declare-styleable name="customAttrs">
+        <attr name="add_a_category" format="reference" />
+        <attr name="explore" format="reference" />
+    </declare-styleable>
+
+    <style name="lables">
+        <item name="add_a_category">@drawable/lb_add_a_category</item>
+        <item name="explore">@drawable/lb_explore</item>
+    </style>
 </resources>

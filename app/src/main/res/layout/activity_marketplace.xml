@@ -15,13 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/lb_marketplace" />
+                android:src="@drawable/lb_marketplace"
+                app:tint="?attr/colorSecondary"/>
 
             <ImageView
                 android:layout_width="match_parent"
