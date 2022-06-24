@@ -2,8 +2,10 @@ package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,10 +41,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dashboard);
 
         Spinner dropDown = findViewById(R.id.collectionLayout);
-        String[] items = new String[]{"List View", "Thumbnail View"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.Spinner_items,
+                R.layout.dropdown_item
+        );
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         dropDown.setAdapter(adapter);
-
         logoutButton = (Button) findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(this);
 

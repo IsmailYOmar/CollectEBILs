@@ -106,7 +106,7 @@
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="15dp"
-                    android:dropDownSelector="@drawable/black_arrow"
+                    android:backgroundTint="?attr/colorSecondary"
                     android:padding="5dp"
                     android:paddingStart="15dp"
                     android:spinnerMode="dropdown"
@@ -132,7 +132,8 @@
                 android:textAllCaps="false"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:entries="@array/Spinner_items"/>
 
             <Switch
                 android:layout_width="wrap_content"
