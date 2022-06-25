@@ -26,8 +26,7 @@
             android:textAllCaps="true"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="70sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -81,7 +80,7 @@
                 app:itemRippleColor="@color/black_3" />
 
             <Button
-                android:id="@+id/addToWishlist"
+                android:id="@+id/goToWishlist"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"

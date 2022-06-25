@@ -62,7 +62,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 {
     Dialog myDialog;
     Button addItem;
-    Button addToWishlist;
+    Button goToWishlist;
     Button scanBarcode;
     TextView name;
     String catName;
@@ -93,7 +93,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
         name = findViewById(R.id.selectedCollectionName);
         myDialog = new Dialog(this);
         addItem = findViewById(R.id.addItem);
-        addToWishlist = findViewById(R.id.addToWishlist);
+        goToWishlist = findViewById(R.id.goToWishlist);
         scanBarcode = findViewById(R.id.barcodeScanner);
         catName = getIntent().getExtras().getString("collectionName");
         catKey = getIntent().getExtras().getString("collectionKey");
@@ -349,21 +349,13 @@ public class SelectedCollectionActivity extends AppCompatActivity
             });
         });
 
-        addToWishlist.setOnClickListener(view ->
+        goToWishlist.setOnClickListener(view ->
         {
-            myDialog.setContentView(R.layout.add_to_wishlist_window);
-            myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            myDialog.show();
-            Button btnClose;
-            btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
-            btnClose.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    myDialog.dismiss();
-                }
-            });
+            Intent i = new Intent(SelectedCollectionActivity.this, WishlistActivity.class);
+            i.putExtra("collectionName", catName);
+            i.putExtra("collectionKey", catKey);
+            startActivity(i);
+
         });
 
         collectionsList= findViewById(R.id.collectionsList);
