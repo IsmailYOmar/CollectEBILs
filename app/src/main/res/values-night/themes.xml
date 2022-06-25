@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.CollectEBILs" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.CollectEBILs" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/black_3</item>
@@ -27,8 +27,4 @@
         <attr name="explore" format="reference" />
     </declare-styleable>
 
-    <style name="lables">
-        <item name="add_a_category">@drawable/lb_add_a_category</item>
-        <item name="explore">@drawable/lb_explore</item>
-    </style>
 </resources>

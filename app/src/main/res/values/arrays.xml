@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="Spinner_items">
-        <item>List View</item>
-        <item>Thumbnail View</item>
+        <item>Use device settings</item>
+        <item>Off</item>
+        <item>On</item>
     </string-array>
 </resources>

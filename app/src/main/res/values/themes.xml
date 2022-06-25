@@ -28,8 +28,4 @@
         <attr name="explore" format="reference" />
     </declare-styleable>
 
-    <style name="lables" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="add_a_category">@drawable/lb_add_a_category</item>
-        <item name="explore">@drawable/lb_explore</item>
-    </style>
 </resources>

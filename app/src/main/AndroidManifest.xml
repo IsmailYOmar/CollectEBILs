@@ -5,10 +5,11 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.MANAGE_DOCUMENTS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -18,10 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CollectEBILs">
         <activity
+            android:name=".CollectionDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ItemDetails"
             android:exported="false"
-            android:theme="@style/Theme.Dashboard"/>
-
+            android:theme="@style/Theme.Dashboard" />
         <activity
             android:name=".CollectionStatisticsActivity"
             android:exported="false" />
@@ -47,8 +50,7 @@
         <activity
             android:name=".MyCollectionsActivity"
             android:exported="false"
-            android:theme="@style/Theme.CollectEBILs"
-            />
+            android:theme="@style/Theme.CollectEBILs" />
         <activity
             android:name=".SelectedCollectionActivity"
             android:exported="false"
@@ -65,16 +67,14 @@
         </activity>
 
         <provider
-            android:authorities="com.opsc.collectebils.android.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.opsc.collectebils.android.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
+                android:resource="@xml/file_paths"></meta-data>
         </provider>
-
     </application>
 
 </manifest>

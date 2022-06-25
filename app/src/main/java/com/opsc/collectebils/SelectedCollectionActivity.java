@@ -223,7 +223,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 
                     addItemData();
 
-                    arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, R.id.name, list);
+                    arrayAdapter = new ArrayAdapter(SelectedCollectionActivity.this, R.layout.list_item, R.id.name, list);
                     collectionsList.setAdapter(arrayAdapter);
                 }
 
@@ -372,7 +372,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         userId = user.getUid();
-        arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, R.id.name, list);
+        arrayAdapter = new ArrayAdapter(SelectedCollectionActivity.this, R.layout.list_item, R.id.name, list);
         collectionsList.setAdapter(arrayAdapter);
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {

@@ -2,14 +2,17 @@ package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -32,6 +35,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private String userId;
     private Button logoutButton;
     private Button collectionStatistics;
+    Spinner dropDown;
     public  BottomNavigationView bottomNavigationView;
 
     @Override
@@ -40,7 +44,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Spinner dropDown = findViewById(R.id.collectionLayout);
+        dropDown = findViewById(R.id.darkMode);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.Spinner_items,
@@ -48,6 +52,37 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         );
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         dropDown.setAdapter(adapter);
+        SharedPreferences sharedPref = getSharedPreferences("FileName",MODE_PRIVATE);
+        int spinnerValue = sharedPref.getInt("spinnerChoice",-1);
+        if(spinnerValue != -1)
+            dropDown.setSelection(spinnerValue);
+
+        dropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (dropDown.getSelectedItem().equals("On")){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                else if(dropDown.getSelectedItem().equals("Off")){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                }
+
+                int Choice = dropDown.getSelectedItemPosition();
+                SharedPreferences sharedPref = getSharedPreferences("FileName",0);
+                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                prefEditor.putInt("spinnerChoice",Choice);
+                prefEditor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
         logoutButton = (Button) findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(this);
 

@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,6 +32,9 @@ public class CollectionStatisticsActivity extends AppCompatActivity
     ListView statisticsList;
     ArrayAdapter arrAd;
     ArrayList<String> arrList = new ArrayList<>();
+    ArrayList<String> arrListKey = new ArrayList<>();
+    ArrayList<Integer> sortingMethodReturns = new ArrayList<Integer>();
+    int j = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,7 +49,7 @@ public class CollectionStatisticsActivity extends AppCompatActivity
         ref=FirebaseDatabase.getInstance().getReference("Categories");
         statisticsList = (ListView) findViewById(R.id.statisticsList);
 
-        arrAd = new ArrayAdapter(getApplicationContext(), R.layout.list_item2,R.id.name, arrList);
+        arrAd = new ArrayAdapter(CollectionStatisticsActivity.this, R.layout.list_item,R.id.name, arrList);
         statisticsList.setAdapter(arrAd);
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
@@ -51,17 +57,37 @@ public class CollectionStatisticsActivity extends AppCompatActivity
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
             {
-                //save query result to list view
-                String val2 = snapshot.getValue(Category.class).returnGoalNumber();
-                arrList.add(val2);
+                String value= snapshot.getValue(Category.class).toString();
+                arrList.add(value);
+                arrListKey.add(snapshot.getKey());
+
                 Collections.sort(arrList, new Comparator<String>()
                 {
                     @Override
-                    public int compare(String s, String t1)
+                    public int compare(String lhs, String rhs)
                     {
-                        return s.compareToIgnoreCase(t1);
+                        int returning = lhs.compareTo(rhs);
+                        sortingMethodReturns.add(returning);
+                        return returning;
                     }
+
                 });
+                // now sort the list B according to the changes made with the order of
+                // items in listA
+                Collections.sort(arrListKey, new Comparator<String>()
+                {
+                    @Override
+                    public int compare(String lhs, String rhs)
+                    {
+                        // comparator method will sort the second list also according to
+                        // the changes made with list a
+                        int returning = sortingMethodReturns.get(j);
+                        j++;
+                        return returning;
+                    }
+
+                });
+
                 arrAd.notifyDataSetChanged();
             }
 
@@ -90,6 +116,21 @@ public class CollectionStatisticsActivity extends AppCompatActivity
             }
         });
 
+        statisticsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
+
+                Intent i = new Intent(CollectionStatisticsActivity.this, CollectionDetailsActivity.class);
+                i.putExtra("collectionName", arrList.get(position));
+                i.putExtra("collectionKey",arrListKey.get(position));
+                startActivity(i);
+            }
+
+        });
         }
     }
 
