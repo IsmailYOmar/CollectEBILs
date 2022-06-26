@@ -130,6 +130,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 {
                     list.add(value2.getItemName());
                 }
+
                 if(list.size() == 0) {
                     itemNumber.setText("You currently have do not have any items in this collection ");
                 }else if(list.size() == 1) {
