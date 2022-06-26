@@ -135,8 +135,13 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 progressBar.setProgress(list.size());
 
                 if(goalNumber != 0) {
-                    double percent = (list.size() / goalNumber) * 100;
-                    itemPercentage.setText(String.valueOf(percent) + "%");
+                    double percent = (list.size()*1.0 / goalNumber) * 100;
+                    if(percent > 100){
+                        itemPercentage.setText("Goal Reached !!!");
+                    }else {
+                        String stringPercent = String.format("%.1f", percent);
+                        itemPercentage.setText(stringPercent + "%");
+                    }
                 }else{
                     itemPercentage.setText("0%");
                 }
