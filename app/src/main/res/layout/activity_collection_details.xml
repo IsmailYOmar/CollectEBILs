@@ -124,7 +124,7 @@
                             android:id="@+id/itemPercentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="210dp"
+                            android:layout_marginStart="200dp"
                             android:layout_marginTop="-28dp"
                             android:gravity="left"
                             android:text="Percentage"
