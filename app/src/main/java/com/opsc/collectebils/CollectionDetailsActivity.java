@@ -132,6 +132,8 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 }
                 if(list.size() == 0) {
                     itemNumber.setText("You currently have do not have any items in this collection ");
+                }else if(list.size() == 1) {
+                    itemNumber.setText("You currently have " + String.valueOf(list.size()) + " item in this collection ");
                 }else{
                     itemNumber.setText("You currently have " + String.valueOf(list.size()) + " items in this collection ");
                 }
