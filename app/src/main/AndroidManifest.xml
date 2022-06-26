@@ -20,13 +20,15 @@
         android:theme="@style/Theme.CollectEBILs">
         <activity
             android:name=".WishlistDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Dashboard" />
         <activity
             android:name=".WishlistActivity"
             android:exported="false" />
         <activity
             android:name=".CollectionDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Dashboard" />
         <activity
             android:name=".ItemDetails"
             android:exported="false"

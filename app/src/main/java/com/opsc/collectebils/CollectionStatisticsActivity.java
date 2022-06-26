@@ -57,7 +57,7 @@ public class CollectionStatisticsActivity extends AppCompatActivity
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
             {
-                String value= snapshot.getValue(Category.class).toString();
+                String value= snapshot.getValue(Category.class).getCategoryName();
                 arrList.add(value);
                 arrListKey.add(snapshot.getKey());
 

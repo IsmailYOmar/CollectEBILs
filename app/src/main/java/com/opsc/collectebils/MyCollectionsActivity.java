@@ -198,7 +198,7 @@ public class MyCollectionsActivity extends AppCompatActivity
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
             {
-                String value= snapshot.getValue(Category.class).toString();
+                String value= snapshot.getValue(Category.class).getCategoryName();
                 list.add(value);
                 listOfKey.add(snapshot.getKey());
 
