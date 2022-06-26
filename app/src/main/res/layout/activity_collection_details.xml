@@ -103,12 +103,12 @@
                             android:layout_width="294dp"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="35dp"
-                            android:layout_marginTop="24dp"
+                            android:layout_marginTop="15dp"
                             android:gravity="left"
                             android:text="Number of items in collection"
                             android:textColor="?attr/colorOnPrimary"
                             android:textSize="20sp"
-                            android:inputType="number"/>
+                            android:inputType="textMultiLine"/>
 
                         <TextView
                             android:layout_width="wrap_content"

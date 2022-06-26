@@ -130,15 +130,22 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 {
                     list.add(value2.getItemName());
                 }
-
-                itemNumber.setText(String.valueOf(list.size()));
+                if(list.size() == 0) {
+                    itemNumber.setText("You currently have do not have any items in this collection ");
+                }else{
+                    itemNumber.setText("You currently have " + String.valueOf(list.size()) + " items in this collection ");
+                }
                 progressBar.setProgress(list.size());
 
                 if(goalNumber != 0) {
                     double percent = (list.size()*1.0 / goalNumber) * 100;
                     if(percent > 100){
                         itemPercentage.setText("Goal Reached !!!");
-                    }else {
+                    }
+                    else if(percent == 0){
+                        itemPercentage.setText("0%");
+                    }
+                    else {
                         String stringPercent = String.format("%.1f", percent);
                         itemPercentage.setText(stringPercent + "%");
                     }
