@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -104,13 +106,19 @@ public class ItemDetails extends AppCompatActivity
                         //save query result into temp file
                         File tempFile = File.createTempFile("temp","jpg");
                         storageReference.getFile(tempFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>()
-                                {
+                        {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot)
                             {
                                 //set imageview to result of Firebase storage query
                                 Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
                                 itemImage.setImageBitmap(bitmap);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Drawable myDrawable = getResources().getDrawable(R.drawable.image_not_found);
+                                itemImage.setImageDrawable(myDrawable);
                             }
                         });
                     } catch (IOException e)
