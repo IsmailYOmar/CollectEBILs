@@ -2,9 +2,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/progress">
 
-        <scale android:scaleWidth="100%"  android:level="1">
+        <scale android:scaleWidth="100%"  >
             <shape android:shape="rectangle" >
-                <corners android:radius="8dp"/>
+                <corners android:radius="10dp"/>
                 <solid android:color="@color/yellow" />
             </shape>
         </scale>
@@ -12,8 +12,8 @@
     </item>
     <item android:id="@android:id/background">
 
-        <shape android:shape="rectangle" android:level="2">
-            <corners android:radius="8dp"/>
+        <shape android:shape="rectangle" >
+            <corners android:radius="10dp"/>
             <stroke android:width="0.1dp"
                 android:color="?attr/colorSecondary" />
         </shape>
