@@ -107,7 +107,8 @@
                             android:gravity="left"
                             android:text="Number of items in collection"
                             android:textColor="?attr/colorOnPrimary"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:inputType="number"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -128,7 +129,8 @@
                             android:gravity="left"
                             android:text="Percentage"
                             android:textColor="?attr/colorOnPrimary"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:inputType="number"/>
 
                         <ProgressBar
                             android:id="@+id/progressBar"

@@ -133,7 +133,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                     addWishlistData();
 
-                    arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, R.id.name, list);
+                    arrayAdapter = new ArrayAdapter(WishlistActivity.this, R.layout.list_item, R.id.name, list);
                     wishes.setAdapter(arrayAdapter);
                 }
 

@@ -108,7 +108,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                     }
 
                     //update listview
-                    arrayAdapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,R.id.name, list);
+                    arrayAdapter = new ArrayAdapter(MyCollectionsActivity.this, R.layout.list_item,R.id.name, list);
                     collectionsList.setAdapter(arrayAdapter);
 
                 }

@@ -33,8 +33,8 @@ public class CollectionDetailsActivity extends AppCompatActivity {
 
     String catName;
     String catKey;
-    int goalNumber;
-    int count;
+    public int goalNumber;
+    public int count;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
@@ -58,24 +58,24 @@ public class CollectionDetailsActivity extends AppCompatActivity {
 
         categoryName.setText(catName);
         GetCollectionDetails();
-        categoryGoal.setText(String.valueOf(goalNumber));
+        categoryGoal.setText(goalNumber);
         GetItemDetails();
-        itemNumber.setText(String.valueOf(count));
+        itemNumber.setText(count);
 
         if(goalNumber != 0) {
             double percent = (count / goalNumber) * 100;
-            itemPercentage.setText(String.valueOf(percent));
+            itemPercentage.setText(percent + "%");
         }else{
-            itemPercentage.setText(String.valueOf(0));
+            itemPercentage.setText("0%");
         }
 
 
-        progressBar.setMax(goalNumber);
-        progressBar.setProgress(count);
+        //progressBar.setMax(goalNumber);
+        //progressBar.setProgress(count);
 
     }
 
-    private void GetCollectionDetails() {
+    public void GetCollectionDetails() {
         // get categoryGoal
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -83,21 +83,14 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         ref=FirebaseDatabase.getInstance().getReference("Categories");
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
-        {
+        {//retrieve collection name and collection goal
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
-                Category value= snapshot.getValue(Category.class);
-
-                if(snapshot.getKey().equals(catKey)) {
-                    if (value.getUserID().equals(userId) && value.getCategoryName().equals(categoryName))
-                    {
-                        goalNumber =value.getGoalNumber();
-                    }
-
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Category value = snapshot.getValue(Category.class);
+                if (value.getCategoryName().equals(catName) && snapshot.getKey().equals(catKey)) {
+                    goalNumber = value.getGoalNumber();
                 }
             }
-
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
@@ -125,7 +118,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         });
 
     }
-    private void GetItemDetails() {
+    public void GetItemDetails() {
 
         //get current user and create firebase instance
         ref2 = FirebaseDatabase.getInstance().getReference("Items");
@@ -138,8 +131,8 @@ public class CollectionDetailsActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
             {
                 //save firebase query result to object of Items class
-                Items value = snapshot.getValue(Items.class);
-                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) ){
+                Items value2 = snapshot.getValue(Items.class);
+                if (value2.getCategoryKey().equals(catKey) && value2.categoryName.equals(catName) ){
 
                     count= count+1;
                 }
