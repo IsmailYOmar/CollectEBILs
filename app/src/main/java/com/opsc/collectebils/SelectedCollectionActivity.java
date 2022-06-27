@@ -556,7 +556,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                         }
                     }, secondsDelayed * 4500);
                 }
-            }, secondsDelayed * 1500);
+            }, secondsDelayed * 1000);
         }
     }
 
