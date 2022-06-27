@@ -8,6 +8,19 @@
     android:theme="@style/Theme.CollectEBILs"
     tools:context=".CollectionStatisticsActivity">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_bar4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="220dp"
+        android:background="@drawable/round_edit_text"
+        android:visibility="invisible"
+        app:iconifiedByDefault="false"
+        app:queryHint="Search Category">
+
+    </androidx.appcompat.widget.SearchView>
+
 
     <ImageView
         android:id="@+id/collectionsLabel2"
@@ -44,6 +57,7 @@
             android:smoothScrollbar="true"
             android:transcriptMode="alwaysScroll"
             tools:listitem="@layout/list_item" />
+
     </LinearLayout>
 
     <LinearLayout

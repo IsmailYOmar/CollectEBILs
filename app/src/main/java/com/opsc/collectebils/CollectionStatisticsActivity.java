@@ -3,12 +3,14 @@ package com.opsc.collectebils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +28,9 @@ import java.util.Comparator;
 public class CollectionStatisticsActivity extends AppCompatActivity
 {
     Items items;
+    SearchView searchView4;
+    Button searchBtn4;
+    boolean flag = false;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
@@ -48,6 +53,23 @@ public class CollectionStatisticsActivity extends AppCompatActivity
         userId = user.getUid();
         ref=FirebaseDatabase.getInstance().getReference("Categories");
         statisticsList = (ListView) findViewById(R.id.statisticsList);
+        searchBtn4 = findViewById(R.id.searchBtn4);
+        searchView4 = findViewById(R.id.search_bar4);
+
+        searchBtn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (flag == true){
+                    searchView4.setVisibility(View.INVISIBLE);
+                    flag = false;
+                }
+                else{
+                    searchView4.setVisibility(View.VISIBLE);
+                    flag = true;
+                }
+            }
+        });
+
 
         arrAd = new ArrayAdapter(CollectionStatisticsActivity.this, R.layout.list_item,R.id.name, arrList);
         statisticsList.setAdapter(arrAd);
@@ -130,6 +152,20 @@ public class CollectionStatisticsActivity extends AppCompatActivity
                 startActivity(i);
             }
 
+        });
+
+        searchView4.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                CollectionStatisticsActivity.this.arrAd.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                CollectionStatisticsActivity.this.arrAd.getFilter().filter(newText);
+                return false;
+            }
         });
         }
     }
