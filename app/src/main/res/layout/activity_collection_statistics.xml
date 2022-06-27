@@ -8,75 +8,100 @@
     android:theme="@style/Theme.CollectEBILs"
     tools:context=".CollectionStatisticsActivity">
 
+    <RelativeLayout
+        android:id="@+id/RelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="196dp"
+        tools:layout_editor_absoluteY="16dp">
+
+    <ImageView
+        android:id="@+id/collectionsLabel2"
+        android:layout_width="411dp"
+        android:layout_height="300dp"
+        android:src="@drawable/lb_collections_statistics"
+        app:tint="?attr/colorSecondary">
+
+
+    </ImageView>
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_bar4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="300dp"
         android:background="@drawable/round_edit_text"
         android:visibility="invisible"
         app:iconifiedByDefault="false"
-        app:queryHint="Search Category">
+        app:layout_constraintTop_toBottomOf="@+id/collectionsLabel2"
+        app:queryHint="Search Category"
+        tools:layout_editor_absoluteX="20dp">
 
     </androidx.appcompat.widget.SearchView>
 
 
-    <ImageView
-        android:id="@+id/collectionsLabel2"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/lb_collections_statistics"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorSecondary">
-
-    </ImageView>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints">
-
-        <ListView
-            android:id="@+id/statisticsList"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="415dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="330dp"
-            android:layout_marginBottom="50dp"
-            android:divider="@null"
-            android:fastScrollEnabled="true"
-            android:paddingHorizontal="5dp"
-            android:scrollbarSize="5dp"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:smoothScrollbar="true"
-            android:transcriptMode="alwaysScroll"
-            tools:listitem="@layout/list_item" />
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomNavigation"
+            android:layout_below="@+id/search_bar4"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <ListView
+                android:id="@+id/statisticsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="0dp"
+                android:divider="@null"
+                android:paddingHorizontal="5dp"
+                android:scrollbarSize="5dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:smoothScrollbar="true"
+                android:transcriptMode="alwaysScroll"
+                tools:listitem="@layout/list_item" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/bottomNavigation"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/round_yellow_button">
 
-    <LinearLayout
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-30dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/round_yellow_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-        <Button
-            android:id="@+id/searchBtn4"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/ic_search" />
-    </LinearLayout>
-    
+            <Button
+                android:id="@+id/searchBtn4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/ic_search" />
+        </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="-10dp"
+            android:background="@drawable/round_yellow_button"
+            app:itemIconTint="@color/black"
+            app:itemRippleColor="@color/black_2"
+            app:itemTextColor="@color/black"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_nav_menu" />
+
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,12 +7,15 @@ import androidx.appcompat.widget.SearchView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -25,8 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class CollectionStatisticsActivity extends AppCompatActivity
-{
+public class CollectionStatisticsActivity extends AppCompatActivity {
     Items items;
     SearchView searchView4;
     Button searchBtn4;
@@ -41,9 +43,10 @@ public class CollectionStatisticsActivity extends AppCompatActivity
     ArrayList<Integer> sortingMethodReturns = new ArrayList<Integer>();
     int j = 0;
 
+    public BottomNavigationView bottomNavigationView;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_statistics);
 
@@ -51,7 +54,7 @@ public class CollectionStatisticsActivity extends AppCompatActivity
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         userId = user.getUid();
-        ref=FirebaseDatabase.getInstance().getReference("Categories");
+        ref = FirebaseDatabase.getInstance().getReference("Categories");
         statisticsList = (ListView) findViewById(R.id.statisticsList);
         searchBtn4 = findViewById(R.id.searchBtn4);
         searchView4 = findViewById(R.id.search_bar4);
@@ -59,11 +62,10 @@ public class CollectionStatisticsActivity extends AppCompatActivity
         searchBtn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (flag == true){
+                if (flag == true) {
                     searchView4.setVisibility(View.INVISIBLE);
                     flag = false;
-                }
-                else{
+                } else {
                     searchView4.setVisibility(View.VISIBLE);
                     flag = true;
                 }
@@ -71,23 +73,19 @@ public class CollectionStatisticsActivity extends AppCompatActivity
         });
 
 
-        arrAd = new ArrayAdapter(CollectionStatisticsActivity.this, R.layout.list_item,R.id.name, arrList);
+        arrAd = new ArrayAdapter(CollectionStatisticsActivity.this, R.layout.list_item, R.id.name, arrList);
         statisticsList.setAdapter(arrAd);
 
-        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
-        {//retrieve collection name and collection goal
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {//retrieve collection name and collection goal
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
-                String value= snapshot.getValue(Category.class).getCategoryName();
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String value = snapshot.getValue(Category.class).getCategoryName();
                 arrList.add(value);
                 arrListKey.add(snapshot.getKey());
 
-                Collections.sort(arrList, new Comparator<String>()
-                {
+                Collections.sort(arrList, new Comparator<String>() {
                     @Override
-                    public int compare(String lhs, String rhs)
-                    {
+                    public int compare(String lhs, String rhs) {
                         int returning = lhs.compareTo(rhs);
                         sortingMethodReturns.add(returning);
                         return returning;
@@ -96,11 +94,9 @@ public class CollectionStatisticsActivity extends AppCompatActivity
                 });
                 // now sort the list B according to the changes made with the order of
                 // items in listA
-                Collections.sort(arrListKey, new Comparator<String>()
-                {
+                Collections.sort(arrListKey, new Comparator<String>() {
                     @Override
-                    public int compare(String lhs, String rhs)
-                    {
+                    public int compare(String lhs, String rhs) {
                         // comparator method will sort the second list also according to
                         // the changes made with list a
                         int returning = sortingMethodReturns.get(j);
@@ -114,41 +110,35 @@ public class CollectionStatisticsActivity extends AppCompatActivity
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot)
-            {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
-        statisticsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        statisticsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //AdapterView.OnItemClickListener.super.onItemClick(adapterView, view, i, l);
 
                 Intent i = new Intent(CollectionStatisticsActivity.this, CollectionDetailsActivity.class);
                 i.putExtra("collectionName", arrList.get(position));
-                i.putExtra("collectionKey",arrListKey.get(position));
+                i.putExtra("collectionKey", arrListKey.get(position));
                 startActivity(i);
             }
 
@@ -167,6 +157,56 @@ public class CollectionStatisticsActivity extends AppCompatActivity
                 return false;
             }
         });
-        }
+
+        // Initialize and assign variable
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.dashboard);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {//nav menu styling and intents to change activity
+                    case R.id.myCollections:
+                        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                    case R.id.explore:
+                        bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                    case R.id.marketplace:
+                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                    case R.id.dashboard:
+                        bottomNavigationView.getMenu().getItem(3).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                }
+                return true;
+            }
+        });
+
     }
+    @Override
+    public void onResume()
+    {//override page animation on page resume
+        super.onResume();
+        overridePendingTransition(0, 0);
+        bottomNavigationView.getMenu().getItem(3).setChecked(true);
+    }
+}
+
+
 

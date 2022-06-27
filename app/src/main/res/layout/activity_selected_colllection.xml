@@ -18,11 +18,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="220dp"
             android:background="@drawable/round_edit_text"
             android:visibility="invisible"
             app:iconifiedByDefault="false"
-            app:queryHint="Search Item">
+            app:queryHint="Search Items">
 
         </androidx.appcompat.widget.SearchView>
 
@@ -40,36 +40,32 @@
             android:textSize="70sp"
             android:textStyle="bold" />
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="577dp"
-            android:layout_marginTop="260dp"
-            android:layout_marginBottom="15dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomNavigation"
+            android:layout_below="@+id/search_bar1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <ListView
+                android:id="@+id/collectionsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <ListView
-                    android:id="@+id/collectionsList"
-                    android:layout_width="match_parent"
-                    android:layout_height="630dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginBottom="25dp"
-                    android:divider="@null"
-                    android:paddingHorizontal="5dp"
-                    android:scrollbarSize="5dp"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical"
-                    android:smoothScrollbar="true"
-                    tools:listitem="@layout/list_item" />
-            </LinearLayout>
-        </ScrollView>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="0dp"
+                android:divider="@null"
+                android:paddingHorizontal="5dp"
+                android:scrollbarSize="5dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:smoothScrollbar="true"
+                android:transcriptMode="alwaysScroll"
+                tools:listitem="@layout/list_item" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="240dp"
