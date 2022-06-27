@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -129,7 +132,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 else
                 {
-                    Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                    TextView textView6 = customToastLayout.findViewById(R.id.name);
+                    textView6.setText("Login failed.");
+
+                    Toast mToast = new Toast(LoginActivity.this);
+                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setView(customToastLayout);
+                    mToast.show();
+                    //Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
                 }
 
             }

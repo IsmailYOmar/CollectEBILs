@@ -17,8 +17,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -203,13 +205,32 @@ public class WishlistActivity extends AppCompatActivity {
                                     {
                                         if (task.isSuccessful())
                                         {
-                                            Toast.makeText(WishlistActivity.this, "New item added.", Toast.LENGTH_LONG).show();
+                                            LayoutInflater inflater = getLayoutInflater();
+                                            View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                            TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                            textView6.setText("New item added.");
+
+                                            Toast mToast = new Toast(WishlistActivity.this);
+                                            mToast.setDuration(Toast.LENGTH_LONG);
+                                            mToast.setView(customToastLayout);
+                                            mToast.show();
+                                            //Toast.makeText(WishlistActivity.this, "New item added.", Toast.LENGTH_LONG).show();
                                             myDialog.dismiss();
                                         }
 
                                         else
                                         {
-                                            Toast.makeText(WishlistActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                            LayoutInflater inflater = getLayoutInflater();
+                                            View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                            TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                            textView6.setText("Operation failed.");
+
+                                            Toast mToast = new Toast(WishlistActivity.this);
+                                            mToast.setDuration(Toast.LENGTH_LONG);
+                                            mToast.setView(customToastLayout);
+                                            mToast.show();
+                                            //Toast.makeText(WishlistActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+
                                         }
                                     }
                                 });
@@ -368,7 +389,16 @@ public class WishlistActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri)
                         {
-                            Toast.makeText(WishlistActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
+                            LayoutInflater inflater = getLayoutInflater();
+                            View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                            TextView textView6 = customToastLayout.findViewById(R.id.name);
+                            textView6.setText("Image Uploaded.");
+
+                            Toast mToast = new Toast(WishlistActivity.this);
+                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setView(customToastLayout);
+                            mToast.show();
+                            //Toast.makeText(WishlistActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -384,7 +414,16 @@ public class WishlistActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e)
                 {
-                    Toast.makeText(WishlistActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                    TextView textView6 = customToastLayout.findViewById(R.id.name);
+                    textView6.setText("Operation failed.");
+
+                    Toast mToast = new Toast(WishlistActivity.this);
+                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setView(customToastLayout);
+                    mToast.show();
+                    //Toast.makeText(WishlistActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                 }
             });
         }

@@ -22,8 +22,10 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -359,14 +361,32 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                 {
                                     if (task.isSuccessful())
                                     {
-                                        Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("New item added.");
+
+                                        Toast mToast = new Toast(SelectedCollectionActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
                                         myDialog.dismiss();
                                         checkGoal(list);
                                     }
 
                                     else
                                     {
-                                        Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Operation failed.");
+
+                                        Toast mToast = new Toast(SelectedCollectionActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -577,7 +597,16 @@ public class SelectedCollectionActivity extends AppCompatActivity
                         @Override
                         public void onSuccess(Uri uri)
                         {
-                            Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
+                            LayoutInflater inflater = getLayoutInflater();
+                            View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                            TextView textView6 = customToastLayout.findViewById(R.id.name);
+                            textView6.setText("Image Uploaded.");
+
+                            Toast mToast = new Toast(SelectedCollectionActivity.this);
+                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setView(customToastLayout);
+                            mToast.show();
+                            //Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -593,7 +622,16 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 @Override
                 public void onFailure(@NonNull Exception e)
                 {
-                    Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                    TextView textView6 = customToastLayout.findViewById(R.id.name);
+                    textView6.setText("Operation failed.");
+
+                    Toast mToast = new Toast(SelectedCollectionActivity.this);
+                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setView(customToastLayout);
+                    mToast.show();
+                    //Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -674,7 +712,16 @@ public class SelectedCollectionActivity extends AppCompatActivity
                         @Override
                         public void onSuccess(Uri uri)
                         {
-                            Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
+                            LayoutInflater inflater = getLayoutInflater();
+                            View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                            TextView textView6 = customToastLayout.findViewById(R.id.name);
+                            textView6.setText("Image Uploaded.");
+
+                            Toast mToast = new Toast(SelectedCollectionActivity.this);
+                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setView(customToastLayout);
+                            mToast.show();
+                            //Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -690,7 +737,16 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 @Override
                 public void onFailure(@NonNull Exception e)
                 {
-                    Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                    TextView textView6 = customToastLayout.findViewById(R.id.name);
+                    textView6.setText("Operation failed.");
+
+                    Toast mToast = new Toast(SelectedCollectionActivity.this);
+                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setView(customToastLayout);
+                    mToast.show();
+                    //Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
                 }
             });
         }

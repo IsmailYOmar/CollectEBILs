@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -224,7 +227,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     // If statement that specifies what happens if the above operation is successful or not
                                     if(task.isSuccessful())
                                     {
-                                        Toast.makeText(RegisterActivity.this, "User has been registered.", Toast.LENGTH_LONG).show();
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("User has been registered.");
+
+                                        Toast mToast = new Toast(RegisterActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(RegisterActivity.this, "User has been registered.", Toast.LENGTH_LONG).show();
 
                                         // Line 235 - 238
                                         // Title: How to clear back stack android activity
@@ -240,7 +252,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                                     else
                                     {
-                                        Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Registration failed.");
+
+                                        Toast mToast = new Toast(RegisterActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
                                     }
 
                                 }
@@ -249,7 +270,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                         else
                         {
-                            Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
+                            LayoutInflater inflater = getLayoutInflater();
+                            View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                            TextView textView6 = customToastLayout.findViewById(R.id.name);
+                            textView6.setText("Registration failed.");
+
+                            Toast mToast = new Toast(RegisterActivity.this);
+                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setView(customToastLayout);
+                            mToast.show();
+                            //Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
                         }
 
                     }
