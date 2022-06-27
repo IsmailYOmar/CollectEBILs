@@ -3,24 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_collection_details.xml" value="0.1" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_collection_statistics.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_marketplace.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_my_collections.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_selected_colllection.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_wishlist.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/activity_wishlist_details.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/add_item_window.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/add_to_wishlist_window.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/create_a_category_window.xml" value="0.25" />
         <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/list_item.xml" value="0.15715579710144928" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/scan_barcode_window.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/search_window.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/pop_up_nav_menu.xml" value="0.2" />
-        <entry key="..\:/Users/Evan/AndroidStudioProjects/CollectEBILs/app/src/main/res/menu/pop_up_nav_menu_2.xml" value="0.2" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/custom_progress.xml" value="0.252" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/dashboard_background.xml" value="0.195" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/drawable/dashboard_icon_selector.xml" value="0.125" />
@@ -73,6 +64,7 @@
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/add_item_window.xml" value="0.35149572649572647" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/add_to_wishlist.xml" value="0.2975630611372381" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/add_to_wishlist_window.xml" value="0.5" />
+        <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/collection_goal_reached.xml" value="0.5" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/create_a_category_window.xml" value="0.22" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/dropdown_item.xml" value="0.17015818725951262" />
         <entry key="..\:/Users/Ismail/AndroidStudioProjects/CollectEBILs/app/src/main/res/layout/dropdown_text.xml" value="0.2975630611372381" />

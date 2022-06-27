@@ -18,6 +18,8 @@
                 android:id="@+id/search_bar3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="220dp"
                 android:background="@drawable/round_edit_text"
                 android:visibility="invisible"
                 app:iconifiedByDefault="false"
@@ -30,19 +32,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:layout_marginTop="-60dp"
-                android:background="@drawable/small_highlight"
+                android:background="@drawable/yellow_scribble"
                 android:gravity="center"
                 android:paddingBottom="15dp"
                 android:text="Name"
                 android:textAllCaps="true"
                 android:textColor="?attr/colorOnPrimary"
-                android:textSize="40sp"
+                android:textSize="60sp"
                 android:textStyle="bold" />
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="650dp"
-                android:layout_marginTop="230dp"
+                android:layout_marginTop="280dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
 

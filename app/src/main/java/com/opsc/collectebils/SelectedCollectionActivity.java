@@ -18,6 +18,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -247,6 +248,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 
                     arrayAdapter = new ArrayAdapter(SelectedCollectionActivity.this, R.layout.list_item, R.id.name, list);
                     collectionsList.setAdapter(arrayAdapter);
+
                 }
 
                 private void addItemData() {
@@ -359,6 +361,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                     {
                                         Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
                                         myDialog.dismiss();
+                                        checkGoal(list);
                                     }
 
                                     else
@@ -367,6 +370,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                     }
                                 }
                             });
+
                 }
             });
         });
@@ -529,6 +533,31 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 return true;
             }
         });
+    }
+
+    private void checkGoal(ArrayList<String> list) {
+        int goal = Integer.parseInt(getIntent().getExtras().getString("collectionGoal"));
+        if(goal == list.size()){
+
+            int secondsDelayed = 1;
+
+            new Handler().postDelayed(new Runnable()
+            {
+                public void run()
+                {
+                    myDialog.setContentView(R.layout.collection_goal_reached);
+                    myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    myDialog.show();
+                    new Handler().postDelayed(new Runnable()
+                    {
+                        public void run()
+                        {
+                            myDialog.dismiss();
+                        }
+                    }, secondsDelayed * 4500);
+                }
+            }, secondsDelayed * 1500);
+        }
     }
 
     private void uploadImage()

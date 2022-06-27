@@ -17,6 +17,8 @@
             android:id="@+id/search_bar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="200dp"
             android:background="@drawable/round_edit_text"
             android:visibility="invisible"
             app:iconifiedByDefault="false"
@@ -41,7 +43,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="577dp"
-            android:layout_marginTop="230dp"
+            android:layout_marginTop="260dp"
             android:layout_marginBottom="15dp"
             android:orientation="vertical">
 

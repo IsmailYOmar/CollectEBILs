@@ -51,8 +51,10 @@ public class MyCollectionsActivity extends AppCompatActivity
     ListView collectionsList;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> list2 = new ArrayList<>();
     ArrayList<String> listOfKey = new ArrayList<>();
     int j = 0;
+    int k = 0;
     ArrayList<Integer> sortingMethodReturns = new ArrayList<Integer>();
 
     @Override
@@ -221,7 +223,9 @@ public class MyCollectionsActivity extends AppCompatActivity
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
             {
                 String value= snapshot.getValue(Category.class).getCategoryName();
+                String value2= String.valueOf(snapshot.getValue(Category.class).getGoalNumber());
                 list.add(value);
+                list2.add(value2);
                 listOfKey.add(snapshot.getKey());
 
                 Collections.sort(list, new Comparator<String>()
@@ -246,6 +250,19 @@ public class MyCollectionsActivity extends AppCompatActivity
                         // the changes made with list a
                         int returning = sortingMethodReturns.get(j);
                         j++;
+                        return returning;
+                    }
+
+                });
+                Collections.sort(list2, new Comparator<String>()
+                {
+                    @Override
+                    public int compare(String lhs, String rhs)
+                    {
+                        // comparator method will sort the second list also according to
+                        // the changes made with list a
+                        int returning = sortingMethodReturns.get(k);
+                        k++;
                         return returning;
                     }
 
@@ -290,6 +307,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                Intent i = new Intent(MyCollectionsActivity.this, SelectedCollectionActivity.class);
                i.putExtra("collectionName", list.get(position));
                i.putExtra("collectionKey",listOfKey.get(position));
+               i.putExtra("collectionGoal",list2.get(position));
                startActivity(i);
            }
 

@@ -173,6 +173,7 @@
             android:background="@drawable/round_button_1"
             android:padding="10dp"
             android:text="Add Item"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="visible"/>
