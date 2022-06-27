@@ -3,6 +3,7 @@ package com.opsc.collectebils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -63,12 +64,15 @@ public class SelectedCollectionActivity extends AppCompatActivity
     Dialog myDialog;
     Button addItem;
     Button goToWishlist;
+    Button searchBtn;
     Button scanBarcode;
     TextView name;
     String catName;
     String catKey;
     Uri imgUri;
     String currentPhotoPath;
+    SearchView searchView;
+    boolean flag = false;
 
 
     private FirebaseUser user;
@@ -90,6 +94,9 @@ public class SelectedCollectionActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_colllection);
 
+        searchView = findViewById(R.id.search_bar1);
+        searchBtn = findViewById(R.id.searchBtn2);
+
         name = findViewById(R.id.selectedCollectionName);
         myDialog = new Dialog(this);
         addItem = findViewById(R.id.addItem);
@@ -98,6 +105,20 @@ public class SelectedCollectionActivity extends AppCompatActivity
         catName = getIntent().getExtras().getString("collectionName");
         catKey = getIntent().getExtras().getString("collectionKey");
         name.setText(catName);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (flag == true){
+                    searchView.setVisibility(View.INVISIBLE);
+                    flag = false;
+                }
+                else{
+                    searchView.setVisibility(View.VISIBLE);
+                    flag = true;
+                }
+            }
+        });
 
         addItem.setOnClickListener(view ->
         {
@@ -214,6 +235,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                     }
                 }
             });
+
 
             btnAdd.setOnClickListener(new View.OnClickListener()
             {
@@ -430,6 +452,20 @@ public class SelectedCollectionActivity extends AppCompatActivity
             }
 
 
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SelectedCollectionActivity.this.arrayAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                SelectedCollectionActivity.this.arrayAdapter.getFilter().filter(newText);
+                return false;
+            }
         });
 
 

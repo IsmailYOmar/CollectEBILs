@@ -13,6 +13,16 @@
         tools:layout_editor_absoluteX="196dp"
         tools:layout_editor_absoluteY="16dp">
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_bar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_edit_text"
+            android:visibility="invisible"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search Item">
+
+        </androidx.appcompat.widget.SearchView>
 
         <TextView
             android:id="@+id/selectedCollectionName"
@@ -97,7 +107,7 @@
                 android:background="@drawable/barcode_scanner" />
 
             <Button
-                android:id="@+id/search"
+                android:id="@+id/searchBtn2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"

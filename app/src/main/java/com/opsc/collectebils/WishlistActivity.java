@@ -3,6 +3,7 @@ package com.opsc.collectebils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -58,6 +59,10 @@ public class WishlistActivity extends AppCompatActivity {
     String catName;
     String catKey;
     Uri imgUri;
+    SearchView searchView;
+    Button searchBtn2;
+    boolean flag = false;
+
 
     private FirebaseUser user;
     private String userId;
@@ -82,6 +87,22 @@ public class WishlistActivity extends AppCompatActivity {
         catName = getIntent().getExtras().getString("collectionName");
         catKey = getIntent().getExtras().getString("collectionKey");
         name.setText(catName+ " Wishlist");
+        searchBtn2 = findViewById(R.id.searchBtn2);
+        searchView = findViewById(R.id.search_bar3);
+
+        searchBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (flag == true){
+                    searchView.setVisibility(View.INVISIBLE);
+                    flag = false;
+                }
+                else{
+                    searchView.setVisibility(View.VISIBLE);
+                    flag = true;
+                }
+            }
+        });
 
 
         addToWishlist.setOnClickListener(view ->
@@ -268,6 +289,21 @@ public class WishlistActivity extends AppCompatActivity {
             }
 
 
+        });
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                WishlistActivity.this.arrayAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                WishlistActivity.this.arrayAdapter.getFilter().filter(newText);
+                return false;
+            }
         });
 
 

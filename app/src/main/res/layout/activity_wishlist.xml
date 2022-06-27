@@ -14,6 +14,17 @@
             tools:layout_editor_absoluteX="196dp"
             tools:layout_editor_absoluteY="16dp">
 
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_bar3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_edit_text"
+                android:visibility="invisible"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search Category">
+
+            </androidx.appcompat.widget.SearchView>
+
             <TextView
                 android:id="@+id/wishlistCollectionName"
                 android:layout_width="match_parent"
@@ -80,7 +91,7 @@
                     app:itemRippleColor="@color/black_3" />
 
                 <Button
-                    android:id="@+id/search"
+                    android:id="@+id/searchBtn2"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"

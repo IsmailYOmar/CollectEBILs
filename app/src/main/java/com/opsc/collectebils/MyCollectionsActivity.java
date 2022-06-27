@@ -3,6 +3,7 @@ package com.opsc.collectebils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -36,12 +37,17 @@ import java.util.Comparator;
 
 public class MyCollectionsActivity extends AppCompatActivity
 {
+
     Dialog myDialog;
     Button addCategory;
+    Button searchBtn;
+    SearchView searchView;
+    boolean flag = false;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference ref;
     public BottomNavigationView bottomNavigationView;
+
     ListView collectionsList;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
@@ -57,6 +63,22 @@ public class MyCollectionsActivity extends AppCompatActivity
 
         myDialog = new Dialog(this);
         addCategory = findViewById(R.id.addCategory);
+        searchBtn = findViewById(R.id.searchBtn2);
+        searchView = findViewById(R.id.search_bar2);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (flag == true){
+                    searchView.setVisibility(View.INVISIBLE);
+                    flag = false;
+                }
+                else{
+                    searchView.setVisibility(View.VISIBLE);
+                    flag = true;
+                }
+            }
+        });
 
         addCategory.setOnClickListener(view ->
         {
@@ -257,8 +279,6 @@ public class MyCollectionsActivity extends AppCompatActivity
             }
         });
 
-
-
         collectionsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
 
@@ -274,6 +294,20 @@ public class MyCollectionsActivity extends AppCompatActivity
            }
 
        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                MyCollectionsActivity.this.arrayAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                MyCollectionsActivity.this.arrayAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         // Initialize and assign variable
         bottomNavigationView = findViewById(R.id.bottomNavigation);
 
