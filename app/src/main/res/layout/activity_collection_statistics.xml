@@ -15,22 +15,22 @@
         tools:layout_editor_absoluteX="196dp"
         tools:layout_editor_absoluteY="16dp">
 
-    <ImageView
-        android:id="@+id/collectionsLabel2"
-        android:layout_width="411dp"
-        android:layout_height="300dp"
-        android:src="@drawable/lb_collections_statistics"
-        app:tint="?attr/colorSecondary">
+        <ImageView
+            android:id="@+id/collectionsLabel2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@drawable/lb_collections_statistics"
+            app:tint="?attr/colorSecondary">
 
 
-    </ImageView>
+        </ImageView>
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_bar4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="250dp"
         android:background="@drawable/round_edit_text"
         android:visibility="invisible"
         app:iconifiedByDefault="false"
@@ -73,7 +73,7 @@
             android:layout_above="@+id/bottomNavigation"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="35dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="45dp"
             android:background="@drawable/round_yellow_button">
 
             <Button
