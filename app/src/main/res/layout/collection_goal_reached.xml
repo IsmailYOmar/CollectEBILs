@@ -20,11 +20,11 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="330dp"
-            android:layout_height="111dp"
-            android:layout_marginStart="-30dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/lb_add_an_item_wishlist"
+            android:layout_width="400dp"
+            android:layout_height="201dp"
+            android:layout_marginStart="-50dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/lb_category_goal"
             app:tint="?attr/colorSecondary"/>
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_height="350dp"
             android:src="@drawable/goal_reached"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="-70dp"
+            android:layout_marginTop="-60dp"
             />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
