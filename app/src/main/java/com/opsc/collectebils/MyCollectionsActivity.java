@@ -655,7 +655,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                             }
                                         });
                                     }
-                                }, secondsDelayed * 2000);
+                                }, secondsDelayed * 1000);
 
 
                                 new Handler().postDelayed(new Runnable() {
@@ -699,7 +699,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                             }
                                         });
                                     }
-                                }, secondsDelayed * 4000);
+                                }, secondsDelayed * 3000);
                             }
                         });
                     }
