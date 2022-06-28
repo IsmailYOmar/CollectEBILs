@@ -367,46 +367,6 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 snapshot.getRef().removeValue();
                                 myDialog.dismiss();
 
-                                arrayAdapter.notifyDataSetChanged();
-
-                                LayoutInflater inflater = getLayoutInflater();
-                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                textView6.setText("Collection deleted.");
-
-                                Toast mToast = new Toast(MyCollectionsActivity.this);
-                                mToast.setDuration(Toast.LENGTH_SHORT);
-                                mToast.setView(customToastLayout);
-                                mToast.show();
-                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                                myDialog.dismiss();
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                LayoutInflater inflater = getLayoutInflater();
-                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                textView6.setText("Operation failed.");
-
-                                Toast mToast = new Toast(MyCollectionsActivity.this);
-                                mToast.setDuration(Toast.LENGTH_SHORT);
-                                mToast.setView(customToastLayout);
-                                mToast.show();
-                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
-                                myDialog.dismiss();
-                            }
-                        });
-                        //delete items in collection
-                        ref.child("Items").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
-                                myDialog.dismiss();
-
-
                                 list.remove(position);
                                 list2.remove(position);
                                 listOfKey.remove(position);
@@ -442,7 +402,255 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 myDialog.dismiss();
                             }
                         });
+                        //delete items in collection
+                        ref.child("Items").child(key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
+                                myDialog.dismiss();
 
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Collection items deleted.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                myDialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Operation failed.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                myDialog.dismiss();
+                            }
+                        });
+                        //delete Wishlist in collection
+                        ref.child("Wishlist").child(key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
+                                myDialog.dismiss();
+
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Wishlist items deleted.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                myDialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Operation failed.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                myDialog.dismiss();
+                            }
+                        });
+                    }
+                });
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        myDialog.dismiss();
+
+                        myDialog.setContentView(R.layout.update_category_window);
+                        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        myDialog.show();
+
+                        EditText catNameEditText;
+                        EditText goalEditText;
+                        Button btnClose;
+                        Button updateCatBtn;
+
+                        btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
+                        updateCatBtn = (Button) myDialog.findViewById(R.id.updateCatBtn);
+                        catNameEditText = (EditText) myDialog.findViewById(R.id.catNameEditText);
+                        goalEditText = (EditText) myDialog.findViewById(R.id.goalEditText);
+                        btnClose.setOnClickListener(new View.OnClickListener() {
+                            //close popup window on button press
+                            @Override
+                            public void onClick(View view) {
+                                myDialog.dismiss();
+                            }
+                        });
+
+                        updateCatBtn.setOnClickListener(new View.OnClickListener() {// on button press call method to add to firebase
+                            @Override
+                            public void onClick(View view) {
+                                String catName = catNameEditText.getText().toString();
+                                String goal = goalEditText.getText().toString();
+
+                                switch (view.getId()) {
+                                    case R.id.updateCatBtn:
+                                        updateCategoryData();
+                                        break;
+                                }
+
+                                //update listview
+                                arrayAdapter.notifyDataSetChanged();
+
+                            }
+
+                            private void updateCategoryData() {
+                                String userID = userId;
+                                String categoryName = catNameEditText.getText().toString().trim();
+                                int goalNumber;
+
+                                if (categoryName.isEmpty()) {
+                                    catNameEditText.setError("All fields are required.");
+                                    catNameEditText.requestFocus();
+                                    return;
+                                }
+
+                                if (categoryName.length() > 150) {
+                                    catNameEditText.setError("The category name is too long.");
+                                    catNameEditText.requestFocus();
+                                    return;
+                                }
+
+                                try {
+                                    goalNumber = Integer.parseInt(goalEditText.getText().toString().trim());
+                                } catch (NumberFormatException e) {
+                                    goalEditText.setError("All fields are required.");
+                                    goalEditText.requestFocus();
+                                    return;
+                                }
+
+                                if (goalNumber == 0) {
+                                    goalEditText.setError("The number cannot equal 0.");
+                                    goalEditText.requestFocus();
+                                    return;
+                                }
+
+                                if (goalNumber < 0) {
+                                    goalEditText.setError("The number cannot be less than 0.");
+                                    goalEditText.requestFocus();
+                                    return;
+                                }
+
+                                if (goalNumber > 10000) {
+                                    goalEditText.setError("The number of items is too large.");
+                                    goalEditText.requestFocus();
+                                    return;
+                                }
+
+                                ref = FirebaseDatabase.getInstance().getReference();
+                                user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                Category cat = new Category(userID, categoryName, goalNumber);
+
+                                ref.child("Categories").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        snapshot.getRef().child("categoryName").setValue(categoryName);
+                                        snapshot.getRef().child("goalNumber").setValue(goalNumber);
+
+                                        list.set( position,categoryName);
+                                        list2.set( position, String.valueOf(goalNumber));
+                                        arrayAdapter.notifyDataSetChanged();
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Collection updated.");
+
+                                        Toast mToast = new Toast(MyCollectionsActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                        myDialog.dismiss();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Operation failed.");
+
+                                        Toast mToast = new Toast(MyCollectionsActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+                                    }
+                                });
+                                ref = FirebaseDatabase.getInstance().getReference("Items");
+                                ref.orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        snapshot.getRef().child("categoryName").setValue(categoryName);
+                                        snapshot.getRef().child("categoryKey").setValue(key);
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Collection items updated.");
+
+                                        Toast mToast = new Toast(MyCollectionsActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                        myDialog.dismiss();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Operation failed.");
+
+                                        Toast mToast = new Toast(MyCollectionsActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
                 return true;
