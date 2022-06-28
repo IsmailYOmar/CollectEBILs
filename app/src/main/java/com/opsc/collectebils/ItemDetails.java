@@ -80,6 +80,7 @@ public class ItemDetails extends AppCompatActivity
         String catName = getIntent().getExtras().getString("collectionName");
         String catKey = getIntent().getExtras().getString("collectionKey");
         String itemName = getIntent().getExtras().getString("itemName");
+        String itemKey = getIntent().getExtras().getString("itemKey");
 
 
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
@@ -89,7 +90,9 @@ public class ItemDetails extends AppCompatActivity
             {
                 //save firebase query result to object of Items class
                 Items value = snapshot.getValue(Items.class);
-                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId) && value.getItemName().equals(itemName))
+                if (snapshot.getKey().equals(itemKey) && value.getCategoryKey().equals(catKey)
+                        && value.categoryName.equals(catName) && value.getUserID().equals(userId)
+                        && value.getItemName().equals(itemName))
                 {
                     //set text views == data in Items object
                     itemDescription.setText(value.getItemDescription());
