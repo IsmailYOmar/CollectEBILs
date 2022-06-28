@@ -35,6 +35,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
     TextView categoryName;
     TextView categoryGoal;
     TextView itemNumber;
+    TextView itemNumber2;
     TextView itemPercentage;
     ProgressBar progressBar;
 
@@ -46,8 +47,10 @@ public class CollectionDetailsActivity extends AppCompatActivity {
     private String userId;
     private DatabaseReference ref;
     private DatabaseReference ref2;
+    private DatabaseReference ref3;
 
     ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> list2 = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,9 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         categoryName = (TextView) findViewById(R.id.categoryName);
         categoryGoal = (TextView) findViewById(R.id.categoryGoal);
         itemNumber = (TextView) findViewById(R.id.itemNumber);
-        itemPercentage =(TextView) findViewById(R.id.itemPercentage);
-        progressBar= (ProgressBar) findViewById(R.id.progressBar);
+        itemNumber2 = (TextView) findViewById(R.id.itemNumber2);
+        itemPercentage = (TextView) findViewById(R.id.itemPercentage);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         catName = getIntent().getExtras().getString("collectionName");
         catKey = getIntent().getExtras().getString("collectionKey");
@@ -70,15 +74,15 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         categoryName.setText(catName);
         GetCollectionDetails(userId);
         GetItemDetails(userId);
+        GetWishlistDetails(userId);
 
     }
 
     public void GetCollectionDetails(String userId) {
         // get categoryGoal
-        ref=FirebaseDatabase.getInstance().getReference("Categories");
+        ref = FirebaseDatabase.getInstance().getReference("Categories");
 
-        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener()
-        {//retrieve collection name and collection goal
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {//retrieve collection name and collection goal
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Category value = snapshot.getValue(Category.class);
@@ -90,26 +94,22 @@ public class CollectionDetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot)
-            {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -129,7 +129,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Items value2 = snapshot.getValue(Items.class);
-                if (value2.getCategoryKey().equals(catKey) && value2.categoryName.equals(catName) && value2.getUserID().equals(userId)) {
+                if (value2.getCategoryKey().equals(catKey) && value2.getCategoryName().equals(catName) && value2.getUserID().equals(userId)) {
                     list.add(value2.getItemName());
                 }
 
@@ -179,4 +179,48 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void GetWishlistDetails(String userId) {
+
+        itemNumber2.setText("You currently have " + String.valueOf(list2.size()) + " items in this collection's wishlist ");
+
+        ref3 = FirebaseDatabase.getInstance().getReference("Wishlist");
+
+        ref3.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Items value2 = snapshot.getValue(Items.class);
+                if (value2.getCategoryKey().equals(catKey) && value2.getCategoryName().equals(catName) && value2.getUserID().equals(userId)) {
+                    list2.add(value2.getItemName());
+                }
+
+                if (list2.size() == 0) {
+                    itemNumber2.setText("You currently have do not have any items in this collection's wishlist ");
+                } else if (list2.size() == 1) {
+                    itemNumber2.setText("You currently have " + String.valueOf(list2.size()) + " item in this collection's wishlist ");
+                } else {
+                    itemNumber2.setText("You currently have " + String.valueOf(list2.size()) + " items in this collection's wishlist ");
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
