@@ -75,6 +75,9 @@ public class WishlistActivity extends AppCompatActivity {
     ListView wishes;
     ArrayAdapter arrayAdapter;
     ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> listOfKey = new ArrayList<>();
+    ArrayList<Integer> sortingMethodReturns = new ArrayList<Integer>();
+    int j=0;
     Wishlist wishlist;
     public BottomNavigationView bottomNavigationView;
 
@@ -255,14 +258,33 @@ public class WishlistActivity extends AppCompatActivity {
                 if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId))
                 {
                     list.add(value.getItemName());
+                    listOfKey.add(snapshot.getKey());
 
                     Collections.sort(list, new Comparator<String>()
                     {
                         @Override
-                        public int compare(String s, String t1)
+                        public int compare(String lhs, String rhs)
                         {
-                            return s.compareToIgnoreCase(t1);
+                            int returning = lhs.compareTo(rhs);
+                            sortingMethodReturns.add(returning);
+                            return returning;
                         }
+
+                    });
+                    // now sort the list B according to the changes made with the order of
+                    // items in listA
+                    Collections.sort(listOfKey, new Comparator<String>()
+                    {
+                        @Override
+                        public int compare(String lhs, String rhs)
+                        {
+                            // comparator method will sort the second list also according to
+                            // the changes made with list a
+                            int returning = sortingMethodReturns.get(j);
+                            j++;
+                            return returning;
+                        }
+
                     });
                 }
                 arrayAdapter.notifyDataSetChanged();
@@ -305,10 +327,28 @@ public class WishlistActivity extends AppCompatActivity {
                 i.putExtra("itemName", list.get(position));
                 i.putExtra("collectionName", catName);
                 i.putExtra("collectionKey", catKey);
+                i.putExtra("itemKey", listOfKey.get(position));
                 startActivity(i);
 
             }
 
+        });
+        wishes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                myDialog.setContentView(R.layout.update_delete_window);
+                myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                myDialog.show();
+
+                String name = list.get(position);
+                String key = catKey;
+                String collectionName = catName;
+                String itemKey = listOfKey.get(position);
+
+                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                return true;
+            }
 
         });
 

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/popup_background">
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="283dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/lb_add_a_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorSecondary"/>
+
+    <Button
+        android:id="@+id/closeBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/highlighter_cross"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:lines="2"
+        android:text="Enter the name of the collection you want to create."
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <EditText
+        android:id="@+id/catNameEditText"
+        android:layout_width="280dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/round_edit_text"
+        android:hint="Category Name"
+        android:paddingStart="15dp"
+        android:textColorHint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <EditText
+        android:id="@+id/goalEditText"
+        android:layout_width="280dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/round_edit_text"
+        android:hint="Specify number of items"
+        android:paddingStart="15dp"
+        android:textColorHint="?attr/colorOnPrimary"
+        android:textColor="?attr/colorOnPrimary"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/catNameEditText" />
+
+
+    <Button
+        android:id="@+id/addCatBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/round_button_1"
+        android:padding="10dp"
+        android:text="Update Category"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goalEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
