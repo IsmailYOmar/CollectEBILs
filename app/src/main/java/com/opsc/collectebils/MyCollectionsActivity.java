@@ -614,7 +614,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                     }
                                 });
 
-                                int secondsDelayed = 2;
+                                int secondsDelayed = 1;
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
                                         ref.child("Items").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -695,7 +695,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                             }
                                         });
                                     }
-                                }, secondsDelayed * 3000);
+                                }, secondsDelayed * 2000);
                             }
                         });
                     }
