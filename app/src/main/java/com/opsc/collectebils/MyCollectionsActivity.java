@@ -617,25 +617,23 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 int secondsDelayed = 2;
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
-                                        ref.child("Items").orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
+                                        ref.child("Items").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                                    snapshot.getRef().child("categoryName").setValue(categoryName);
+                                                        snapshot.getRef().child("categoryName").setValue(categoryName);
+                                                    }
+                                                LayoutInflater inflater = getLayoutInflater();
+                                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                                textView6.setText("Collection items updated.");
 
-                                                    LayoutInflater inflater = getLayoutInflater();
-                                                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                                    TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                                    textView6.setText("Collection items updated.");
-
-                                                    Toast mToast = new Toast(MyCollectionsActivity.this);
-                                                    mToast.setDuration(Toast.LENGTH_SHORT);
-                                                    mToast.setView(customToastLayout);
-                                                    mToast.show();
-                                                    //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                                                    myDialog.dismiss();
-
-                                                }
+                                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                                mToast.setView(customToastLayout);
+                                                mToast.show();
+                                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                                myDialog.dismiss();
                                             }
 
                                             @Override
@@ -661,25 +659,23 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
 
-                                        ref.child("Wishlist").orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
+                                        ref.child("Wishlist").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                     snapshot.getRef().child("categoryName").setValue(categoryName);
-
-                                                    LayoutInflater inflater = getLayoutInflater();
-                                                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                                    TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                                    textView6.setText("Collection wishlist items updated.");
-
-                                                    Toast mToast = new Toast(MyCollectionsActivity.this);
-                                                    mToast.setDuration(Toast.LENGTH_SHORT);
-                                                    mToast.setView(customToastLayout);
-                                                    mToast.show();
-                                                    //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                                                    myDialog.dismiss();
-
                                                 }
+                                                LayoutInflater inflater = getLayoutInflater();
+                                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                                textView6.setText("Collection wishlist items updated.");
+
+                                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                                mToast.setView(customToastLayout);
+                                                mToast.show();
+                                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                                myDialog.dismiss();
                                             }
 
                                             @Override

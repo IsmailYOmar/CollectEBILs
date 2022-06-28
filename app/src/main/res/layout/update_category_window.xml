@@ -12,11 +12,11 @@
         android:id="@+id/imageView4"
         android:layout_width="283dp"
         android:layout_height="91dp"
-        android:layout_marginStart="4dp"
-        android:src="@drawable/lb_add_a_category"
+        android:layout_marginStart="0dp"
+        android:src="@drawable/lb_update_a_category"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorSecondary"/>
+        app:tint="?attr/colorSecondary" />
 
     <Button
         android:id="@+id/closeBtn"

@@ -27,7 +27,8 @@
             android:layout_width="285dp"
             android:layout_height="82dp"
             android:layout_marginTop="-45dp"
-            android:src="@drawable/lb_add_an_item"
+            android:layout_marginStart="-10dp"
+            android:src="@drawable/lb_update_an_item"
             app:tint="?attr/colorSecondary" />
 
         <TextView
