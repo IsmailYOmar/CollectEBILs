@@ -33,7 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -346,7 +347,108 @@ public class MyCollectionsActivity extends AppCompatActivity
                 String name = list.get(position);
                 String key = listOfKey.get(position);
 
-                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                Button btnUpdate,btnDetele;
+
+                btnDetele= (Button) myDialog.findViewById(R.id.deteleBtn);
+                btnUpdate = (Button) myDialog.findViewById(R.id.updateBtn);
+
+                btnDetele.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ref = FirebaseDatabase.getInstance().getReference();;
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+                        assert user != null;
+                        userId = user.getUid();
+
+                        //delete collection
+                        ref.child("Categories").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
+                                myDialog.dismiss();
+
+
+                                list.remove(position);
+                                list2.remove(position);
+                                listOfKey.remove(position);
+                                arrayAdapter.notifyDataSetChanged();
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Collection deleted.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                myDialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Operation failed.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                myDialog.dismiss();
+                            }
+                        });
+                        //delete items in collection
+                        ref.child("Items").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
+                                myDialog.dismiss();
+
+
+                                list.remove(position);
+                                list2.remove(position);
+                                listOfKey.remove(position);
+                                arrayAdapter.notifyDataSetChanged();
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Collection deleted.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                myDialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Operation failed.");
+
+                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                myDialog.dismiss();
+                            }
+                        });
+
+                    }
+                });
                 return true;
             }
 
