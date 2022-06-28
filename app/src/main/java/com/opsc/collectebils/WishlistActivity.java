@@ -324,48 +324,63 @@ public class WishlistActivity extends AppCompatActivity {
                 String collectionName = catName;
                 String itemKey = listOfKey.get(position);
 
+                Button btnUpdate, btnDetele;
 
-                ref.child("Wishlist").child(itemKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                btnDetele = (Button) myDialog.findViewById(R.id.deteleBtn);
+                btnUpdate = (Button) myDialog.findViewById(R.id.updateBtn);
+
+                btnDetele.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        snapshot.getRef().removeValue();
+                    public void onClick(View view) {
+                        ref = FirebaseDatabase.getInstance().getReference();
+                        ;
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+                        assert user != null;
+                        userId = user.getUid();
+                        ref.child("Wishlist").child(itemKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
 
-                        list.remove(position);
-                        listOfKey.remove(position);
-                        arrayAdapter.notifyDataSetChanged();
+                                list.remove(position);
+                                listOfKey.remove(position);
+                                arrayAdapter.notifyDataSetChanged();
 
-                        myDialog.dismiss();
+                                myDialog.dismiss();
 
-                        LayoutInflater inflater = getLayoutInflater();
-                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                        textView6.setText("Collection deleted.");
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Collection deleted.");
 
-                        Toast mToast = new Toast(WishlistActivity.this);
-                        mToast.setDuration(Toast.LENGTH_SHORT);
-                        mToast.setView(customToastLayout);
-                        mToast.show();
-                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                        myDialog.dismiss();
+                                Toast mToast = new Toast(WishlistActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                myDialog.dismiss();
 
-                    }
+                            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        LayoutInflater inflater = getLayoutInflater();
-                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                        textView6.setText("Operation failed.");
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Operation failed.");
 
-                        Toast mToast = new Toast(WishlistActivity.this);
-                        mToast.setDuration(Toast.LENGTH_SHORT);
-                        mToast.setView(customToastLayout);
-                        mToast.show();
-                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                Toast mToast = new Toast(WishlistActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                myDialog.dismiss();
+                            }
+                        });
+
                     }
                 });
-                myDialog.dismiss();
                 return true;
             }
         });
