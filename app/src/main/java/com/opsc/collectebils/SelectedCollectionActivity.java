@@ -533,6 +533,8 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                 snapshot.getRef().removeValue();
                                 myDialog.dismiss();
 
+                                list.remove(position);
+                                listOfKey.remove(position);
                                 arrayAdapter.notifyDataSetChanged();
 
                                 LayoutInflater inflater = getLayoutInflater();

@@ -118,70 +118,65 @@ public class CollectionDetailsActivity extends AppCompatActivity {
 
     public void GetItemDetails(String userId) {
 
+        itemNumber.setText("You currently have " + String.valueOf(list.size()) + " items in this collection ");
+        progressBar.setProgress(0);
+        itemPercentage.setText("0%");
+
         ref2 = FirebaseDatabase.getInstance().getReference("Items");
 
 
         ref2.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Items value2 = snapshot.getValue(Items.class);
-                if (value2.getCategoryKey().equals(catKey) && value2.categoryName.equals(catName) && value2.getUserID().equals(userId))
-                {
+                if (value2.getCategoryKey().equals(catKey) && value2.categoryName.equals(catName) && value2.getUserID().equals(userId)) {
                     list.add(value2.getItemName());
                 }
 
-                if(list.size() == 0) {
+                if (list.size() == 0) {
                     itemNumber.setText("You currently have do not have any items in this collection ");
-                }else if(list.size() == 1) {
+                } else if (list.size() == 1) {
                     itemNumber.setText("You currently have " + String.valueOf(list.size()) + " item in this collection ");
-                }else{
+                } else {
                     itemNumber.setText("You currently have " + String.valueOf(list.size()) + " items in this collection ");
                 }
                 progressBar.setProgress(list.size());
 
-                if(goalNumber != 0) {
-                    double percent = (list.size()*1.0 / goalNumber) * 100;
-                    if(percent > 100){
+                if (goalNumber != 0) {
+                    double percent = (list.size() * 1.0 / goalNumber) * 100;
+                    if (percent > 100) {
                         itemPercentage.setText("Goal Reached !!!");
-                    }
-                    else if(percent == 0){
+                    } else if (percent == 0) {
                         itemPercentage.setText("0%");
-                    }
-                    else {
+                    } else {
                         String stringPercent = String.format("%.1f", percent);
                         itemPercentage.setText(stringPercent + "%");
                     }
-                }else{
+                } else {
                     itemPercentage.setText("0%");
                 }
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot)
-            {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
     }
 
 }

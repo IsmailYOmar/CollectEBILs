@@ -330,6 +330,8 @@ public class WishlistActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         snapshot.getRef().removeValue();
 
+                        list.remove(position);
+                        listOfKey.remove(position);
                         arrayAdapter.notifyDataSetChanged();
 
                         myDialog.dismiss();
