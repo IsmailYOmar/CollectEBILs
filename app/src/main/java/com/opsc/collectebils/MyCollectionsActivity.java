@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -612,43 +613,93 @@ public class MyCollectionsActivity extends AppCompatActivity
                                         myDialog.dismiss();
                                     }
                                 });
-                                ref = FirebaseDatabase.getInstance().getReference("Items");
-                                ref.orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        snapshot.getRef().child("categoryName").setValue(categoryName);
-                                        snapshot.getRef().child("categoryKey").setValue(key);
 
-                                        LayoutInflater inflater = getLayoutInflater();
-                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                        textView6.setText("Collection items updated.");
+                                int secondsDelayed = 2;
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
+                                        ref.child("Items").orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                    snapshot.getRef().child("categoryName").setValue(categoryName);
 
-                                        Toast mToast = new Toast(MyCollectionsActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_SHORT);
-                                        mToast.setView(customToastLayout);
-                                        mToast.show();
-                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                                        myDialog.dismiss();
+                                                    LayoutInflater inflater = getLayoutInflater();
+                                                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                                    TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                                    textView6.setText("Collection items updated.");
 
+                                                    Toast mToast = new Toast(MyCollectionsActivity.this);
+                                                    mToast.setDuration(Toast.LENGTH_SHORT);
+                                                    mToast.setView(customToastLayout);
+                                                    mToast.show();
+                                                    //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                                    myDialog.dismiss();
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                LayoutInflater inflater = getLayoutInflater();
+                                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                                textView6.setText("Operation failed.");
+
+                                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                                mToast.setView(customToastLayout);
+                                                mToast.show();
+                                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                                myDialog.dismiss();
+                                            }
+                                        });
                                     }
+                                }, secondsDelayed * 2000);
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                        LayoutInflater inflater = getLayoutInflater();
-                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                        textView6.setText("Operation failed.");
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
 
-                                        Toast mToast = new Toast(MyCollectionsActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_SHORT);
-                                        mToast.setView(customToastLayout);
-                                        mToast.show();
-                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
-                                        myDialog.dismiss();
+                                        ref.child("Wishlist").orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                    snapshot.getRef().child("categoryName").setValue(categoryName);
+
+                                                    LayoutInflater inflater = getLayoutInflater();
+                                                    View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                                    TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                                    textView6.setText("Collection wishlist items updated.");
+
+                                                    Toast mToast = new Toast(MyCollectionsActivity.this);
+                                                    mToast.setDuration(Toast.LENGTH_SHORT);
+                                                    mToast.setView(customToastLayout);
+                                                    mToast.show();
+                                                    //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                                    myDialog.dismiss();
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                LayoutInflater inflater = getLayoutInflater();
+                                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                                textView6.setText("Operation failed.");
+
+                                                Toast mToast = new Toast(MyCollectionsActivity.this);
+                                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                                mToast.setView(customToastLayout);
+                                                mToast.show();
+                                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                                myDialog.dismiss();
+                                            }
+                                        });
                                     }
-                                });
+                                }, secondsDelayed * 4000);
                             }
                         });
                     }
