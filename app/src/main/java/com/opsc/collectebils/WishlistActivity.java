@@ -207,7 +207,7 @@ public class WishlistActivity extends AppCompatActivity {
                                         textView6.setText("New item added.");
 
                                         Toast mToast = new Toast(WishlistActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(WishlistActivity.this, "New item added.", Toast.LENGTH_LONG).show();
@@ -219,7 +219,7 @@ public class WishlistActivity extends AppCompatActivity {
                                         textView6.setText("Operation failed.");
 
                                         Toast mToast = new Toast(WishlistActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(WishlistActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
@@ -330,8 +330,6 @@ public class WishlistActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         snapshot.getRef().removeValue();
 
-                        list.remove(position);
-                        listOfKey.remove(position);
                         arrayAdapter.notifyDataSetChanged();
 
                         myDialog.dismiss();
@@ -342,7 +340,7 @@ public class WishlistActivity extends AppCompatActivity {
                         textView6.setText("Collection deleted.");
 
                         Toast mToast = new Toast(WishlistActivity.this);
-                        mToast.setDuration(Toast.LENGTH_LONG);
+                        mToast.setDuration(Toast.LENGTH_SHORT);
                         mToast.setView(customToastLayout);
                         mToast.show();
                         //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
@@ -359,7 +357,7 @@ public class WishlistActivity extends AppCompatActivity {
                         textView6.setText("Operation failed.");
 
                         Toast mToast = new Toast(WishlistActivity.this);
-                        mToast.setDuration(Toast.LENGTH_LONG);
+                        mToast.setDuration(Toast.LENGTH_SHORT);
                         mToast.setView(customToastLayout);
                         mToast.show();
                         //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
@@ -453,7 +451,7 @@ public class WishlistActivity extends AppCompatActivity {
                             textView6.setText("Image Uploaded.");
 
                             Toast mToast = new Toast(WishlistActivity.this);
-                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setDuration(Toast.LENGTH_SHORT);
                             mToast.setView(customToastLayout);
                             mToast.show();
                             //Toast.makeText(WishlistActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
@@ -478,7 +476,7 @@ public class WishlistActivity extends AppCompatActivity {
                     textView6.setText("Operation failed.");
 
                     Toast mToast = new Toast(WishlistActivity.this);
-                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setDuration(Toast.LENGTH_SHORT);
                     mToast.setView(customToastLayout);
                     mToast.show();
                     //Toast.makeText(WishlistActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();

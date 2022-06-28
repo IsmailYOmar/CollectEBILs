@@ -371,7 +371,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                         textView6.setText("New item added.");
 
                                         Toast mToast = new Toast(SelectedCollectionActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(SelectedCollectionActivity.this, "New item added.", Toast.LENGTH_LONG).show();
@@ -387,7 +387,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                         textView6.setText("Operation failed.");
 
                                         Toast mToast = new Toast(SelectedCollectionActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
@@ -533,8 +533,6 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                 snapshot.getRef().removeValue();
                                 myDialog.dismiss();
 
-                                list.remove(position);
-                                listOfKey.remove(position);
                                 arrayAdapter.notifyDataSetChanged();
 
                                 LayoutInflater inflater = getLayoutInflater();
@@ -543,7 +541,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                 textView6.setText("Item deleted.");
 
                                 Toast mToast = new Toast(SelectedCollectionActivity.this);
-                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
                                 mToast.setView(customToastLayout);
                                 mToast.show();
                                 //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
@@ -559,7 +557,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                 textView6.setText("Operation failed.");
 
                                 Toast mToast = new Toast(SelectedCollectionActivity.this);
-                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
                                 mToast.setView(customToastLayout);
                                 mToast.show();
                                 //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
@@ -698,7 +696,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                             textView6.setText("Image Uploaded.");
 
                             Toast mToast = new Toast(SelectedCollectionActivity.this);
-                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setDuration(Toast.LENGTH_SHORT);
                             mToast.setView(customToastLayout);
                             mToast.show();
                             //Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
@@ -723,7 +721,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                     textView6.setText("Operation failed.");
 
                     Toast mToast = new Toast(SelectedCollectionActivity.this);
-                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setDuration(Toast.LENGTH_SHORT);
                     mToast.setView(customToastLayout);
                     mToast.show();
                     //Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
@@ -813,7 +811,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                             textView6.setText("Image Uploaded.");
 
                             Toast mToast = new Toast(SelectedCollectionActivity.this);
-                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setDuration(Toast.LENGTH_SHORT);
                             mToast.setView(customToastLayout);
                             mToast.show();
                             //Toast.makeText(SelectedCollectionActivity.this, "Image Uploaded.", Toast.LENGTH_LONG).show();
@@ -838,7 +836,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                     textView6.setText("Operation failed.");
 
                     Toast mToast = new Toast(SelectedCollectionActivity.this);
-                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setDuration(Toast.LENGTH_SHORT);
                     mToast.setView(customToastLayout);
                     mToast.show();
                     //Toast.makeText(SelectedCollectionActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();

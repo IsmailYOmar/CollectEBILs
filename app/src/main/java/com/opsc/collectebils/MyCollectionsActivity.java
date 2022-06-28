@@ -204,7 +204,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                         textView6.setText("New category added.");
 
                                         Toast mToast = new Toast(MyCollectionsActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(MyCollectionsActivity.this, "New category added.", Toast.LENGTH_LONG).show();
@@ -220,7 +220,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                         textView6.setText("Operation failed.");
 
                                         Toast mToast = new Toast(MyCollectionsActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
@@ -367,10 +367,6 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 snapshot.getRef().removeValue();
                                 myDialog.dismiss();
 
-
-                                list.remove(position);
-                                list2.remove(position);
-                                listOfKey.remove(position);
                                 arrayAdapter.notifyDataSetChanged();
 
                                 LayoutInflater inflater = getLayoutInflater();
@@ -379,7 +375,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 textView6.setText("Collection deleted.");
 
                                 Toast mToast = new Toast(MyCollectionsActivity.this);
-                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
                                 mToast.setView(customToastLayout);
                                 mToast.show();
                                 //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
@@ -396,7 +392,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 textView6.setText("Operation failed.");
 
                                 Toast mToast = new Toast(MyCollectionsActivity.this);
-                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
                                 mToast.setView(customToastLayout);
                                 mToast.show();
                                 //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
@@ -422,7 +418,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 textView6.setText("Collection deleted.");
 
                                 Toast mToast = new Toast(MyCollectionsActivity.this);
-                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
                                 mToast.setView(customToastLayout);
                                 mToast.show();
                                 //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
@@ -439,7 +435,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 textView6.setText("Operation failed.");
 
                                 Toast mToast = new Toast(MyCollectionsActivity.this);
-                                mToast.setDuration(Toast.LENGTH_LONG);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
                                 mToast.setView(customToastLayout);
                                 mToast.show();
                                 //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();

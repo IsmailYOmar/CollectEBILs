@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     textView6.setText("Login failed.");
 
                     Toast mToast = new Toast(LoginActivity.this);
-                    mToast.setDuration(Toast.LENGTH_LONG);
+                    mToast.setDuration(Toast.LENGTH_SHORT);
                     mToast.setView(customToastLayout);
                     mToast.show();
                     //Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();

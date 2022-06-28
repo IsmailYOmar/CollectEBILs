@@ -233,7 +233,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                         textView6.setText("User has been registered.");
 
                                         Toast mToast = new Toast(RegisterActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(RegisterActivity.this, "User has been registered.", Toast.LENGTH_LONG).show();
@@ -258,7 +258,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                         textView6.setText("Registration failed.");
 
                                         Toast mToast = new Toast(RegisterActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_LONG);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
                                         mToast.setView(customToastLayout);
                                         mToast.show();
                                         //Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
@@ -276,7 +276,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             textView6.setText("Registration failed.");
 
                             Toast mToast = new Toast(RegisterActivity.this);
-                            mToast.setDuration(Toast.LENGTH_LONG);
+                            mToast.setDuration(Toast.LENGTH_SHORT);
                             mToast.setView(customToastLayout);
                             mToast.show();
                             //Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_LONG).show();
