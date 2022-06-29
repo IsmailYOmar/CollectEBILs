@@ -186,6 +186,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                     String imageFileName = fileName;
 
+                    //error handing
                     if (itemName.isEmpty()) {
                         enterItemName.setError("All fields are required.");
                         enterItemName.requestFocus();
@@ -212,7 +213,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                     Wishlist wishlist = new Wishlist(userID, categoryName, categoryKey, itemName, itemDescription, imageFileName);
 
-
+                    //add data to firebase
                     ref.push().setValue(wishlist)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

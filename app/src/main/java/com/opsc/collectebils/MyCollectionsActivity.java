@@ -150,6 +150,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                     String categoryName = catNameEditText.getText().toString().trim();
                     int goalNumber;
 
+                    //error handing
                     if(categoryName.isEmpty()) {
                         catNameEditText.setError("All fields are required.");
                         catNameEditText.requestFocus();
@@ -191,6 +192,7 @@ public class MyCollectionsActivity extends AppCompatActivity
 
                     Category cat = new Category(userID, categoryName, goalNumber);
 
+                    //add data to firebase
                     ref.push().setValue(cat)
                             .addOnCompleteListener(new OnCompleteListener<Void>()
                             {
