@@ -59,12 +59,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button logoutButton;
     private Button collectionStatistics;
     Spinner dropDown;
+    // initializes UI switch
     Switch twoFactorToggle;
+    // initializes UI dialog
     Dialog authentication;
     public  BottomNavigationView bottomNavigationView;
+    // initializes GoogleSignInClient to variable
     //private GoogleSignInClient signInClient;
+    // initializes int used in Google sign in process
     //private final static int RC_SIGN_IN = 123;
+    // initializes Firebase Authentication to variable
     //private FirebaseAuth mAuth;
+    // initializes int
     public int toggle;
 
     /*@Override
@@ -78,6 +84,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        // constructor for new UI dialog
         authentication = new Dialog(this);
 
         dropDown = findViewById(R.id.darkMode);
@@ -118,10 +125,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
+        // defines variable as an instance object for Firebase
         //mAuth = FirebaseAuth.getInstance();
 
+        // calls the createRequest method
         //createRequest();
 
+        // links the variable to its UI counter part
         twoFactorToggle = (Switch) findViewById(R.id.twoFactorToggle);
 
         //SharedPreferences sharedPrefs = getSharedPreferences("twoFactor",0);
@@ -134,11 +144,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             twoFactorToggle.setChecked(false);
         }*/
 
+        // method to allow interaction between backend and UI switch
         twoFactorToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
+                // takes design from layout resource file
                 authentication.setContentView(R.layout.authentication_window);
+                // sets the background of the design to transparent
                 authentication.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 Button closeBtn;
@@ -149,13 +162,19 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 googleAuth = (Button) authentication.findViewById(R.id.googleAuth);
                 otherAuth = (Button) authentication.findViewById(R.id.otherAuth);
 
+                // condition of boolean if true
                 if (b == true) {
+                    // sets int to 1
                     toggle = 1;
+                    // condition if int is 1
                     if (toggle == 1) {
+                        // sets UI switch to true
                         twoFactorToggle.setChecked(true);
+                        // displays UI dialog
                         authentication.show();
                         otherAuth.setOnClickListener(new View.OnClickListener() {
                             @Override
+                            // displays a custom toast message if clicked
                             public void onClick(View view) {
                                 LayoutInflater inflater = getLayoutInflater();
                                 View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
@@ -170,6 +189,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         });
                         closeBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
+                            // closes UI dialog and sets UI switch to false
                             public void onClick(View view) {
                                 authentication.dismiss();
                                 twoFactorToggle.setChecked(false);
@@ -180,6 +200,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                             }
                         });
                         googleAuth.setOnClickListener(new View.OnClickListener() {
+                            // displays a custom toast message if clicked
                             @Override
                             public void onClick(View view) {
 
@@ -193,7 +214,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                                 mToast.setView(customToastLayout);
                                 mToast.show();
 
+                                // closes UI dialog
                                 /*authentication.dismiss();
+                                // call the SignIn method
                                 SignIn();
                                 SharedPreferences sharedPref = getSharedPreferences("twoFactor",0);
                                 SharedPreferences.Editor prefEditor = sharedPref.edit();
@@ -328,18 +351,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    // requests, builds, and initializes a Google request token and client
+    // https://medium.com/geekculture/how-to-integrate-firebase-authentication-for-google-sign-in-functionality-e955d7e549bf
     /*private void createRequest() {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         signInClient = GoogleSignIn.getClient(this, signInOptions);
     }
 
+    // initializes a Google sign in intent and starts the process
+    // https://medium.com/geekculture/how-to-integrate-firebase-authentication-for-google-sign-in-functionality-e955d7e549bf
     private void SignIn() {
         Intent intent = signInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
 
     @Override
+    // starts and integrates Google sign in
+    // https://medium.com/geekculture/how-to-integrate-firebase-authentication-for-google-sign-in-functionality-e955d7e549bf
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
@@ -353,6 +382,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    // pairs Firebase Authentication services with Google sign in services
+    // https://medium.com/geekculture/how-to-integrate-firebase-authentication-for-google-sign-in-functionality-e955d7e549bf
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -404,6 +435,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         startActivity(i);
     }
 
+    // logs out a Google user
+    //https://medium.com/geekculture/how-to-integrate-firebase-authentication-for-google-sign-in-functionality-e955d7e549bf
     /*private void GoogleLogout() {
         signInClient.signOut();
     }*/
