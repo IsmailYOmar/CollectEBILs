@@ -264,8 +264,8 @@ public class MyCollectionsActivity extends AppCompatActivity
                     }
 
                 });
-                // now sort the list B according to the changes made with the order of
-                // items in listA
+                // now sort the listOfKey according to the changes made with the order of
+                // items in list
                 Collections.sort(listOfKey, new Comparator<String>()
                 {
                     @Override
@@ -279,6 +279,8 @@ public class MyCollectionsActivity extends AppCompatActivity
                     }
 
                 });
+                // now sort the list2 according to the changes made with the order of
+                // items in list
                 Collections.sort(list2, new Comparator<String>()
                 {
                     @Override
@@ -337,10 +339,12 @@ public class MyCollectionsActivity extends AppCompatActivity
            }
 
        });
+        //long click on an item in list view opens up option to delete or update item
         collectionsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
 
+                //open window with update delete buttons
                 myDialog.setContentView(R.layout.update_delete_window);
                 myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 myDialog.show();
@@ -353,6 +357,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                 btnDetele= (Button) myDialog.findViewById(R.id.deteleBtn);
                 btnUpdate = (Button) myDialog.findViewById(R.id.updateBtn);
 
+                //delete collection selected
                 btnDetele.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -361,7 +366,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                         assert user != null;
                         userId = user.getUid();
 
-                        //delete collection
+                        //delete collection selected
                         ref.child("Categories").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -372,6 +377,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 list2.remove(position);
                                 listOfKey.remove(position);
                                 arrayAdapter.notifyDataSetChanged();
+                                // update list view with new values
 
                                 LayoutInflater inflater = getLayoutInflater();
                                 View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
@@ -485,12 +491,13 @@ public class MyCollectionsActivity extends AppCompatActivity
                         });
                     }
                 });
+                //open update window and update item
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         myDialog.dismiss();
-
+                        //close pop up and open window to update values
                         myDialog.setContentView(R.layout.update_category_window);
                         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         myDialog.show();
@@ -512,7 +519,8 @@ public class MyCollectionsActivity extends AppCompatActivity
                             }
                         });
 
-                        updateCatBtn.setOnClickListener(new View.OnClickListener() {// on button press call method to add to firebase
+                        updateCatBtn.setOnClickListener(new View.OnClickListener() {
+                            // on button press call method to add to firebase
                             @Override
                             public void onClick(View view) {
                                 String catName = catNameEditText.getText().toString();
@@ -534,6 +542,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                 String categoryName = catNameEditText.getText().toString().trim();
                                 int goalNumber;
 
+                                //error validation in text boxes
                                 if (categoryName.isEmpty()) {
                                     catNameEditText.setError("All fields are required.");
                                     catNameEditText.requestFocus();
@@ -577,6 +586,7 @@ public class MyCollectionsActivity extends AppCompatActivity
 
                                 Category cat = new Category(userID, categoryName, goalNumber);
 
+                                // update values in firebase table Categories
                                 ref.child("Categories").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -586,6 +596,7 @@ public class MyCollectionsActivity extends AppCompatActivity
                                         list.set( position,categoryName);
                                         list2.set( position, String.valueOf(goalNumber));
                                         arrayAdapter.notifyDataSetChanged();
+                                        // update list view with new values
 
                                         LayoutInflater inflater = getLayoutInflater();
                                         View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
@@ -618,8 +629,10 @@ public class MyCollectionsActivity extends AppCompatActivity
                                     }
                                 });
 
+                                //delay updating items to process category update
                                 int secondsDelayed = 1;
                                 new Handler().postDelayed(new Runnable() {
+                                    //update items in category
                                     public void run() {
                                         ref.child("Items").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
@@ -659,10 +672,10 @@ public class MyCollectionsActivity extends AppCompatActivity
                                     }
                                 }, secondsDelayed * 1000);
 
-
+                                //delay updating Wishlist to process category update
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
-
+                                        //update Wishlist in category
                                         ref.child("Wishlist").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -709,6 +722,7 @@ public class MyCollectionsActivity extends AppCompatActivity
 
         });
 
+        //enable search bar query to retrieve data from list view
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

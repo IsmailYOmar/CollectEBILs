@@ -497,6 +497,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 
 
         });
+        //long click on an item in list view opens up option to delete or update item
         collectionsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -515,6 +516,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                 btnDetele= (Button) myDialog.findViewById(R.id.deteleBtn);
                 btnUpdate = (Button) myDialog.findViewById(R.id.updateBtn);
 
+                //delete collection selected
                 btnDetele.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -523,6 +525,8 @@ public class SelectedCollectionActivity extends AppCompatActivity
                         assert user != null;
                         userId = user.getUid();
 
+
+                        //delete Item selected
                         ref.child("Items").child(itemKey).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -532,6 +536,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                 list.remove(position);
                                 listOfKey.remove(position);
                                 arrayAdapter.notifyDataSetChanged();
+                                // update list view with new values
 
                                 LayoutInflater inflater = getLayoutInflater();
                                 View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
@@ -565,6 +570,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 
                     }
                 });
+                //open update window and update item
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -713,6 +719,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 
                                 String imageFileName = fileName;
 
+                                //error validation in text boxes
                                 if (itemName.isEmpty()) {
                                     enterItemName.setError("All fields are required.");
                                     enterItemName.requestFocus();
@@ -803,7 +810,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
                                 user = FirebaseAuth.getInstance().getCurrentUser();
                                 assert user != null;
                                 userId = user.getUid();
-
+                                //update items in category
                                 ref.child("Items").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -820,6 +827,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 
                                         list.set( position,itemName);
                                         arrayAdapter.notifyDataSetChanged();
+                                        // update list view with new values
 
                                         LayoutInflater inflater = getLayoutInflater();
                                         View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
@@ -859,6 +867,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
             }
         });
 
+        //enable search bar query to retrieve data from list view
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -936,6 +945,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
         });
     }
 
+    //check if item added completes the collection goal
     private void checkGoal(ArrayList<String> list) {
         int goal = Integer.parseInt(getIntent().getExtras().getString("collectionGoal"));
         if(goal == list.size()){

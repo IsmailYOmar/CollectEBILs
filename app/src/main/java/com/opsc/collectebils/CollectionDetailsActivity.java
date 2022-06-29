@@ -82,7 +82,8 @@ public class CollectionDetailsActivity extends AppCompatActivity {
         // get categoryGoal
         ref = FirebaseDatabase.getInstance().getReference("Categories");
 
-        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {//retrieve collection name and collection goal
+        ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
+            //retrieve collection name and collection goal
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Category value = snapshot.getValue(Category.class);
@@ -90,6 +91,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                     categoryGoal.setText(String.valueOf(value.getGoalNumber()));
                     progressBar.setMax(value.getGoalNumber());
                     goalNumber = value.getGoalNumber();
+                    //get goal number from firebase
                 }
             }
 
@@ -117,7 +119,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
     }
 
     public void GetItemDetails(String userId) {
-
+        //get number of items in collection
         itemNumber.setText("You currently have " + String.valueOf(list.size()) + " items in this collection ");
         progressBar.setProgress(0);
         itemPercentage.setText("0%");
@@ -131,8 +133,10 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 Items value2 = snapshot.getValue(Items.class);
                 if (value2.getCategoryKey().equals(catKey) && value2.getCategoryName().equals(catName) && value2.getUserID().equals(userId)) {
                     list.add(value2.getItemName());
+                    //add item to list, list size used to count number of items
                 }
 
+                //set text viewed based on number of items
                 if (list.size() == 0) {
                     itemNumber.setText("You currently have do not have any items in this collection ");
                 } else if (list.size() == 1) {
@@ -140,8 +144,10 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 } else {
                     itemNumber.setText("You currently have " + String.valueOf(list.size()) + " items in this collection ");
                 }
+                // set progress to progress bar
                 progressBar.setProgress(list.size());
 
+                // calculate itemPercentage based on goalNumber and list size
                 if (goalNumber != 0) {
                     double percent = (list.size() * 1.0 / goalNumber) * 100;
                     if (percent > 100) {
@@ -180,7 +186,7 @@ public class CollectionDetailsActivity extends AppCompatActivity {
     }
 
     private void GetWishlistDetails(String userId) {
-
+        //get number of items in wishlist in collection
         itemNumber2.setText("You currently have " + String.valueOf(list2.size()) + " items in this collection's wishlist ");
 
         ref3 = FirebaseDatabase.getInstance().getReference("Wishlist");
@@ -191,8 +197,10 @@ public class CollectionDetailsActivity extends AppCompatActivity {
                 Items value2 = snapshot.getValue(Items.class);
                 if (value2.getCategoryKey().equals(catKey) && value2.getCategoryName().equals(catName) && value2.getUserID().equals(userId)) {
                     list2.add(value2.getItemName());
+                    //add item to list in wishlist, list size used to count number of items
                 }
 
+                //set text viewed based on number of items
                 if (list2.size() == 0) {
                     itemNumber2.setText("You currently have do not have any items in this collection's wishlist ");
                 } else if (list2.size() == 1) {
