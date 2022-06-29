@@ -381,6 +381,148 @@ public class WishlistActivity extends AppCompatActivity {
 
                     }
                 });
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        myDialog.dismiss();
+
+                        myDialog.setContentView(R.layout.update_wishlist_window);
+                        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        myDialog.show();
+
+                        Button btnClose, btnUploadWishlist, btnAddWishlist;
+                        EditText enterItemName, enterItemDescription;
+
+                        enterItemName = (EditText) myDialog.findViewById(R.id.enterWishlistItemName);
+                        enterItemDescription = (EditText) myDialog.findViewById(R.id.enterWishlistItemDescription);
+
+                        btnUploadWishlist = (Button) myDialog.findViewById(R.id.btnUploadWishlist);
+                        btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
+
+                        btnClose.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View view) {
+                                myDialog.dismiss();
+                            }
+
+
+                        });
+
+                        btnUploadWishlist.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(WishlistActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
+                                    SelectImage();
+                                } else {
+                                    SelectImage();
+                                }
+
+
+                            }
+                        });
+                        btnAddWishlist = (Button) myDialog.findViewById(R.id.btnAddWishlist);
+                        btnAddWishlist.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                               updateWishlistData();
+
+                                arrayAdapter = new ArrayAdapter(WishlistActivity.this, R.layout.list_item, R.id.name, list);
+                                wishes.setAdapter(arrayAdapter);
+                            }
+
+                            private void updateWishlistData() {
+                                String userID = userId;
+                                String categoryName = catName;
+                                String categoryKey = getIntent().getExtras().getString("collectionKey");
+
+                                String itemName = enterItemName.getText().toString().trim();
+                                String itemDescription = enterItemDescription.getText().toString().trim();
+
+                                String imageFileName = fileName;
+
+                                if (itemName.isEmpty()) {
+                                    enterItemName.setError("All fields are required.");
+                                    enterItemName.requestFocus();
+                                    return;
+                                }
+
+                                if (itemName.length() > 150) {
+                                    enterItemName.setError("The item name is too long.");
+                                    enterItemName.requestFocus();
+                                    return;
+                                }
+
+                                if (itemDescription.isEmpty()) {
+                                    enterItemDescription.setError("All fields are required.");
+                                    enterItemDescription.requestFocus();
+                                    return;
+                                }
+
+                                if (itemDescription.length() > 350) {
+                                    enterItemDescription.setError("The description is too long.");
+                                    enterItemDescription.requestFocus();
+                                    return;
+                                }
+
+                                Wishlist wishlist = new Wishlist(userID, categoryName, categoryKey, itemName, itemDescription, imageFileName);
+
+                                ref = FirebaseDatabase.getInstance().getReference();
+                                ;
+                                user = FirebaseAuth.getInstance().getCurrentUser();
+                                assert user != null;
+                                userId = user.getUid();
+
+                                ref.child("Wishlist").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        snapshot.getRef().child("userID").setValue(userID);
+                                        snapshot.getRef().child("categoryName").setValue(categoryName);
+                                        snapshot.getRef().child("categoryKey").setValue(categoryKey);
+                                        snapshot.getRef().child("itemName").setValue(itemName);
+                                        snapshot.getRef().child("itemDescription").setValue(itemDescription);
+                                        snapshot.getRef().child("imageFileName").setValue(imageFileName);
+
+                                        list.set(position, itemName);
+                                        arrayAdapter.notifyDataSetChanged();
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Collection updated.");
+
+                                        Toast mToast = new Toast(WishlistActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                        myDialog.dismiss();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Operation failed.");
+
+                                        Toast mToast = new Toast(WishlistActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
                 return true;
             }
         });

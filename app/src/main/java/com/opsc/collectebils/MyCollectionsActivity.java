@@ -404,11 +404,13 @@ public class MyCollectionsActivity extends AppCompatActivity
                             }
                         });
                         //delete items in collection
-                        ref.child("Items").child(key).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
-                                myDialog.dismiss();
+                        ref.child("Items").orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        snapshot.getRef().removeValue();
+                                        myDialog.dismiss();
+                                    }
 
 
                                 LayoutInflater inflater = getLayoutInflater();
@@ -442,11 +444,13 @@ public class MyCollectionsActivity extends AppCompatActivity
                             }
                         });
                         //delete Wishlist in collection
-                        ref.child("Wishlist").child(key).addValueEventListener(new ValueEventListener() {
+                        ref.child("Wishlist").orderByChild("categoryKey").equalTo(key).addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
-                                myDialog.dismiss();
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    snapshot.getRef().removeValue();
+                                    myDialog.dismiss();
+                                }
 
 
                                 LayoutInflater inflater = getLayoutInflater();

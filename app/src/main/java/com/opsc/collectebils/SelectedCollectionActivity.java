@@ -327,8 +327,8 @@ public class SelectedCollectionActivity extends AppCompatActivity
                         enterProductionYear.requestFocus();
                         return;
                     }
-
-                    if (productionYear > 2022) {
+                    int  year =Calendar.getInstance().get(Calendar.YEAR);
+                    if (productionYear > year) {
                         enterProductionYear.setError("The year is too far ahead.");
                         enterProductionYear.requestFocus();
                         return;
@@ -420,18 +420,15 @@ public class SelectedCollectionActivity extends AppCompatActivity
         ref.orderByChild("userID").equalTo(userId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
-            {
+            { if (snapshot.exists() == true) {
                 Items value = snapshot.getValue(Items.class);
-                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId))
-                {
+                if (value.getCategoryKey().equals(catKey) && value.categoryName.equals(catName) && value.getUserID().equals(userId)) {
                     list.add(value.getItemName());
                     listOfKey.add(snapshot.getKey());
 
-                    Collections.sort(list, new Comparator<String>()
-                    {
+                    Collections.sort(list, new Comparator<String>() {
                         @Override
-                        public int compare(String lhs, String rhs)
-                        {
+                        public int compare(String lhs, String rhs) {
                             int returning = lhs.compareTo(rhs);
                             sortingMethodReturns.add(returning);
                             return returning;
@@ -440,11 +437,9 @@ public class SelectedCollectionActivity extends AppCompatActivity
                     });
                     // now sort the list B according to the changes made with the order of
                     // items in listA
-                    Collections.sort(listOfKey, new Comparator<String>()
-                    {
+                    Collections.sort(listOfKey, new Comparator<String>() {
                         @Override
-                        public int compare(String lhs, String rhs)
-                        {
+                        public int compare(String lhs, String rhs) {
                             // comparator method will sort the second list also according to
                             // the changes made with list a
                             int returning = sortingMethodReturns.get(j);
@@ -454,6 +449,7 @@ public class SelectedCollectionActivity extends AppCompatActivity
 
                     });
                 }
+            }
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -567,6 +563,296 @@ public class SelectedCollectionActivity extends AppCompatActivity
                             }
                         });
 
+                    }
+                });
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        myDialog.dismiss();
+
+                        myDialog.setContentView(R.layout.update_item_window);
+                        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        myDialog.show();
+
+                        Button btnClose, btnAdd, btnUpload, btnCamera;
+
+                        btnAdd = (Button) myDialog.findViewById(R.id.btnAdd);
+                        btnCamera = (Button) myDialog.findViewById(R.id.btnCamera);
+                        btnUpload = (Button) myDialog.findViewById(R.id.btnUpload);
+                        btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
+
+                        EditText enterItemName, enterItemDescription, enterManufacturer, enterProductionYear,
+                                enterPurchasePrice, enterPurchaseDate;
+
+                        enterItemName = (EditText) myDialog.findViewById(R.id.enterItemName);
+                        enterItemDescription = (EditText) myDialog.findViewById(R.id.enterItemDescription);
+                        enterManufacturer = (EditText) myDialog.findViewById(R.id.enterManufacturer);
+                        enterProductionYear = (EditText) myDialog.findViewById(R.id.enterProductionYear);
+                        enterPurchasePrice = (EditText) myDialog.findViewById(R.id.enterPurchasePrice);
+                        enterPurchaseDate = (EditText) myDialog.findViewById(R.id.enterPurchaseDate);
+
+                        enterPurchaseDate.addTextChangedListener(new TextWatcher() {
+                            private String current = "";
+                            private String ddmmyyyy = "DDMMYYYY";
+                            private Calendar cal = Calendar.getInstance();
+
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                                if (!s.toString().equals(current)) {
+                                    String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+                                    String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+
+                                    int cl = clean.length();
+                                    int sel = cl;
+                                    for (i = 2; i <= cl && i < 6; i += 2) {
+                                        sel++;
+                                    }
+                                    if (clean.equals(cleanC)) sel--;
+
+                                    if (clean.length() < 8){
+                                        clean = clean + ddmmyyyy.substring(clean.length());
+                                    }else{
+                                        int day  = Integer.parseInt(clean.substring(0,2));
+                                        int mon  = Integer.parseInt(clean.substring(2,4));
+                                        int year = Integer.parseInt(clean.substring(4,8));
+
+                                        mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
+                                        cal.set(Calendar.MONTH, mon-1);
+                                        year = (year<1900)?1900:(year>2100)?2100:year;
+                                        cal.set(Calendar.YEAR, year);
+
+                                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
+                                        clean = String.format("%02d%02d%02d",day, mon, year);
+                                    }
+
+                                    clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                                            clean.substring(2, 4),
+                                            clean.substring(4, 8));
+
+                                    sel = sel < 0 ? 0 : sel;
+                                    current = clean;
+                                    enterPurchaseDate.setText(current);
+                                    enterPurchaseDate.setSelection(sel < current.length() ? sel : current.length());
+                                }
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
+
+                        btnClose.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view)
+                            {
+
+                                myDialog.dismiss();
+                            }
+                        });
+
+                        btnUpload.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view)
+                            {
+                                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                                    ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
+                                    SelectImage();
+                                }else {
+                                    SelectImage();
+                                }
+                            }
+                        });
+                        btnCamera.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view)
+                            {
+                                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                                    ActivityCompat.requestPermissions(SelectedCollectionActivity.this,new String[] {Manifest.permission.CAMERA}, 101);
+                                    TakeImage();
+                                }else {
+                                    TakeImage();
+                                }
+                            }
+                        });
+
+
+                        btnAdd.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view)
+                            {
+
+                                addItemData();
+
+                                arrayAdapter = new ArrayAdapter(SelectedCollectionActivity.this, R.layout.list_item, R.id.name, list);
+                                collectionsList.setAdapter(arrayAdapter);
+
+                            }
+
+                            private void addItemData() {
+                                String userID = userId;
+                                String categoryName = catName;
+                                String categoryKey = getIntent().getExtras().getString("collectionKey");
+
+                                String itemName = enterItemName.getText().toString().trim();
+                                String itemDescription = enterItemDescription.getText().toString().trim();
+                                String manufacturer = enterManufacturer.getText().toString().trim();
+                                int productionYear;
+                                double purchasePrice;
+                                String purchaseDate = enterPurchaseDate.getText().toString().trim();
+
+                                String imageFileName = fileName;
+
+                                if (itemName.isEmpty()) {
+                                    enterItemName.setError("All fields are required.");
+                                    enterItemName.requestFocus();
+                                    return;
+                                }
+
+                                if (itemName.length() > 150) {
+                                    enterItemName.setError("The item name is too long.");
+                                    enterItemName.requestFocus();
+                                    return;
+                                }
+
+                                if (itemDescription.isEmpty()) {
+                                    enterItemDescription.setError("All fields are required.");
+                                    enterItemDescription.requestFocus();
+                                    return;
+                                }
+
+                                if (itemDescription.length() > 350) {
+                                    enterItemDescription.setError("The description is too long.");
+                                    enterItemDescription.requestFocus();
+                                    return;
+                                }
+
+                                if (manufacturer.isEmpty()) {
+                                    enterManufacturer.setError("All fields are required.");
+                                    enterManufacturer.requestFocus();
+                                    return;
+                                }
+
+                                if (manufacturer.length() > 100) {
+                                    enterManufacturer.setError("The manufacturer name is too long.");
+                                    enterManufacturer.requestFocus();
+                                    return;
+                                }
+
+                                try {
+                                    productionYear = Integer.parseInt(enterProductionYear.getText().toString().trim());
+                                } catch (NumberFormatException e) {
+                                    enterProductionYear.setError("All fields are required.");
+                                    enterProductionYear.requestFocus();
+                                    return;
+                                }
+
+                                if (productionYear == 0) {
+                                    enterProductionYear.setError("The year cannot be 0.");
+                                    enterProductionYear.requestFocus();
+                                    return;
+                                }
+
+                                if (productionYear < 0) {
+                                    enterProductionYear.setError("The year cannot be less than 0.");
+                                    enterProductionYear.requestFocus();
+                                    return;
+                                }
+                                int year = Calendar.getInstance().get(Calendar.YEAR);
+                                if (productionYear > year) {
+                                    enterProductionYear.setError("The year is too far ahead.");
+                                    enterProductionYear.requestFocus();
+                                    return;
+                                }
+
+                                try {
+                                    purchasePrice = Double.parseDouble(enterPurchasePrice.getText().toString().trim());
+                                } catch (NumberFormatException e) {
+                                    enterPurchasePrice.setError("All fields are required.");
+                                    enterPurchasePrice.requestFocus();
+                                    return;
+                                }
+
+                                if (purchasePrice < 0) {
+                                    enterPurchasePrice.setError("The price cannot be less than 0.");
+                                    enterPurchasePrice.requestFocus();
+                                    return;
+                                }
+
+                                if (purchaseDate.isEmpty()) {
+                                    enterPurchaseDate.setError("All fields are required.");
+                                    enterPurchaseDate.requestFocus();
+                                    return;
+                                }
+
+                                Items item = new Items(userID, categoryName, categoryKey, itemName,
+                                        itemDescription, manufacturer, productionYear, purchasePrice,
+                                        purchaseDate, imageFileName);
+
+                                ref = FirebaseDatabase.getInstance().getReference();;
+                                user = FirebaseAuth.getInstance().getCurrentUser();
+                                assert user != null;
+                                userId = user.getUid();
+
+                                ref.child("Items").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        snapshot.getRef().child("userID").setValue(userID);
+                                        snapshot.getRef().child("categoryName").setValue(categoryName);
+                                        snapshot.getRef().child("categoryKey").setValue(categoryKey);
+                                        snapshot.getRef().child("itemName").setValue(itemName);
+                                        snapshot.getRef().child("itemDescription").setValue(itemDescription);
+                                        snapshot.getRef().child("manufacturer").setValue(manufacturer);
+                                        snapshot.getRef().child("productionYear").setValue(productionYear);
+                                        snapshot.getRef().child("purchasePrice").setValue(purchasePrice);
+                                        snapshot.getRef().child("purchaseDate").setValue(purchaseDate);
+                                        snapshot.getRef().child("imageFileName").setValue(imageFileName);
+
+                                        list.set( position,itemName);
+                                        arrayAdapter.notifyDataSetChanged();
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Collection updated.");
+
+                                        Toast mToast = new Toast(SelectedCollectionActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                        myDialog.dismiss();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Operation failed.");
+
+                                        Toast mToast = new Toast(SelectedCollectionActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
                 return true;
