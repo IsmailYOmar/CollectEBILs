@@ -186,6 +186,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                     String imageFileName = fileName;
 
+                    //error handing
                     if (itemName.isEmpty()) {
                         enterItemName.setError("All fields are required.");
                         enterItemName.requestFocus();
@@ -212,7 +213,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                     Wishlist wishlist = new Wishlist(userID, categoryName, categoryKey, itemName, itemDescription, imageFileName);
 
-
+                    //add data to firebase
                     ref.push().setValue(wishlist)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -248,6 +249,7 @@ public class WishlistActivity extends AppCompatActivity {
             });
         });
 
+        // pull data from firebase and display in listview
         wishes = findViewById(R.id.List);
         ref = FirebaseDatabase.getInstance().getReference("Wishlist");
         storageReference = FirebaseStorage.getInstance().getReference("Images");
@@ -274,8 +276,8 @@ public class WishlistActivity extends AppCompatActivity {
                         }
 
                     });
-                    // now sort the list B according to the changes made with the order of
-                    // items in listA
+                    // now sort the listOfKey according to the changes made with the order of
+                    // items in list
                     Collections.sort(listOfKey, new Comparator<String>() {
                         @Override
                         public int compare(String lhs, String rhs) {
@@ -328,6 +330,7 @@ public class WishlistActivity extends AppCompatActivity {
             }
 
         });
+        //long click on an item in list view opens up option to delete or update item
         wishes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -346,216 +349,7 @@ public class WishlistActivity extends AppCompatActivity {
                 btnDetele = (Button) myDialog.findViewById(R.id.deteleBtn);
                 btnUpdate = (Button) myDialog.findViewById(R.id.updateBtn);
 
-                btnUpdate.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick (View view){
-
-                        myDialog.dismiss();
-
-                        myDialog.setContentView(R.layout.update_wishlist_window);
-                        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        myDialog.show();
-
-                        EditText enterWishlistItemName;
-                        EditText enterWishlistItemDescription;
-                        Button btnClose;
-                        Button btnAddWishlist;
-
-                        btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
-                        Button closeBtn = (Button) myDialog.findViewById(R.id.btnAddWishlist);
-                        enterWishlistItemDescription = (EditText) myDialog.findViewById(R.id.enterWishlistItemDescription);
-                        enterWishlistItemDescription = (EditText) myDialog.findViewById(R.id.enterWishlistItemDescription);
-                        btnClose.setOnClickListener(new View.OnClickListener() {
-                            //close popup window on button press
-                            @Override
-                            public void onClick(View view) {
-                                myDialog.dismiss();
-                            }
-                        });
-
-                    }
-                    
-                    
-                    EditText enterWishlistItemName;
-                    EditText enterWishlistItemDescription;
-                    Button closeBtn;
-                    Button btnAddWishlist;
-                    private void updateCategoryData() {
-                        String userID = userId;
-                        String categoryName = enterWishlistItemName.getText().toString().trim();
-                        int goalNumber;
-
-                        if (categoryName.isEmpty()) {
-                            enterWishlistItemName.setError("All fields are required.");
-                            enterWishlistItemName.requestFocus();
-                            return;
-                        }
-
-                        if (categoryName.length() > 150) {
-                            enterWishlistItemName.setError("The category name is too long.");
-                            enterWishlistItemName.requestFocus();
-                            return;
-                        }
-
-                        try {
-                            goalNumber = Integer.parseInt(enterWishlistItemDescription.getText().toString().trim());
-                        } catch (NumberFormatException e) {
-                            enterWishlistItemDescription.setError("All fields are required.");
-                            enterWishlistItemDescription.requestFocus();
-                            return;
-                        }
-
-                        if (goalNumber == 0) {
-                            enterWishlistItemDescription.setError("The number cannot equal 0.");
-                            enterWishlistItemDescription.requestFocus();
-                            return;
-                        }
-
-                        if (goalNumber < 0) {
-                            enterWishlistItemDescription.setError("The number cannot be less than 0.");
-                            enterWishlistItemDescription.requestFocus();
-                            return;
-                        }
-
-                        if (goalNumber > 10000) {
-                            enterWishlistItemDescription.setError("The number of items is too large.");
-                            enterWishlistItemDescription.requestFocus();
-                            return;
-                        }
-
-                        ref = FirebaseDatabase.getInstance().getReference();
-                        user = FirebaseAuth.getInstance().getCurrentUser();
-
-                        Category cat = new Category(userID, categoryName, goalNumber);
-
-                        ref.child("Categories").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().child("categoryName").setValue(categoryName);
-                                snapshot.getRef().child("goalNumber").setValue(goalNumber);
-
-                                list.set( position,categoryName);
-                                ArrayList<String> list2 = null;
-                                list2.set( position, String.valueOf(goalNumber));
-                                arrayAdapter.notifyDataSetChanged();
-
-                                LayoutInflater inflater = getLayoutInflater();
-                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                textView6.setText("Collection updated.");
-
-                                Toast mToast = new Toast(WishlistActivity.this);
-                                mToast.setDuration(Toast.LENGTH_SHORT);
-                                mToast.setView(customToastLayout);
-                                mToast.show();
-                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                                myDialog.dismiss();
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                LayoutInflater inflater = getLayoutInflater();
-                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                textView6.setText("Operation failed.");
-
-                                Toast mToast = new Toast(WishlistActivity.this);
-                                mToast.setDuration(Toast.LENGTH_SHORT);
-                                mToast.setView(customToastLayout);
-                                mToast.show();
-                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
-                                myDialog.dismiss();
-                            }
-                        });
-
-                        int secondsDelayed = 1;
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
-                                ref.child("Items").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                            snapshot.getRef().child("categoryName").setValue(categoryName);
-                                        }
-                                        LayoutInflater inflater = getLayoutInflater();
-                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                        textView6.setText("Collection items updated.");
-
-                                        Toast mToast = new Toast(WishlistActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_SHORT);
-                                        mToast.setView(customToastLayout);
-                                        mToast.show();
-                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                                        myDialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                        LayoutInflater inflater = getLayoutInflater();
-                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                        textView6.setText("Operation failed.");
-
-                                        Toast mToast = new Toast(WishlistActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_SHORT);
-                                        mToast.setView(customToastLayout);
-                                        mToast.show();
-                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
-                                        myDialog.dismiss();
-                                    }
-                                });
-                            }
-                        }, secondsDelayed * 1000);
-
-
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
-
-                                ref.child("Wishlist").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                            snapshot.getRef().child("categoryName").setValue(categoryName);
-                                        }
-                                        LayoutInflater inflater = getLayoutInflater();
-                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                        textView6.setText("Collection wishlist items updated.");
-
-                                        Toast mToast = new Toast(WishlistActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_SHORT);
-                                        mToast.setView(customToastLayout);
-                                        mToast.show();
-                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                                        myDialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                        LayoutInflater inflater = getLayoutInflater();
-                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
-                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                        textView6.setText("Operation failed.");
-
-                                        Toast mToast = new Toast(WishlistActivity.this);
-                                        mToast.setDuration(Toast.LENGTH_SHORT);
-                                        mToast.setView(customToastLayout);
-                                        mToast.show();
-                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
-                                        myDialog.dismiss();
-                                    }
-                                });
-                            }
-                        }, secondsDelayed * 2000);
-                    }
-           
-                });
-
+                //delete Wishlist items selected
                 btnDetele.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -564,6 +358,7 @@ public class WishlistActivity extends AppCompatActivity {
                         user = FirebaseAuth.getInstance().getCurrentUser();
                         assert user != null;
                         userId = user.getUid();
+                        //delete Wishlist in collection
                         ref.child("Wishlist").child(itemKey).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -572,7 +367,7 @@ public class WishlistActivity extends AppCompatActivity {
                                 list.remove(position);
                                 listOfKey.remove(position);
                                 arrayAdapter.notifyDataSetChanged();
-
+                                // update list view with new values
                                 myDialog.dismiss();
 
                                 LayoutInflater inflater = getLayoutInflater();
@@ -608,6 +403,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                     }
                 });
+                //open update window and update item
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -651,6 +447,7 @@ public class WishlistActivity extends AppCompatActivity {
                             }
                         });
                         btnAddWishlist = (Button) myDialog.findViewById(R.id.btnAddWishlist);
+                        //open update window and update item
                         btnAddWishlist.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -671,6 +468,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                                 String imageFileName = fileName;
 
+                                //error validation in text boxes
                                 if (itemName.isEmpty()) {
                                     enterItemName.setError("All fields are required.");
                                     enterItemName.requestFocus();
@@ -703,6 +501,7 @@ public class WishlistActivity extends AppCompatActivity {
                                 assert user != null;
                                 userId = user.getUid();
 
+                                //update Wishlist in category
                                 ref.child("Wishlist").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -715,6 +514,7 @@ public class WishlistActivity extends AppCompatActivity {
 
                                         list.set(position, itemName);
                                         arrayAdapter.notifyDataSetChanged();
+                                        // update list view with new values
 
                                         LayoutInflater inflater = getLayoutInflater();
                                         View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
@@ -754,7 +554,7 @@ public class WishlistActivity extends AppCompatActivity {
             }
         });
 
-
+        //enable search bar query to retrieve data from list view
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
