@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         SharedPreferences sharedPrefs = getSharedPreferences("twoFactor",0);
-        int twoFactorToggle = sharedPrefs.getInt("twoFactorToggle", 0);
+        //boolean twoFactorToggle = sharedPrefs.getBoolean("twoFactorToggle", false);
         // Initializes the Firebase connection variable
         mAuth = FirebaseAuth.getInstance();
 
