@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        SharedPreferences sharedPrefs = getSharedPreferences("twoFactor",0);
+        int twoFactorToggle = sharedPrefs.getInt("twoFactorToggle", 0);
         // Initializes the Firebase connection variable
         mAuth = FirebaseAuth.getInstance();
 

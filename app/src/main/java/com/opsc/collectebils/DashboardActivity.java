@@ -1,6 +1,7 @@
 package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
@@ -77,6 +78,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+
+
         authentication = new Dialog(this);
 
         dropDown = findViewById(R.id.darkMode);
@@ -123,6 +126,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         twoFactorToggle = (Switch) findViewById(R.id.twoFactorToggle);
 
+        SharedPreferences sharedPrefs = getSharedPreferences("twoFactor",0);
+
+        int toggle = sharedPrefs.getInt("twoFactorToggle", 0);
+
+        if (toggle == 1) {
+            twoFactorToggle.setChecked(true);
+        } else if (toggle == 0) {
+            twoFactorToggle.setChecked(false);
+        }
         twoFactorToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -151,12 +163,21 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         public void onClick(View view) {
                             authentication.dismiss();
                             twoFactorToggle.setChecked(false);
+                            SharedPreferences sharedPref = getSharedPreferences("FileName",0);
+                            SharedPreferences.Editor prefEditor = sharedPref.edit();
+                            prefEditor.putInt("twoFactorToggle",0);
+                            prefEditor.commit();
                         }
                     });
                     googleAuth.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            authentication.dismiss();
                             SignIn();
+                            SharedPreferences sharedPref = getSharedPreferences("twoFactor",0);
+                            SharedPreferences.Editor prefEditor = sharedPref.edit();
+                            prefEditor.putInt("twoFactorToggle",1);
+                            prefEditor.commit();
                         }
                     });
                 }
