@@ -156,7 +156,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                                 LayoutInflater inflater = getLayoutInflater();
                                 View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
                                 TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                textView6.setText("Not available.");
+                                textView6.setText("Not available at this moment. Coming soon");
 
                                 Toast mToast = new Toast(DashboardActivity.this);
                                 mToast.setDuration(Toast.LENGTH_SHORT);
@@ -182,7 +182,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                                 LayoutInflater inflater = getLayoutInflater();
                                 View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
                                 TextView textView6 = customToastLayout.findViewById(R.id.name);
-                                textView6.setText("Not available.");
+                                textView6.setText("Not available at this moment. Coming soon");
 
                                 Toast mToast = new Toast(DashboardActivity.this);
                                 mToast.setDuration(Toast.LENGTH_SHORT);
