@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //load dropdown menu SharedPreferences
+        //depending on shared SharedPreferences set app theme
         SharedPreferences sharedPref = getSharedPreferences("FileName",MODE_PRIVATE);
         int spinnerValue = sharedPref.getInt("spinnerChoice",-1);
         if(spinnerValue == 0){

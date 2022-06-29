@@ -93,25 +93,33 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 R.array.Spinner_items,
                 R.layout.dropdown_item
         );
+        //style dropdown menu
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         dropDown.setAdapter(adapter);
+
+        // save current position dropdown menu
         SharedPreferences sharedPref = getSharedPreferences("FileName",MODE_PRIVATE);
         int spinnerValue = sharedPref.getInt("spinnerChoice",-1);
         if(spinnerValue != -1)
             dropDown.setSelection(spinnerValue);
 
+        //change theme depending on position in dropdown menu
         dropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (dropDown.getSelectedItem().equals("On")){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    //when on selected set them to dark mode
                 }
                 else if(dropDown.getSelectedItem().equals("Off")){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    //when on selected set them to light mode
                 }else{
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    //else use phone theme
                 }
 
+                //save selected dropdown position to SharedPreferences
                 int Choice = dropDown.getSelectedItemPosition();
                 SharedPreferences sharedPref = getSharedPreferences("FileName",0);
                 SharedPreferences.Editor prefEditor = sharedPref.edit();
