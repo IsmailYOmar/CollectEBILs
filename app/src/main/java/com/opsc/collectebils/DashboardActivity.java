@@ -14,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,19 +58,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     Switch twoFactorToggle;
     Dialog authentication;
     public  BottomNavigationView bottomNavigationView;
-    private GoogleSignInClient signInClient;
-    private final static int RC_SIGN_IN = 123;
-    private FirebaseAuth mAuth;
+    //private GoogleSignInClient signInClient;
+    //private final static int RC_SIGN_IN = 123;
+    //private FirebaseAuth mAuth;
+    public int toggle;
 
     /*@Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user!=null) {
-            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-            startActivity(intent);
-        }
     }*/
 
     @Override
@@ -77,8 +73,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-
 
         authentication = new Dialog(this);
 
@@ -120,21 +114,22 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
+        //mAuth = FirebaseAuth.getInstance();
 
-        createRequest();
+        //createRequest();
 
         twoFactorToggle = (Switch) findViewById(R.id.twoFactorToggle);
 
-        SharedPreferences sharedPrefs = getSharedPreferences("twoFactor",0);
+        //SharedPreferences sharedPrefs = getSharedPreferences("twoFactor",0);
 
-        int toggle = sharedPrefs.getInt("twoFactorToggle", 0);
+        //toggle = sharedPrefs.getInt("twoFactorToggle", 0);
 
-        if (toggle == 1) {
+        /*if (toggle == 1) {
             twoFactorToggle.setChecked(true);
         } else if (toggle == 0) {
             twoFactorToggle.setChecked(false);
-        }
+        }*/
+
         twoFactorToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -150,7 +145,62 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 googleAuth = (Button) authentication.findViewById(R.id.googleAuth);
                 otherAuth = (Button) authentication.findViewById(R.id.otherAuth);
 
-                if (b) {
+                if (b == true) {
+                    toggle = 1;
+                    if (toggle == 1) {
+                        twoFactorToggle.setChecked(true);
+                        authentication.show();
+                        otherAuth.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Not available.");
+
+                                Toast mToast = new Toast(DashboardActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                            }
+                        });
+                        closeBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                authentication.dismiss();
+                                twoFactorToggle.setChecked(false);
+                                /*SharedPreferences sharedPref = getSharedPreferences("FileName",0);
+                                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                                prefEditor.putInt("twoFactorToggle",0);
+                                prefEditor.commit();*/
+                            }
+                        });
+                        googleAuth.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Not available.");
+
+                                Toast mToast = new Toast(DashboardActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+
+                                /*authentication.dismiss();
+                                SignIn();
+                                SharedPreferences sharedPref = getSharedPreferences("twoFactor",0);
+                                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                                prefEditor.putInt("twoFactorToggle",1);
+                                prefEditor.commit();*/
+                            }
+                        });
+                    }
+                }
+
+                /*if (b) {
                     authentication.show();
                     otherAuth.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -180,7 +230,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                             prefEditor.commit();
                         }
                     });
-                }
+                }*/
+
+
             }
         });
 
@@ -272,7 +324,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private void createRequest() {
+    /*private void createRequest() {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         signInClient = GoogleSignIn.getClient(this, signInOptions);
@@ -292,8 +344,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                //Log.w(TAG, "Google sign in failed", e);
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Google sign in failed.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -314,7 +365,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
                 });
-    }
+    }*/
 
     public void openCollectionStatisticsActivity()
     { // Open activity to display users collection statistics
@@ -336,6 +387,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         {
             case R.id.logoutButton:
                 LogoutUser();
+                //GoogleLogout();
                 break;
         }
     }
@@ -347,4 +399,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
+
+    /*private void GoogleLogout() {
+        signInClient.signOut();
+    }*/
 }
