@@ -1,3 +1,9 @@
+//https://stackoverflow.com/questions/18129807/in-java-how-do-you-sort-one-list-based-on-another
+//https://stackoverflow.com/questions/52521187/how-to-get-the-id-of-listview-items-i-am-using-firebase-database
+//https://www.youtube.com/watch?v=MP3tialkL2Y
+//https://www.youtube.com/watch?v=MP3tialkL2Y
+
+
 package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
@@ -17,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,6 +88,7 @@ public class WishlistActivity extends AppCompatActivity {
     int j=0;
     Wishlist wishlist;
     public BottomNavigationView bottomNavigationView;
+    private Button btnClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +116,15 @@ public class WishlistActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button btnUpdate;
+
+
+        btnUpdate = (Button) myDialog.findViewById(R.id.updateBtn);
+        btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
+
+
+
 
 
         addToWishlist.setOnClickListener(view ->
@@ -329,6 +346,216 @@ public class WishlistActivity extends AppCompatActivity {
                 btnDetele = (Button) myDialog.findViewById(R.id.deteleBtn);
                 btnUpdate = (Button) myDialog.findViewById(R.id.updateBtn);
 
+                btnUpdate.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick (View view){
+
+                        myDialog.dismiss();
+
+                        myDialog.setContentView(R.layout.update_wishlist_window);
+                        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        myDialog.show();
+
+                        EditText enterWishlistItemName;
+                        EditText enterWishlistItemDescription;
+                        Button btnClose;
+                        Button btnAddWishlist;
+
+                        btnClose = (Button) myDialog.findViewById(R.id.closeBtn);
+                        Button closeBtn = (Button) myDialog.findViewById(R.id.btnAddWishlist);
+                        enterWishlistItemDescription = (EditText) myDialog.findViewById(R.id.enterWishlistItemDescription);
+                        enterWishlistItemDescription = (EditText) myDialog.findViewById(R.id.enterWishlistItemDescription);
+                        btnClose.setOnClickListener(new View.OnClickListener() {
+                            //close popup window on button press
+                            @Override
+                            public void onClick(View view) {
+                                myDialog.dismiss();
+                            }
+                        });
+
+                    }
+                    
+                    
+                    EditText enterWishlistItemName;
+                    EditText enterWishlistItemDescription;
+                    Button closeBtn;
+                    Button btnAddWishlist;
+                    private void updateCategoryData() {
+                        String userID = userId;
+                        String categoryName = enterWishlistItemName.getText().toString().trim();
+                        int goalNumber;
+
+                        if (categoryName.isEmpty()) {
+                            enterWishlistItemName.setError("All fields are required.");
+                            enterWishlistItemName.requestFocus();
+                            return;
+                        }
+
+                        if (categoryName.length() > 150) {
+                            enterWishlistItemName.setError("The category name is too long.");
+                            enterWishlistItemName.requestFocus();
+                            return;
+                        }
+
+                        try {
+                            goalNumber = Integer.parseInt(enterWishlistItemDescription.getText().toString().trim());
+                        } catch (NumberFormatException e) {
+                            enterWishlistItemDescription.setError("All fields are required.");
+                            enterWishlistItemDescription.requestFocus();
+                            return;
+                        }
+
+                        if (goalNumber == 0) {
+                            enterWishlistItemDescription.setError("The number cannot equal 0.");
+                            enterWishlistItemDescription.requestFocus();
+                            return;
+                        }
+
+                        if (goalNumber < 0) {
+                            enterWishlistItemDescription.setError("The number cannot be less than 0.");
+                            enterWishlistItemDescription.requestFocus();
+                            return;
+                        }
+
+                        if (goalNumber > 10000) {
+                            enterWishlistItemDescription.setError("The number of items is too large.");
+                            enterWishlistItemDescription.requestFocus();
+                            return;
+                        }
+
+                        ref = FirebaseDatabase.getInstance().getReference();
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        Category cat = new Category(userID, categoryName, goalNumber);
+
+                        ref.child("Categories").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().child("categoryName").setValue(categoryName);
+                                snapshot.getRef().child("goalNumber").setValue(goalNumber);
+
+                                list.set( position,categoryName);
+                                ArrayList<String> list2 = null;
+                                list2.set( position, String.valueOf(goalNumber));
+                                arrayAdapter.notifyDataSetChanged();
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Collection updated.");
+
+                                Toast mToast = new Toast(WishlistActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                myDialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                textView6.setText("Operation failed.");
+
+                                Toast mToast = new Toast(WishlistActivity.this);
+                                mToast.setDuration(Toast.LENGTH_SHORT);
+                                mToast.setView(customToastLayout);
+                                mToast.show();
+                                //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                myDialog.dismiss();
+                            }
+                        });
+
+                        int secondsDelayed = 1;
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                ref.child("Items").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            snapshot.getRef().child("categoryName").setValue(categoryName);
+                                        }
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Collection items updated.");
+
+                                        Toast mToast = new Toast(WishlistActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                        myDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Operation failed.");
+
+                                        Toast mToast = new Toast(WishlistActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+                                    }
+                                });
+                            }
+                        }, secondsDelayed * 1000);
+
+
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+
+                                ref.child("Wishlist").orderByChild("categoryKey").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            snapshot.getRef().child("categoryName").setValue(categoryName);
+                                        }
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Collection wishlist items updated.");
+
+                                        Toast mToast = new Toast(WishlistActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                        myDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View customToastLayout = inflater.inflate(R.layout.list_item2, (ViewGroup) findViewById(R.id.root_layout));
+                                        TextView textView6 = customToastLayout.findViewById(R.id.name);
+                                        textView6.setText("Operation failed.");
+
+                                        Toast mToast = new Toast(WishlistActivity.this);
+                                        mToast.setDuration(Toast.LENGTH_SHORT);
+                                        mToast.setView(customToastLayout);
+                                        mToast.show();
+                                        //Toast.makeText(MyCollectionsActivity.this, "Operation failed.", Toast.LENGTH_LONG).show();
+                                        myDialog.dismiss();
+                                    }
+                                });
+                            }
+                        }, secondsDelayed * 2000);
+                    }
+           
+                });
+
                 btnDetele.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -543,49 +770,49 @@ public class WishlistActivity extends AppCompatActivity {
         });
 
 
-    // Initialize and assign variable
-    bottomNavigationView = findViewById(R.id.bottomNavigation);
+        // Initialize and assign variable
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
-    // Set Home selected
+        // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.explore);
 
-    // Perform item selected listener
+        // Perform item selected listener
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener()
-    {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
-            switch (item.getItemId())
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
             {
-                case R.id.myCollections:
-                    bottomNavigationView.getMenu().getItem(0).setChecked(true);
-                    startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                    return true;
-                case R.id.explore:
-                    bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                    startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                    return true;
-                case R.id.marketplace:
-                    bottomNavigationView.getMenu().getItem(2).setChecked(true);
-                    startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                    return true;
-                case R.id.dashboard:
-                    bottomNavigationView.getMenu().getItem(3).setChecked(true);
-                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                    return true;
+                switch (item.getItemId())
+                {
+                    case R.id.myCollections:
+                        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MyCollectionsActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                    case R.id.explore:
+                        bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                    case R.id.marketplace:
+                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), MarketplaceActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                    case R.id.dashboard:
+                        bottomNavigationView.getMenu().getItem(3).setChecked(true);
+                        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+                }
+                return true;
             }
-            return true;
-        }
-    });
-}
+        });
+    }
 
     private void uploadImage()
     {

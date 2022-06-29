@@ -7,6 +7,7 @@
     android:layout_gravity="center"
     android:background="@drawable/popup_background">
 
+<!--Verma, P., 2017. Hiding ‘Bottom Navigation Bar’ whilst keyboard is present - Android. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/43115510/hiding-bottom-navigation-bar-whilst-keyboard-is-present-android> [Accessed 29 June 2022].-->
 
     <ImageView
         android:id="@+id/imageView4"

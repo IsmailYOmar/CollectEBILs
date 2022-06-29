@@ -1,3 +1,7 @@
+//status?, H. and Llorente, J., 2016. How can I use Shared Preferences to save ToggleButton/Switch status?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/38735812/how-can-i-use-shared-preferences-to-save-togglebutton-switch-status> [Accessed 29 June 2022].
+//Tutlane.com. 2022. Android Custom Toast with Examples - Tutlane. [online] Available at: <https://www.tutlane.com/tutorial/android/android-custom-toast-with-examples#:~:text=Create%20a%20Custom%20Toast%20in,code%20like%20as%20shown%20below> [Accessed 29 June 2022].
+
+
 package com.opsc.collectebils;
 
 import androidx.annotation.NonNull;
